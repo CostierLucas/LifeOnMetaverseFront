@@ -1,0 +1,80 @@
+.howitworks {
+  margin-top: 40px;
+
+  h2 {
+    font-size: 35px;
+    margin-bottom: 30px;
+    background: -webkit-linear-gradient(
+      45deg,
+      var(--secondary) 10%,
+      var(--tertiary) 30%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--font-avenir);
+  }
+
+  &Item {
+    position: relative;
+    height: 350px;
+    width: 100%;
+    border-radius: 15px;
+
+    &Filter {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+      overflow: hidden;
+      border-radius: inherit;
+    }
+
+    &Img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+      border-radius: inherit;
+    }
+
+    &Text {
+      position: relative;
+      z-index: 2;
+      color: #fff;
+      padding: 15px;
+      height: 100%;
+
+      &One {
+        position: absolute;
+        bottom: 0px;
+        line-height: 1;
+      }
+
+      &Two {
+        position: absolute;
+        top: 0px;
+        line-height: 1;
+      }
+
+      &Three {
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+        line-height: 1;
+        text-align: right;
+      }
+
+      h3 {
+        font-size: 45px;
+        margin-bottom: 10px;
+        padding: 10px;
+      }
+    }
+  }
+}

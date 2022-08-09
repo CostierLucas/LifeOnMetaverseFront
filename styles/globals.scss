@@ -1,0 +1,39 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  --primary: #fff;
+  --secondary: #dd26ff;
+  --tertiary: #00bdcc;
+  --font-avenir: "Avenir", sans-serif;
+  --font-gotham-bold: "GothamBold", sans-serif;
+  --font-gotham-book: "GothamBook", sans-serif;
+  --font-minion-pro: "MinionPro", sans-serif;
+}
+
+/*
+  Fonts
+*/
+
+@font-face {
+  font-family: "Avenir";
+  src: url("/fonts/Avenir.ttf");
+}
+
+@font-face {
+  font-family: "GothamBold";
+  src: url("/fonts/GothamBold.otf");
+}
+
+@font-face {
+  font-family: "GothamBook";
+  src: url("/fonts/GothamBook.otf");
+}
+
+@font-face {
+  font-family: "MinionPro";
+  src: url("/fonts/MinionPro.otf");
+}

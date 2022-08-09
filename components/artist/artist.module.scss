@@ -1,0 +1,23 @@
+.artist {
+  background-image: url(../../assets/images/bg_artist.jpg);
+  background-size: cover;
+  height: 300px;
+  padding-top: 40px;
+  background-position: bottom 14%;
+  color: #fff;
+  padding-left: 50px;
+
+  h3 {
+    font-size: 50px;
+    font-family: var(--font-avenir);
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
+
+  a {
+    background-color: rgb(255, 255, 255, 0.5);
+    border: none;
+    border-radius: 5px;
+    padding: 5px 20px;
+  }
+}

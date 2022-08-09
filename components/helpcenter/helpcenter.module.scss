@@ -1,0 +1,22 @@
+.helpcenter {
+  height: 250px;
+  padding-top: 40px;
+  background: -webkit-linear-gradient(45deg, var(--tertiary), var(--secondary));
+  text-align: right;
+  padding-right: 50px;
+  color: #fff;
+
+  h3 {
+    font-size: 50px;
+    font-family: var(--font-avenir);
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
+
+  a {
+    background-color: rgb(255, 255, 255, 0.5);
+    border: none;
+    border-radius: 5px;
+    padding: 5px 20px;
+  }
+}
