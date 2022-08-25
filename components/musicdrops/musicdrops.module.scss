@@ -21,6 +21,10 @@
     width: 100%;
     border-radius: 15px;
 
+    &:hover {
+      cursor: pointer;
+    }
+
     &Img {
       position: absolute;
       top: 0;
