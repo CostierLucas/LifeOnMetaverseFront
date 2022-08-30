@@ -16,6 +16,7 @@ export default async function handler(
     price,
     percentages,
     address,
+    image,
   } = req.body;
 
   const params = {
@@ -32,6 +33,7 @@ export default async function handler(
       price,
       percentages,
       address,
+      image,
     },
   };
 

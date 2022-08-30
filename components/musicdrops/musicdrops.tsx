@@ -2,7 +2,7 @@ import styles from "./musicdrops.module.scss";
 import img from "../../assets/images/banniere.jpeg";
 import Image from "next/image";
 import { Col, Container, Row } from "react-bootstrap";
-import { IEdition } from "../../pages/index";
+import { IEdition } from "../../interfaces/interfaces";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -13,11 +13,15 @@ const MusicDrops: React.FC<{ edition: IEdition }> = ({ edition }) => {
         <h2>Music Drops</h2>
         <Row>
           {edition.map((item: IEdition, i: number) => (
-            <Col md={4}>
+            <Col md={4} key={i}>
               <Link href={`/editions/${item.title}`} passHref>
                 <div className={styles.musicdropsItem}>
                   <div className={styles.musicdropsItemImg}>
-                    <Image src={img} layout="fill" objectFit="cover" />
+                    <Image
+                      src={edition[i].image as string}
+                      layout="fill"
+                      objectFit="cover"
+                    />
                   </div>
                   <div className={styles.musicdropsItemBloc}>
                     <div className={styles.musicdropsItemBlocToken}>

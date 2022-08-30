@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
   swcMinify: true,
-}
+  images: {
+    domains: ["lifeonmetaversebucket.s3.amazonaws.com", "localhost"],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

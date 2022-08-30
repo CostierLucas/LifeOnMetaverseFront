@@ -13,6 +13,7 @@ export interface IEdition {
   price: Array<number>;
   percentages: Array<number>;
   address: string;
+  image: File | null | string;
   [key: number]: any;
 }
 
@@ -25,4 +26,13 @@ export default interface IModal {
   onHide: () => void;
   show: boolean;
   title: string;
+}
+
+// Register
+
+interface userInfo {
+  email: string;
+  password: string;
+  username: string;
+  confirmation: string;
 }

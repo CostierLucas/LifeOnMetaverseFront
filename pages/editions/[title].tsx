@@ -1,5 +1,5 @@
-import styles from "../../styles/editions.module.scss";
-import { useState } from "react";
+import styles from "./editions.module.scss";
+import { useState, useEffect } from "react";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Header from "../../components/header/header";
 import db from "../../config/db";
@@ -12,6 +12,12 @@ import { ethers } from "ethers";
 import ContractAbi from "../../WalletHelpers/contractTokenAbi.json";
 import ContractUsdcAbi from "../../WalletHelpers/contractUsdcAbi.json";
 import ModalEdition from "../../components/modalEdition/modalEdition";
+import { contractUsdc } from "../../WalletHelpers/contractVariables";
+import {
+  contractAddress,
+  targetChainId,
+} from "../../WalletHelpers/contractVariables";
+// import SpotifyPlayer from "react-spotify-web-playback";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const params = {
@@ -52,22 +58,29 @@ export const getStaticProps: GetStaticProps = async (context) => {
 const Editions: NextPage<IEditionProps> = ({ editions }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [modalShow, setModalShow] = useState<boolean>(false);
+  const [allowanceNumber, setAllowanceNumber] = useState<string>("");
   const context = useWeb3React<any>();
   const { account, provider, chainId } = context;
 
   // useEffect(() => {
   //   if (!!provider && chainId == targetChainId && !!account) {
   //     getDatas();
+  //     setIsConnected(true);
+  //   } else {
+  //     setIsConnected(false);
   //   }
-  // }, [provider, chainId]);
+  // }, [chainId, provider]);
 
   // const getDatas = async () => {
   //   const getSigner = provider.getSigner();
   //   const contract = new ethers.Contract(
   //     contractAddress,
-  //     Contract.abi,
+  //     ContractAbi.abi,
   //     getSigner
   //   );
+
+  //   const all = await getAllowance();
+  //   console.log(all);
   // };
 
   const handleMint = async (categoriesId: number) => {
@@ -78,7 +91,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
       getSigner
     );
     try {
-      const tx = await contract.mintUSDC(1, categoriesId);
+      const tx = await contract.mintUSDC(1, 0);
       await tx.wait();
     } catch (e) {
       console.log(e);
@@ -89,7 +102,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
     setIsLoading(true);
     const getSigner = provider.getSigner();
     const contract = new ethers.Contract(
-      "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+      contractUsdc,
       ContractUsdcAbi,
       getSigner
     );
@@ -105,23 +118,52 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
   const getAllowance = async () => {
     const getSigner = provider.getSigner();
     const contract = new ethers.Contract(
-      "0xe6b8a5CF854791412c1f6EFC7CAf629f5Df1c747",
+      contractUsdc,
       ContractUsdcAbi,
-      getSigner
+      provider
     );
 
     let allowance = await contract.allowance(account, editions.address);
-    console.log(allowance);
+    let parseAllowance = ethers.utils.formatUnits(allowance, "wei");
+    setAllowanceNumber(parseAllowance);
+    return parseAllowance;
   };
 
   return (
     <>
       <Header />
       <section className={styles.edition}>
+        <Container fluid>
+          <Row className={styles.row}>
+            <Col md={6}>
+              <div className={styles.banner}>
+                <Image
+                  src={editions.image as string}
+                  alt="logo"
+                  objectFit="cover"
+                  layout="fill"
+                />
+              </div>
+            </Col>
+            <Col md={6}>
+              <div className={styles.content}>
+                <div>
+                  <h2>{editions.title}</h2>
+                  <p>{editions.description}</p>
+                  {/* <SpotifyPlayer
+                    token="BQAI_7RWPJuqdZxS-I8XzhkUi9RKr8Q8UUNaJAHwWlpIq6..."
+                    uris={["spotify:artist:6HQYnRM4OzToCYPpVBInuU"]}
+                  /> */}
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </Container>
         <Container>
+          <hr className={styles.hr} />
           <Row>
             {editions.categories.map((item: string, i: any) => (
-              <Col md={4}>
+              <Col md={4} key={i}>
                 <div className={styles.editionItem}>
                   <div className={styles.editionItemImg}>
                     <Image src={logo} layout="fill" />
@@ -157,12 +199,27 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                       />
                     </div>
                     <div>
-                      <button
-                        onClick={() => getAllowance()}
-                        className={styles.mint}
-                      >
-                        mint
-                      </button>
+                      {account ? (
+                        allowanceNumber == "0" ? (
+                          <button className={styles.mint} onClick={approve}>
+                            Approve first
+                          </button>
+                        ) : (
+                          <button
+                            className={styles.mint}
+                            onClick={() => handleMint(i)}
+                          >
+                            Mint
+                          </button>
+                        )
+                      ) : (
+                        <button
+                          // onClick={() => handleMint(i)}
+                          className={styles.mint}
+                        >
+                          Connect Wallet First
+                        </button>
+                      )}
                     </div>
                     <div>
                       <a className={styles.opensea} href="https://google.com">

@@ -19,11 +19,11 @@ const Header: React.FC = () => {
     <header className={styles.header}>
       <Navbar collapseOnSelect expand="lg">
         <Container fluid>
-          <Navbar.Brand className={styles.headerLogo}>
-            <Link href="/">
+          <Link href="/">
+            <Navbar.Brand className={styles.headerLogo}>
               <Image src={logo} alt="logo" width={200} height={70} />
-            </Link>
-          </Navbar.Brand>
+            </Navbar.Brand>
+          </Link>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse
             id="responsive-navbar-nav"

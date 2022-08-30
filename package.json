@@ -33,8 +33,10 @@
     "next-auth": "^4.10.3",
     "nextjs-progressbar": "^0.0.14",
     "react": "18.2.0",
+    "react-aws-s3-typescript": "^1.1.4",
     "react-bootstrap": "^2.5.0",
     "react-dom": "18.2.0",
+    "react-spotify-web-playback": "^0.10.0",
     "sass": "^1.54.3"
   },
   "devDependencies": {

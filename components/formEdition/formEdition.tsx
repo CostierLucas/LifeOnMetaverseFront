@@ -9,6 +9,9 @@ import { FormEvent, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { ethers } from "ethers";
 import Spinner from "react-bootstrap/Spinner";
+import { contractUsdc } from "../../WalletHelpers/contractVariables";
+import ReactS3Client from "react-aws-s3-typescript";
+import { s3Config } from "../../config/s3";
 
 interface IEdition {
   artist: string;
@@ -20,6 +23,7 @@ interface IEdition {
   baseUri: Array<string>;
   price: Array<number>;
   percentages: Array<number>;
+  image: File | null;
 }
 
 const FormEdition: React.FC = () => {
@@ -38,6 +42,7 @@ const FormEdition: React.FC = () => {
     baseUri: [],
     price: [],
     percentages: [],
+    image: null,
   });
   const [validated, setValidated] = useState(false);
 
@@ -63,10 +68,19 @@ const FormEdition: React.FC = () => {
       e.stopPropagation();
       setIsLoading(false);
       return;
+    } else if (
+      supply.length !== price.length ||
+      supply.length !== percentages.length ||
+      supply.length !== baseUri.length ||
+      supply.length !== categories.length
+    ) {
+      e.stopPropagation();
+      setIsLoading(false);
+      return;
     } else {
       let addressDeployed = await deployContract();
-      setAddress(addressDeployed);
-      if (addressDeployed) {
+      let urlImage = await uploadFile();
+      if (addressDeployed && urlImage) {
         fetch("/api/edition/create", {
           method: "POST",
           headers: {
@@ -83,8 +97,10 @@ const FormEdition: React.FC = () => {
             price,
             percentages,
             address: addressDeployed,
+            image: urlImage,
           }),
         });
+        setAddress(addressDeployed);
         setIsConfirmed(true);
       }
     }
@@ -105,9 +121,9 @@ const FormEdition: React.FC = () => {
         edition.price,
         edition.supply,
         edition.percentages,
-        "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-        "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-        "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"
+        contractUsdc,
+        contractUsdc,
+        contractUsdc
       );
 
       let deploy = await contractt.deploy(transaction, 11);
@@ -121,10 +137,31 @@ const FormEdition: React.FC = () => {
     }
   };
 
+  const uploadFile = async () => {
+    const s3 = new ReactS3Client(s3Config);
+    const filename = edition.title.replace(/ /g, "");
+    try {
+      const res = await s3.uploadFile(edition.image as File, filename);
+      return res.location;
+    } catch (e) {
+      return false;
+    }
+  };
+
   return (
     <div className={styles.formEdition}>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <h3>Admin</h3>
+        <div className={styles.formGroup}>
+          <Form.Label>Image</Form.Label>
+          <Form.Control
+            required
+            type="file"
+            onChange={({ target }: { target: any }) =>
+              setEdition({ ...edition, image: target.files[0] })
+            }
+          />
+        </div>
         <div className={styles.formGroup}>
           <label>Artist</label>
           <Form.Control
