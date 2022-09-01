@@ -1,7 +1,7 @@
 import { Navbar, Nav, Container, Dropdown } from "react-bootstrap";
 import styles from "./header.module.scss";
 import Image from "next/image";
-import logo from "../../assets/images/logo.jpg";
+// import logo from "../../assets/images/logo.jpg";
 import Link from "next/link";
 import { useSession, getSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
@@ -21,7 +21,7 @@ const Header: React.FC = () => {
         <Container fluid>
           <Link href="/">
             <Navbar.Brand className={styles.headerLogo}>
-              <Image src={logo} alt="logo" width={200} height={70} />
+              {/* <Image src={logo} alt="logo" width={200} height={70} /> */}
             </Navbar.Brand>
           </Link>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -45,13 +45,13 @@ const Header: React.FC = () => {
                   <Nav.Link>DASHBOARD</Nav.Link>
                   <Dropdown align="end">
                     <Dropdown.Toggle variant="none">
-                      <Image
+                      {/* <Image
                         className={styles.avatar}
                         src={logo}
                         alt="logo"
                         width={40}
                         height={40}
-                      />
+                      /> */}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       {session?.role == "admin" && (

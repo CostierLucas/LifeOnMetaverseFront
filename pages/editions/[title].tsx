@@ -1,5 +1,5 @@
 import styles from "./editions.module.scss";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Header from "../../components/header/header";
 import db from "../../config/db";
@@ -13,10 +13,6 @@ import ContractAbi from "../../WalletHelpers/contractTokenAbi.json";
 import ContractUsdcAbi from "../../WalletHelpers/contractUsdcAbi.json";
 import ModalEdition from "../../components/modalEdition/modalEdition";
 import { contractUsdc } from "../../WalletHelpers/contractVariables";
-import {
-  contractAddress,
-  targetChainId,
-} from "../../WalletHelpers/contractVariables";
 // import SpotifyPlayer from "react-spotify-web-playback";
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -46,7 +42,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 
   const data = await db.scan(params).promise();
-  const editions = data.Items?.[0];
+  const editions = null || data.Items?.[0];
 
   return {
     props: {
@@ -61,10 +57,6 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
   const [allowanceNumber, setAllowanceNumber] = useState<string>("");
   const context = useWeb3React<any>();
   const { account, provider, chainId } = context;
-
-  useEffect(() => {
-    console.log(editions.titleList);
-  }, [editions]);
 
   // useEffect(() => {
   //   if (!!provider && chainId == targetChainId && !!account) {
@@ -190,9 +182,10 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                     <div className={styles.details}></div>
                     <div>
                       <ul>
-                        {editions.titleList[i].map((item: string, j: any) => (
-                          <li key={i}>{item}</li>
-                        ))}
+                        {editions.titleList &&
+                          editions.titleList[i].map((item: string, j: any) => (
+                            <li key={i}>{item}</li>
+                          ))}
                       </ul>
                     </div>
                     <div>
