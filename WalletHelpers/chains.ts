@@ -159,7 +159,7 @@ export const CHAINS: {
   80001: {
     urls: [
       process.env.infuraKey
-        ? `https://polygon-mumbai.infura.io/v3/${process.env.infuraKey}`
+        ? `https://polygon-mumbai.g.alchemy.com/v2/Knz44B6lyY1cdXCjv9X5jKuZb60mSwlS`
         : undefined,
     ].filter((url) => url !== undefined),
     name: "Polygon Mumbai",

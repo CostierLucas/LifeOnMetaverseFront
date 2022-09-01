@@ -17,6 +17,8 @@ export default async function handler(
     percentages,
     address,
     image,
+    banner,
+    titleList,
   } = req.body;
 
   const params = {
@@ -34,6 +36,9 @@ export default async function handler(
       percentages,
       address,
       image,
+      banner,
+      titleList,
+      timestamp: Date.now(),
     },
   };
 

@@ -18,6 +18,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const data = await db.scan(params).promise();
   const editions = data.Items;
 
+  console.log(editions);
+
   return {
     props: {
       editions,
@@ -30,7 +32,7 @@ const Home: NextPage<IEditionProps> = ({ editions }) => {
     <>
       <Header />
       <Banner />
-      <Showcase />
+      <Showcase edition={editions} />
       <Howitworks />
       <MusicDrops edition={editions} />
       <Artist />

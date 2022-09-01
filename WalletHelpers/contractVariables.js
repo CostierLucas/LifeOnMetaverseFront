@@ -5,6 +5,6 @@ export const etherscanURL = "https://etherscan.io/tx/";
 export const openseaURL = "https://opensea.io/assets/";
 export const targetChainId = 80001;
 export const providerLink =
-  "https://polygon-mumbai.g.alchemy.com/v2/lxcGb96qkr82KFciWfP2Tu58IvtJGI5w";
+  "https://polygon-mumbai.g.alchemy.com/v2/Knz44B6lyY1cdXCjv9X5jKuZb60mSwlS";
 export const metamaskURL =
   "https://metamask.app.link/dapp/https://poc-supplychain.vercel.app/";

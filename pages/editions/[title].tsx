@@ -62,6 +62,10 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
   const context = useWeb3React<any>();
   const { account, provider, chainId } = context;
 
+  useEffect(() => {
+    console.log(editions.titleList);
+  }, [editions]);
+
   // useEffect(() => {
   //   if (!!provider && chainId == targetChainId && !!account) {
   //     getDatas();
@@ -184,6 +188,13 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                     <hr />
                     <p className={styles.price}>$ {editions.price[i]} </p>
                     <div className={styles.details}></div>
+                    <div>
+                      <ul>
+                        {editions.titleList[i].map((item: string, j: any) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
                     <div>
                       <a
                         onClick={() => setModalShow(true)}

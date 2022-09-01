@@ -32,7 +32,9 @@ const Header: React.FC = () => {
             <Nav className="align-items-center">
               {status === "unauthenticated" ? (
                 <>
-                  <Link href="/auth">LOGIN</Link>
+                  <Link href="/auth">
+                    <a>LOGIN</a>
+                  </Link>
                   <Link href="#">
                     <Nav.Link>|</Nav.Link>
                   </Link>
@@ -54,11 +56,11 @@ const Header: React.FC = () => {
                     <Dropdown.Menu>
                       {session?.role == "admin" && (
                         <>
-                          <Dropdown.Item passHref className={styles.link}>
-                            <Link href="/admin">
-                              <a className={styles.link}> Admin</a>
-                            </Link>
-                          </Dropdown.Item>
+                          {/* <Dropdown.Item className={styles.link}> */}
+                          <Link href="/admin">
+                            <a className={styles.link}> Admin</a>
+                          </Link>
+                          {/* </Dropdown.Item> */}
                           <Dropdown.Divider />
                         </>
                       )}

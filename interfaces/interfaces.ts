@@ -1,5 +1,5 @@
 // Edition
-export interface IEdition {
+export type IEdition = {
   map(
     arg0: (item: IEdition, i: number) => JSX.Element
   ): import("react").ReactNode;
@@ -15,7 +15,8 @@ export interface IEdition {
   address: string;
   image: File | null | string;
   [key: number]: any;
-}
+  titleList: Array<Array<string>>;
+};
 
 export interface IEditionProps {
   editions: IEdition;
