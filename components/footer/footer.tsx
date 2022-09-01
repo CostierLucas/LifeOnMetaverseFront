@@ -9,7 +9,7 @@ const footer: React.FC = () => {
       <Container fluid>
         <Row>
           <Col md={5}>
-            {/* <Image src={logo} alt="logo" width={200} height={70} /> */}
+            <Image src="/logo.jpg" alt="logo" width={200} height={70} />
           </Col>
           <Col md={7}>
             <ul>
