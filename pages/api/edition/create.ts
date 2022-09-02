@@ -38,7 +38,7 @@ export default async function handler(
       image,
       banner,
       titleList,
-      timestamp: Date.now(),
+      created_at: Date.now(),
     },
   };
 

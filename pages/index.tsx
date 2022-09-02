@@ -18,8 +18,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const data = await db.scan(params).promise();
   const editions = data.Items;
 
-  console.log(editions);
-
   return {
     props: {
       editions,

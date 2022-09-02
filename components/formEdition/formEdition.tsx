@@ -180,11 +180,12 @@ const FormEdition: React.FC = () => {
       newTitle[index].push(subTitle);
     }
     setEdition({ ...edition, titleList: newTitle });
+    setSubTitle("");
   };
 
   return (
     <div className={styles.formEdition}>
-      <h3>Admin</h3>
+      <h3>Add edition</h3>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
           <Form.Label>Banner</Form.Label>
@@ -372,6 +373,7 @@ const FormEdition: React.FC = () => {
                   <div className={styles.formGroup}>
                     <label>List title</label>
                     <Form.Control
+                      value={subTitle}
                       type="text"
                       placeholder="Exclusive access to an unreleased mix of the song..."
                       onChange={({ target }: { target: any }) =>
@@ -387,6 +389,12 @@ const FormEdition: React.FC = () => {
                     >
                       Add title
                     </Button>
+                    <ul className={styles.listTitle}>
+                      {edition.titleList[index] !== undefined &&
+                        edition.titleList[index].map((item, index) => (
+                          <li>{item}</li>
+                        ))}
+                    </ul>
                   </div>
                 </Accordion.Body>
               </Accordion.Item>
