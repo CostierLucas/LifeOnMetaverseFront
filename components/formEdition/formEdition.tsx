@@ -409,7 +409,7 @@ const FormEdition: React.FC = () => {
                     <ul className={styles.listTitle}>
                       {edition.titleList[index] !== undefined &&
                         edition.titleList[index].map((item, index) => (
-                          <li>{item}</li>
+                          <li key={item}>{item}</li>
                         ))}
                     </ul>
                   </div>

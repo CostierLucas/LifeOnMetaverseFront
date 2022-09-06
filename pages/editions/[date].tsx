@@ -44,7 +44,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const data = await db.scan(params).promise();
 
-  console.log(data);
   const editions = null || data.Items?.[0];
 
   return {
