@@ -19,16 +19,17 @@ export default async function handler(
     image,
     banner,
     titleList,
+    royalty,
   } = req.body;
 
   const params = {
     TableName: "life-edition",
     Item: {
-      id: Date.now().toString(),
+      date: Date.now(),
       artist,
       title,
       description,
-      type,
+      categorie_selected: type,
       supply,
       categories,
       baseUri,
@@ -39,6 +40,7 @@ export default async function handler(
       banner,
       titleList,
       created_at: Date.now(),
+      royalty,
     },
   };
 

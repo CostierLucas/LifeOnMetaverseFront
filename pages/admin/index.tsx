@@ -38,7 +38,8 @@ const Admin: NextPage<IEditionProps> = ({ editions }) => {
       {session?.role === "admin" && (
         <section className={styles.admin}>
           <h3>Admin</h3>
-          <UpdateEdition editions={editions} /> <FormEdition />{" "}
+          <FormEdition />
+          <UpdateEdition editions={editions} />{" "}
         </section>
       )}
     </>

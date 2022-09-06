@@ -17,7 +17,7 @@ const MusicDrops: React.FC<{ edition: IEdition }> = ({ edition }) => {
             }
             return (
               <Col md={4} key={i}>
-                <Link href={`/editions/${item.title}`} passHref>
+                <Link href={`/editions/${item.date}`} passHref>
                   <div className={styles.musicdropsItem}>
                     <div className={styles.musicdropsItemImg}>
                       <Image
@@ -30,8 +30,7 @@ const MusicDrops: React.FC<{ edition: IEdition }> = ({ edition }) => {
                       <div className={styles.musicdropsItemBlocToken}>
                         <p>
                           {edition[i].supply.reduce(
-                            (a: number, b: number) => a + b,
-                            0
+                            (a: any, b: any) => parseInt(a) + parseInt(b)
                           )}{" "}
                           TOKENS
                         </p>
@@ -39,7 +38,7 @@ const MusicDrops: React.FC<{ edition: IEdition }> = ({ edition }) => {
                       <div className={styles.musicdropsItemBlocTitle}>
                         <h3>{edition[i].title}</h3>
                         <p>{edition[i].artist}</p>
-                        <p>- {edition[i].type} -</p>
+                        <p>- {edition[i].categorie_selected} -</p>
                       </div>
                     </div>
                   </div>

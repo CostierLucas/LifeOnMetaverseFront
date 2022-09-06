@@ -23,7 +23,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const data = await db.scan(params).promise();
   const editions = data.Items;
   const paths = editions!.map((edition) => ({
-    params: { title: edition.title },
+    params: { date: edition.date.toString() },
   }));
 
   return {
@@ -33,15 +33,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const title = context.params?.title as string;
+  const date = context.params?.date as string;
+
   const params = {
     TableName: "life-edition",
-    FilterExpression: "#title =:title",
-    ExpressionAttributeValues: { ":title": title },
-    ExpressionAttributeNames: { "#title": "title" },
+    FilterExpression: "#date =:date",
+    ExpressionAttributeValues: { ":date": parseInt(date) },
+    ExpressionAttributeNames: { "#date": "date" },
   };
 
   const data = await db.scan(params).promise();
+
+  console.log(data);
   const editions = null || data.Items?.[0];
 
   return {

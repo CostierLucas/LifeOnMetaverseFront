@@ -28,6 +28,7 @@ interface IEdition {
   banner: File | null;
   prevState: null;
   titleList: Array<Array<string>>;
+  royalty: number;
 }
 
 const FormEdition: React.FC = () => {
@@ -51,6 +52,7 @@ const FormEdition: React.FC = () => {
     banner: null,
     prevState: null,
     titleList: [],
+    royalty: 0,
   });
   const [validated, setValidated] = useState(false);
   const [subTitle, setSubTitle] = useState<string>("");
@@ -70,6 +72,7 @@ const FormEdition: React.FC = () => {
       image,
       banner,
       titleList,
+      royalty,
     } = edition;
 
     const form = e.currentTarget;
@@ -112,6 +115,7 @@ const FormEdition: React.FC = () => {
             image: urlImage.image,
             banner: urlImage.banner,
             titleList,
+            royalty,
           }),
         });
         setAddress(addressDeployed);
@@ -139,7 +143,6 @@ const FormEdition: React.FC = () => {
         contractUsdc,
         contractUsdc
       );
-      console.log("ok");
       let deploy = await contractt.deploy(transaction, 11);
       await deploy.wait();
       const address = await contractt.getAddress(transaction, 11);
@@ -248,24 +251,38 @@ const FormEdition: React.FC = () => {
               setEdition({ ...edition, description: target.value })
             }
           />
-          <div className={styles.formGroup}>
-            <label>Categories</label>
-            <Form.Select
-              aria-label="Default select example"
-              onChange={({ target }: { target: any }) =>
-                setEdition({ ...edition, type: target.value })
-              }
-            >
-              <option>Open this select menu</option>
-              <option value="single">Single</option>
-              <option value="album">Album</option>
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">
-              Please choose categories
-            </Form.Control.Feedback>
-          </div>
           <Form.Control.Feedback type="invalid">
             Please enter description
+          </Form.Control.Feedback>
+        </div>
+        <div className={styles.formGroup}>
+          <label>Categories</label>
+          <Form.Select
+            aria-label="Default select example"
+            onChange={({ target }: { target: any }) =>
+              setEdition({ ...edition, type: target.value })
+            }
+          >
+            <option value="single">Single</option>
+            <option value="album">Album</option>
+          </Form.Select>
+          <Form.Control.Feedback type="invalid">
+            Please choose categories
+          </Form.Control.Feedback>
+        </div>
+        <div className={styles.formGroup}>
+          <label>Royalties %</label>
+          <Form.Control
+            required
+            type="number"
+            placeholder="0"
+            name="royalties"
+            onChange={({ target }: { target: any }) =>
+              setEdition({ ...edition, royalty: target.value })
+            }
+          />
+          <Form.Control.Feedback type="invalid">
+            Please enter royalties
           </Form.Control.Feedback>
         </div>
         <Button

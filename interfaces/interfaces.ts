@@ -16,6 +16,8 @@ export type IEdition = {
   image: File | null | string;
   [key: number]: any;
   titleList: Array<Array<string>>;
+  date: number;
+  royalty: number;
 };
 
 export interface IEditionProps {

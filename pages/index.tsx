@@ -16,7 +16,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 
   const data = await db.scan(params).promise();
-  const editions = data.Items;
+  const editions = data.Items!.sort((a, b) => {
+    return b.created_at - a.created_at;
+  });
 
   return {
     props: {
