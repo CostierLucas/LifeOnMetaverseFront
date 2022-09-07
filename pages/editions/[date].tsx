@@ -13,6 +13,8 @@ import ContractAbi from "../../WalletHelpers/contractTokenAbi.json";
 import ContractUsdcAbi from "../../WalletHelpers/contractUsdcAbi.json";
 import ModalEdition from "../../components/modalEdition/modalEdition";
 import { contractUsdc } from "../../WalletHelpers/contractVariables";
+import { useSession } from "next-auth/react";
+import UserSecurity from "../../components/protect/protect";
 // import SpotifyPlayer from "react-spotify-web-playback";
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -59,6 +61,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
   const [allowanceNumber, setAllowanceNumber] = useState<string>("");
   const context = useWeb3React<any>();
   const { account, provider, chainId } = context;
+  const { data: session, status } = useSession();
 
   // useEffect(() => {
   //   if (!!provider && chainId == targetChainId && !!account) {

@@ -42,7 +42,9 @@ const Header: React.FC = () => {
                 </>
               ) : (
                 <>
-                  <Nav.Link>DASHBOARD</Nav.Link>
+                  <Link href="/dashboard">
+                    <a className={styles.link}> DASHBOARD </a>
+                  </Link>
                   <Dropdown align="end">
                     <Dropdown.Toggle variant="none">
                       <Image

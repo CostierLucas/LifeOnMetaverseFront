@@ -1,16 +1,10 @@
-import { useState } from "react";
 import styles from "./showcase.module.scss";
-import img from "../../assets/images/banniere.jpeg";
 import Image from "next/image";
 import { Container } from "react-bootstrap";
 import { IEdition } from "../../interfaces/interfaces";
 import Link from "next/link";
-import { useEffect } from "react";
 
 const Showcase: React.FC<{ edition: IEdition }> = ({ edition }) => {
-  // useEffect(() => {
-  //   console.log(edition[0].r);
-
   return (
     <section className={styles.showcase}>
       <div className={styles.showcaseImg}>

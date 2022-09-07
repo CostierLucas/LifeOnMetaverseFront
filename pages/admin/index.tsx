@@ -7,6 +7,7 @@ import UpdateEdition from "../../components/updateEdition/updateEdition";
 import db from "../../config/db";
 import { IEditionProps } from "../../interfaces/interfaces";
 import styles from "./admin.module.scss";
+import UserSecurity from "../../components/protect/protect";
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const params = {
@@ -24,18 +25,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 const Admin: NextPage<IEditionProps> = ({ editions }) => {
-  const { data: session, status } = useSession();
-
-  useEffect(() => {
-    if (session?.role !== "admin") {
-      window.location.href = "/";
-    }
-  }, []);
-
   return (
     <>
       <Header />
-      {session?.role === "admin" && (
+      {UserSecurity("admin") && (
         <section className={styles.admin}>
           <h3>Admin</h3>
           <FormEdition />
