@@ -8,6 +8,7 @@ import { CoinbaseWallet } from "@web3-react/coinbase-wallet";
 import { Web3ReactHooks, Web3ReactProvider } from "@web3-react/core";
 import { MetaMask } from "@web3-react/metamask";
 import { WalletConnect } from "@web3-react/walletconnect";
+import { MoralisProvider } from "react-moralis";
 import {
   coinbaseWallet,
   hooks as coinbaseWalletHooks,
@@ -40,10 +41,12 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       </Head>
       <SSRProvider>
         <Web3ReactProvider connectors={connectors}>
+        <MoralisProvider appId="tgPhk9hCx5N4cPVOuW1l2soDRIklsLx01KqV1kFy" serverUrl="https://5hyxdb7y8x2d.usemoralis.com:2053/server">
           <SessionProvider session={session}>
             <NextNProgress />
             <Component {...pageProps} />
           </SessionProvider>
+          </MoralisProvider>
         </Web3ReactProvider>
       </SSRProvider>
     </>
