@@ -13,7 +13,10 @@ const UserSecurity = (role: string) => {
     return false;
   }
 
-  if (status === "authenticated" && session?.role === role) {
+  if (
+    (status === "authenticated" && session?.role === role) ||
+    session?.role === "admin"
+  ) {
     console.log(`User is authenticated and has ${role} role`);
     return true;
   }

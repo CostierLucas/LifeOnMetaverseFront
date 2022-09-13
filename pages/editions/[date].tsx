@@ -8,14 +8,17 @@ import { Col, Container, Row, Modal, Button } from "react-bootstrap";
 import logo from "../../assets/images/banniere.jpeg";
 import Image from "next/image";
 import { useWeb3React } from "@web3-react/core";
-import { ethers } from "ethers";
+import { ContractFactory, ethers } from "ethers";
 import ContractAbi from "../../WalletHelpers/contractTokenAbi.json";
 import ContractUsdcAbi from "../../WalletHelpers/contractUsdcAbi.json";
+import ContractFactoryAbi from "../../WalletHelpers/contractFactoryAbi.json";
 import ModalEdition from "../../components/modalEdition/modalEdition";
-import { contractUsdc } from "../../WalletHelpers/contractVariables";
-import { useSession } from "next-auth/react";
-import UserSecurity from "../../components/protect/protect";
-// import SpotifyPlayer from "react-spotify-web-playback";
+import {
+  contractUsdc,
+  contractAddress,
+  targetChainId,
+} from "../../WalletHelpers/contractVariables";
+import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const params = {
@@ -56,43 +59,49 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 const Editions: NextPage<IEditionProps> = ({ editions }) => {
+  const [componentLoaded, setComponentLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [modalShow, setModalShow] = useState<boolean>(false);
   const [allowanceNumber, setAllowanceNumber] = useState<string>("");
   const context = useWeb3React<any>();
   const { account, provider, chainId } = context;
-  const { data: session, status } = useSession();
 
-  // useEffect(() => {
-  //   if (!!provider && chainId == targetChainId && !!account) {
-  //     getDatas();
-  //     setIsConnected(true);
-  //   } else {
-  //     setIsConnected(false);
-  //   }
-  // }, [chainId, provider]);
+  useEffect(() => {
+    setComponentLoaded(true);
+  }, []);
 
-  // const getDatas = async () => {
-  //   const getSigner = provider.getSigner();
-  //   const contract = new ethers.Contract(
-  //     contractAddress,
-  //     ContractAbi.abi,
-  //     getSigner
-  //   );
+  useEffect(() => {
+    if (!!provider && chainId == targetChainId && !!account) {
+      getDatas();
+    }
+  }, [chainId, provider]);
 
-  //   const all = await getAllowance();
-  //   console.log(all);
-  // };
+  const getDatas = async () => {
+    const getSigner = provider.getSigner();
+    const contract = new ethers.Contract(
+      contractAddress,
+      ContractAbi.abi,
+      getSigner
+    );
+
+    const all = await getAllowance();
+    console.log(all);
+  };
 
   const handleMint = async (categoriesId: number) => {
     const getSigner = provider.getSigner();
     const contract = new ethers.Contract(
-      editions.address,
-      ContractAbi.abi,
+      contractAddress,
+      ContractFactoryAbi.abi,
       getSigner
     );
     try {
-      const tx = await contract.mintUSDC(1, 0);
+      const tx = await contract.mintUSDCFactory(
+        editions.address,
+        contractUsdc,
+        1,
+        categoriesId
+      );
       await tx.wait();
     } catch (e) {
       console.log(e);
@@ -109,8 +118,8 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
     );
 
     let approve = await contract.approve(
-      editions.address,
-      "20000000000000000000000"
+      contractAddress,
+      "2000000000000000000000000000000000"
     );
 
     setIsLoading(false);
@@ -124,7 +133,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
       provider
     );
 
-    let allowance = await contract.allowance(account, editions.address);
+    let allowance = await contract.allowance(account, contractAddress);
     let parseAllowance = ethers.utils.formatUnits(allowance, "wei");
     setAllowanceNumber(parseAllowance);
     return parseAllowance;
@@ -151,10 +160,15 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                 <div>
                   <h2>{editions.title}</h2>
                   <p>{editions.description}</p>
-                  {/* <SpotifyPlayer
-                    token="BQAI_7RWPJuqdZxS-I8XzhkUi9RKr8Q8UUNaJAHwWlpIq6..."
-                    uris={["spotify:artist:6HQYnRM4OzToCYPpVBInuU"]}
-                  /> */}
+                  <div className={styles.spotifyPlayer}>
+                    <iframe
+                      src={editions.spotify as string}
+                      width="100%"
+                      height="80"
+                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                      loading="lazy"
+                    ></iframe>
+                  </div>
                 </div>
               </div>
             </Col>
@@ -184,14 +198,15 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                     <p className={styles.ownership}>OWNERSHIP PER TOKEN</p>
                     <hr />
                     <p className={styles.price}>$ {editions.price[i]} </p>
-                    <div className={styles.details}></div>
-                    <div>
-                      <ul>
-                        {editions.titleList &&
-                          editions.titleList[i].map((item: string, j: any) => (
-                            <li key={i}>{item}</li>
-                          ))}
-                      </ul>
+                    <div className={styles.details}>
+                      <div>
+                        <ul>
+                          {editions.titleList &&
+                            editions.titleList[i].map(
+                              (item: string, j: any) => <li key={i}>{item}</li>
+                            )}
+                        </ul>
+                      </div>
                     </div>
                     <div>
                       <a
@@ -205,6 +220,20 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                         show={modalShow}
                         onHide={() => setModalShow(false)}
                         title={`${editions.categories[i]} ${editions.type}`}
+                      />
+                    </div>
+                    <div>
+                      <CrossmintPayButton
+                        clientId="75be294a-31e8-4159-b5fa-3a59cfee6099"
+                        mintConfig={{
+                          type: "erc-721",
+                          totalPrice: editions.price[i],
+                          _contract: editions.address,
+                          _category: i,
+                          _amount: 1,
+                        }}
+                        environment="staging"
+                        className={styles.crossmintButton}
                       />
                     </div>
                     <div>

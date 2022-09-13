@@ -23,8 +23,11 @@ const Showcase: React.FC<{ edition: IEdition }> = ({ edition }) => {
           <h2>
             {edition[0].artist} <br />"{edition[0].title}"
           </h2>
-          <Link href={`/editions/${edition[0].date}`}>
-            <a>Learn more</a>
+          <Link
+            className={styles.learnMore}
+            href={`/editions/${edition[0].date}`}
+          >
+            <a className={styles.learnMore}>Learn more</a>
           </Link>
         </div>
       </Container>

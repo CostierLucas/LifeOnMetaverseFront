@@ -18,6 +18,8 @@ export type IEdition = {
   titleList: Array<Array<string>>;
   date: number;
   royalty: number;
+  opensea: string;
+  spotify: string;
 };
 
 export interface IEditionProps {

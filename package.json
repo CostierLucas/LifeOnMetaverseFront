@@ -12,7 +12,7 @@
     "@aws-sdk/client-dynamodb": "^3.145.0",
     "@aws-sdk/lib-dynamodb": "^3.145.0",
     "@coinbase/wallet-sdk": "^3.3.0",
-    "@crossmint/client-sdk-react-ui": "^0.1.7-alpha.1",
+    "@crossmint/client-sdk-react-ui": "^0.2.0",
     "@ethersproject/units": "^5.7.0",
     "@next-auth/dynamodb-adapter": "^1.0.4",
     "@walletconnect/ethereum-provider": "^1.7.8",

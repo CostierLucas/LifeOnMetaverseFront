@@ -20,6 +20,7 @@ export default async function handler(
     banner,
     titleList,
     royalty,
+    spotify,
   } = req.body;
 
   const params = {
@@ -41,6 +42,7 @@ export default async function handler(
       titleList,
       created_at: Date.now(),
       royalty,
+      spotify,
     },
   };
 

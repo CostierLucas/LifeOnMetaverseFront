@@ -29,6 +29,7 @@ interface IEdition {
   prevState: null;
   titleList: Array<Array<string>>;
   royalty: number;
+  spotify: string;
 }
 
 const FormEdition: React.FC = () => {
@@ -42,7 +43,7 @@ const FormEdition: React.FC = () => {
     artist: "",
     title: "",
     description: "",
-    type: "",
+    type: "single",
     supply: [],
     categories: [],
     baseUri: [],
@@ -53,6 +54,7 @@ const FormEdition: React.FC = () => {
     prevState: null,
     titleList: [],
     royalty: 0,
+    spotify: "",
   });
   const [validated, setValidated] = useState(false);
   const [subTitle, setSubTitle] = useState<string>("");
@@ -73,6 +75,7 @@ const FormEdition: React.FC = () => {
       banner,
       titleList,
       royalty,
+      spotify,
     } = edition;
 
     const form = e.currentTarget;
@@ -116,6 +119,7 @@ const FormEdition: React.FC = () => {
             banner: urlImage.banner,
             titleList,
             royalty,
+            spotify,
           }),
         });
         setAddress(addressDeployed);
@@ -283,6 +287,21 @@ const FormEdition: React.FC = () => {
           />
           <Form.Control.Feedback type="invalid">
             Please enter royalties
+          </Form.Control.Feedback>
+        </div>
+        <div className={styles.formGroup}>
+          <label>Spotify</label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter spotify link"
+            name="spotify"
+            onChange={({ target }: { target: any }) =>
+              setEdition({ ...edition, spotify: target.value })
+            }
+          />
+          <Form.Control.Feedback type="invalid">
+            Please enter spotify link
           </Form.Control.Feedback>
         </div>
         <Button

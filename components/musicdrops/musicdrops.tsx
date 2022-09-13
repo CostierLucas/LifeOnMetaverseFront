@@ -16,7 +16,7 @@ const MusicDrops: React.FC<{ edition: IEdition }> = ({ edition }) => {
               return <div key={i}></div>;
             }
             return (
-              <Col md={4} key={i}>
+              <Col md={4} key={i} className="pt-4">
                 <Link href={`/editions/${item.date}`} passHref>
                   <div className={styles.musicdropsItem}>
                     <div className={styles.musicdropsItemImg}>

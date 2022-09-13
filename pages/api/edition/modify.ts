@@ -5,7 +5,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { date, artist, title, description, categorie } = req.body;
+  const { date, artist, title, description, categorie, opensea } = req.body;
 
   const params = {
     TableName: "life-edition",
@@ -13,12 +13,13 @@ export default async function handler(
       date: parseInt(date),
     },
     UpdateExpression:
-      "set title = :r, artist = :a, description = :d, categorie_selected = :c",
+      "set title = :r, artist = :a, description = :d, categorie_selected = :c, opensea = :o",
     ExpressionAttributeValues: {
       ":r": title,
       ":a": artist,
       ":d": description,
       ":c": categorie,
+      ":o": opensea,
     },
     ReturnValues: "UPDATED_NEW",
   };

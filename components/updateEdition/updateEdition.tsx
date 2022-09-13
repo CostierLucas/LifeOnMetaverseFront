@@ -33,6 +33,7 @@ const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
     const description = e.currentTarget.description.value;
     const categorie = e.currentTarget.type.value;
     const date = e.currentTarget.date.value;
+    const opensea = e.currentTarget.opensea.value;
     setIsLoading(true);
 
     try {
@@ -116,6 +117,19 @@ const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
                     </Form.Control.Feedback>
                   </div>
                   <div className={styles.formGroup}>
+                    <label>OpenSea</label>
+                    <Form.Control
+                      required
+                      type="text"
+                      name="opensea"
+                      placeholder="Link opensea collection"
+                      defaultValue={edition.opensea}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      Please enter title
+                    </Form.Control.Feedback>
+                  </div>
+                  <div className={styles.formGroup}>
                     <label>Categorie</label>
                     <Form.Select
                       aria-label="Default select example"
@@ -126,7 +140,7 @@ const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
                       <option value="album">Album</option>
                     </Form.Select>
                     <Form.Control.Feedback type="invalid">
-                      Please enter price
+                      Please enter categorie
                     </Form.Control.Feedback>
                   </div>
                   <div className={styles.btnSubmitModify}>
