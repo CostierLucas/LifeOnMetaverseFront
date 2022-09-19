@@ -193,7 +193,10 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                   </div>
                   <div className={styles.editionItemBloc}>
                     <p className={styles.percentages}>
-                      {editions.percentages[i]}% {editions.supply[i]}
+                      {parseInt(editions.supply[i]) /
+                        editions.percentages[i] /
+                        100}
+                      %
                     </p>
                     <p className={styles.ownership}>OWNERSHIP PER TOKEN</p>
                     <hr />
