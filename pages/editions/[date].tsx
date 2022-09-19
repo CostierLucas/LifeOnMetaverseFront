@@ -200,12 +200,12 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                     <p className={styles.price}>$ {editions.price[i]} </p>
                     <div className={styles.details}>
                       <div>
-                        <ul>
+                        {/* <ul>
                           {editions.titleList &&
                             editions.titleList[i].map(
                               (item: string, j: any) => <li key={i}>{item}</li>
                             )}
-                        </ul>
+                        </ul> */}
                       </div>
                     </div>
                     <div>
@@ -224,10 +224,10 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                     </div>
                     <div>
                       <CrossmintPayButton
-                        clientId="75be294a-31e8-4159-b5fa-3a59cfee6099"
+                        clientId="1516fbcf-1363-4a34-bfa0-ac78c2ae4e8a"
                         mintConfig={{
                           type: "erc-721",
-                          totalPrice: editions.price[i],
+                          totalPrice: "0.001",
                           _contract: editions.address,
                           _category: i,
                           _amount: 1,

@@ -1,72 +1,112 @@
-import { Button } from "react-bootstrap";
 import styles from "./claimCarousel.module.scss";
-import { signIn } from "next-auth/react";
-import { FormEvent, useState } from "react";
-import Router from "next/router";
+import { useState, useEffect } from "react";
+import { useMoralisWeb3Api } from "react-moralis";
+import { useWeb3React } from "@web3-react/core";
+import { targetChainId } from "../../WalletHelpers/contractVariables";
+import { IEdition } from "../../interfaces/interfaces";
+import ContractAbi from "../../WalletHelpers/contractTokenAbi.json";
+import { ethers } from "ethers";
 
-import { useMoralis,useMoralisWeb3Api } from "react-moralis";
-  const ClaimCarousel: React.FC = (nfts) => {
-  const [Nft, setNft] = useState([]);
-  const [isLoading,setIsLoading]= useState(true);
+const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
+  const context = useWeb3React<any>();
+  const { account, provider, chainId } = context;
+  const [arrayNfts, setArrayNfts] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | undefined>("");
+  const Web3Api = useMoralisWeb3Api();
 
-  const fetchNFTs = async (address:String) => {
-    const Web3Api = useMoralisWeb3Api();
-    // get mainnet transactions for the current user
-  
-    // get BSC transactions for a given address
-    // with most recent transactions appearing first
-    const options = {
-      chain: "eth",
-      address: address,
-      from_block: "0",
-    };
-    try{
-      const bscTransactions = await Web3Api.account.getNFTs(options);
-      console.log(bscTransactions);
-      setNft(bscTransactions.result)
-      setIsLoading(false)
-    }catch(e){
-      console.log(e)
+  useEffect(() => {
+    if (!!provider && chainId == targetChainId && !!account) {
+      getDatas(account);
+    }
+  }, [chainId, provider]);
+
+  const getDatas = async (address: String) => {
+    Object.values(edition).map(async (key) => {
+      const options = {
+        chain: "mumbai",
+        address: account,
+        from_block: "0",
+        token_address: key.address,
+      };
+
+      try {
+        const nfts = await Web3Api.account.getNFTsForContract(options as any);
+        if (nfts.result!.length > 0) {
+          for (let i = 0; i < nfts.result!.length; i++) {
+            const nft = nfts.result![i];
+            const rewards = await getRewardsByTokenId(
+              key.address,
+              nfts.result![i].token_id
+            );
+            const nftWithRewards = { ...nft, rewards };
+            setArrayNfts((arrayNfts) => [...arrayNfts, nftWithRewards]);
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    });
+  };
+
+  const claim = async (address: string, tokenId: String) => {
+    const getSigner = provider.getSigner();
+    const contract = new ethers.Contract(address, ContractAbi.abi, getSigner);
+    try {
+      const tx = await contract.claimRoyalties(tokenId);
+      await tx.wait();
+    } catch (e) {
+      console.log(e);
     }
   };
-  if(isLoading){
-  fetchNFTs("0x8118547d2f70f36e86c92aeba3c3fac4518d313c")
-  }
-  console.log(Nft)
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { email, password } = userInfo;
 
-    const signInResult = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
+  const getRewardsByTokenId = async (address: string, tokenId: String) => {
+    const getSigner = provider.getSigner();
+    const contract = new ethers.Contract(address, ContractAbi.abi, getSigner);
 
-    if (signInResult?.error === null) {
-      Router.push("/");
-    } else {
-      setError(signInResult?.error);
+    try {
+      const tx = await contract.getRewardsByTokenId(tokenId);
+      return tx;
+    } catch (e) {
+      console.log(e);
     }
   };
 
   return (
-    <div >
-    
-    <div className={styles.formLogin}>
-      
+    <div>
+      <div className={styles.formLogin}>
         <h3>NFTs</h3>
-        {Nft.filter(e=>e.token_address=="0xe106c63e655df0e300b78336af587f300cff9e76").map(e=> 
-        <img style={{width: 200, height: 200}} src={JSON.parse(e.metadata)?.image.replace("ipfs://","https://ipfs.io/ipfs/")}/>
-        )}
-        <div className={styles.formGroup}>
-         
+        <div className={styles.tableNft}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th scope="col">Token ID</th>
+                <th scope="col">Image</th>
+                <th scope="col">rewards</th>
+                <th scope="col">Claim</th>
+              </tr>
+            </thead>
+            <tbody>
+              {arrayNfts.map((nft, index) => {
+                return (
+                  <tr key={index}>
+                    <td scope="row">#{nft.token_id}</td>
+                    <td>{nft.token_address}</td>
+                    <td>{parseInt(nft.rewards)} $</td>
+                    <td>
+                      <button
+                        onClick={() => claim(nft.token_address, nft.token_id)}
+                      >
+                        Claim
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
-      
-    </div>
-    
-    
+      </div>
     </div>
   );
 };

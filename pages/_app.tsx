@@ -41,11 +41,14 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       </Head>
       <SSRProvider>
         <Web3ReactProvider connectors={connectors}>
-        <MoralisProvider appId="tgPhk9hCx5N4cPVOuW1l2soDRIklsLx01KqV1kFy" serverUrl="https://5hyxdb7y8x2d.usemoralis.com:2053/server">
-          <SessionProvider session={session}>
-            <NextNProgress />
-            <Component {...pageProps} />
-          </SessionProvider>
+          <MoralisProvider
+            appId="VSx6XsCTcW2GSZj8UjWcziZPAHRbPDjS5nKVkJWn"
+            serverUrl="https://fdo643g2zf9v.usemoralis.com:2053/server"
+          >
+            <SessionProvider session={session}>
+              <NextNProgress />
+              <Component {...pageProps} />
+            </SessionProvider>
           </MoralisProvider>
         </Web3ReactProvider>
       </SSRProvider>

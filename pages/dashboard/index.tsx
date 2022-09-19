@@ -1,26 +1,31 @@
-import { NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 import Header from "../../components/header/header";
 import ClaimCarousel from "../../components/claimCarousel/claimCarousel";
 import UserSecurity from "../../components/protect/protect";
-import { useState } from "react";
+import db from "../../config/db";
+import { IEditionProps } from "../../interfaces/interfaces";
 
+export const getStaticProps: GetStaticProps = async (context) => {
+  const params = {
+    TableName: "life-edition",
+    ProjectionExpression: "address",
+  };
 
-const Dashboard: NextPage = () => {
-  //const [Nft, setNft] = useState([]);
-  
-  // get polygon NFTs for address
+  const data = await db.scan(params).promise();
+  const editions = data.Items;
 
-//const polygonNFTs =  fetchNFTs;
-//console.log(polygonNFTs)
+  return {
+    props: {
+      editions,
+    },
+  };
+};
 
+const Dashboard: NextPage<IEditionProps> = ({ editions }) => {
   return (
-    
     <>
       <Header />
-      <div>
-    </div>
-      <ClaimCarousel/>
-      {UserSecurity("user") && <h1>User connected</h1>}
+      {UserSecurity("user") && <ClaimCarousel edition={editions} />}
     </>
   );
 };
