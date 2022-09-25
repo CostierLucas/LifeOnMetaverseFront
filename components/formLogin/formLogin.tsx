@@ -10,6 +10,8 @@ const FormLogin: React.FC = () => {
     password: "",
   });
   const [error, setError] = useState<string | undefined>("");
+  const [isPasswordForgotten, setIsPasswordForgotten] =
+    useState<boolean>(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,10 +24,25 @@ const FormLogin: React.FC = () => {
     });
 
     if (signInResult?.error === null) {
+      setError(undefined);
       Router.push("/");
     } else {
       setError(signInResult?.error);
     }
+  };
+
+  const resetPassword = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    fetch("/api/auth/reset", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: userInfo.email,
+      }),
+    });
   };
 
   return (
@@ -58,6 +75,33 @@ const FormLogin: React.FC = () => {
             }
           />
         </div>
+        <a
+          onClick={() => setIsPasswordForgotten(true)}
+          className={styles.btnReset}
+        >
+          Reset password
+        </a>
+        {isPasswordForgotten && (
+          <form onSubmit={resetPassword}>
+            <div className={styles.formGroup}>
+              <label htmlFor="exampleInputEmail1">Email address</label>
+              <input
+                type="email"
+                className="form-control"
+                aria-describedby="emailHelp"
+                placeholder="Enter email"
+                required
+                onChange={({ target }) =>
+                  setUserInfo({ ...userInfo, email: target.value })
+                }
+              />
+            </div>
+            <Button type="submit" variant="primary">
+              Send reset email
+            </Button>
+          </form>
+        )}
+        {error && <p className="text-danger">{error}</p>}
         <Button type="submit">SUBMIT</Button>
       </form>
     </div>

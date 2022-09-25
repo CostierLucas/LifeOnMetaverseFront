@@ -1,55 +1,44 @@
-import { signIn } from "next-auth/react";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import styles from "./formHelpCenter.module.scss";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 
 const FormHelpCenter: React.FC = () => {
-  const [userInfo, setUserInfo] = useState({
+  const [contactInfo, setContactInfo] = useState({
     email: "",
-    password: "",
-    username: "",
-    confirmation: "",
+    subject: "",
+    description: "",
   });
-  const [validated, setValidated] = useState<boolean>(false);
+  const formSchema = Yup.object().shape({
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    subject: Yup.string().required("Subject is required"),
+    description: Yup.string().required("Description is required"),
+  });
+  const formOptions = { resolver: yupResolver(formSchema) };
+  const { register, handleSubmit, reset, formState } = useForm(formOptions);
+  const { errors } = formState;
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    const { email, password, username } = userInfo;
-    const form = e.currentTarget;
-    e.preventDefault();
-    setValidated(true);
+  const sendEmail = async () => {
+    const { email, subject, description } = contactInfo;
 
-    if (form.checkValidity() === false) {
-      e.stopPropagation();
-      return;
-    } else if (password !== userInfo.confirmation) {
-      e.stopPropagation();
-      return;
-    } else {
-      fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          username,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          signIn("credentials", {
-            email,
-            password,
-            callbackUrl: "/",
-          });
-        });
-    }
+    fetch("/api/contact/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        subject,
+        description,
+      }),
+    });
   };
 
   return (
     <div className={styles.formHelpCenter}>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form noValidate onSubmit={handleSubmit(sendEmail)}>
         <h3>Submit a request</h3>
         <div className={styles.formGroup}>
           <label>Your email address</label>
@@ -57,39 +46,32 @@ const FormHelpCenter: React.FC = () => {
             required
             type="email"
             placeholder="Enter email"
+            {...register("email")}
             onChange={({ target }: { target: any }) =>
-              setUserInfo({ ...userInfo, username: target.value })
+              setContactInfo({ ...contactInfo, email: target.value })
             }
+            className={`form-control ${errors.email ? "is-invalid" : ""}`}
           />
-          <Form.Control.Feedback type="invalid">
-            Please enter your username
-          </Form.Control.Feedback>
+
+          <div className="invalid-feedback">
+            {errors.email?.message as string}
+          </div>
         </div>
-        <div className={styles.formGroup}>
-          <label>What would you like to contact us about</label>
-          <Form.Control
-            required
-            type="text"
-            onChange={({ target }: { target: any }) =>
-              setUserInfo({ ...userInfo, email: target.value })
-            }
-          />
-          <Form.Control.Feedback type="invalid">
-            Please enter your subject
-          </Form.Control.Feedback>
-        </div>
+
         <div className={styles.formGroup}>
           <label>Subject</label>
           <Form.Control
             required
             type="text"
+            {...register("subject")}
             onChange={({ target }: { target: any }) =>
-              setUserInfo({ ...userInfo, email: target.value })
+              setContactInfo({ ...contactInfo, subject: target.value })
             }
+            className={`form-control ${errors.subject ? "is-invalid" : ""}`}
           />
-          <Form.Control.Feedback type="invalid">
-            Please enter your subject
-          </Form.Control.Feedback>
+          <div className="invalid-feedback">
+            {errors.subject?.message as string}
+          </div>
         </div>
         <div className={styles.formGroup}>
           <label>Description</label>
@@ -97,13 +79,15 @@ const FormHelpCenter: React.FC = () => {
             required
             as="textarea"
             rows={3}
+            {...register("description")}
             onChange={({ target }: { target: any }) =>
-              setUserInfo({ ...userInfo, email: target.value })
+              setContactInfo({ ...contactInfo, description: target.value })
             }
+            className={`form-control ${errors.description ? "is-invalid" : ""}`}
           />
-          <Form.Control.Feedback type="invalid">
-            Please enter your description
-          </Form.Control.Feedback>
+          <div className="invalid-feedback">
+            {errors.description?.message as string}
+          </div>
         </div>
         <Button type="submit">SUBMIT</Button>
       </Form>
