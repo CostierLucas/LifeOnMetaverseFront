@@ -194,6 +194,8 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                   <div className={styles.editionItemImg}>
                     {/* <Image src={logo} layout="fill" objectFit="cover" /> */}
                     <img
+                      width="100%"
+                      height="100%"
                       src="https://spaceseed.mypinata.cloud/ipfs/QmaF47C9UobRQ3LdbafGkgUbHAUfhTpW7Lyd8oTC3przym"
                       alt="image animate"
                     ></img>
