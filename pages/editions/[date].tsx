@@ -5,7 +5,7 @@ import Header from '../../components/header/header'
 import db from '../../config/db'
 import { IEditionProps } from '../../interfaces/interfaces'
 import { Col, Container, Row, Modal, Button } from 'react-bootstrap'
-import logo from '../../assets/gifs/test.gif'
+import logo from '../../assets/gifs/ezgif-2-d5d0d0f585.webp'
 import Image from 'next/image'
 import { useWeb3React } from '@web3-react/core'
 import { ContractFactory, ethers } from 'ethers'
@@ -192,13 +192,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
               <Col md={4} key={i}>
                 <div className={styles.editionItem}>
                   <div className={styles.editionItemImg}>
-                    <Image
-                      src={
-                        'https://spaceseed.mypinata.cloud/ipfs/QmaF47C9UobRQ3LdbafGkgUbHAUfhTpW7Lyd8oTC3przym'
-                      }
-                      layout="fill"
-                      objectFit="cover"
-                    />
+                    <Image src={logo} layout="fill" objectFit="cover" />
                   </div>
                   <div className={styles.editionItemCategories}>
                     <div>
