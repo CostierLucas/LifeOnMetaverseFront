@@ -5,7 +5,7 @@ import Header from '../../components/header/header'
 import db from '../../config/db'
 import { IEditionProps } from '../../interfaces/interfaces'
 import { Col, Container, Row, Modal, Button } from 'react-bootstrap'
-import logo from '../../assets/images/banniere.jpeg'
+import logo from '../../assets/images/QmaF47C9UobRQ3LdbafGkgUbHAUfhTpW7Lyd8oTC3przym.gif'
 import Image from 'next/image'
 import { useWeb3React } from '@web3-react/core'
 import { ContractFactory, ethers } from 'ethers'
@@ -168,7 +168,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
             </Col>
             <Col md={6}>
               <div className={styles.content}>
-                <div>
+                <div className={styles.contentDirect}>
                   <h2>{editions.title}</h2>
                   <p>{editions.description}</p>
                   <div className={styles.spotifyPlayer}>
@@ -204,10 +204,10 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                   </div>
                   <div className={styles.editionItemBloc}>
                     <p className={styles.percentages}>
-                      {parseInt(editions.supply[i]) /
+                      {/* {parseInt(editions.supply[i]) /
                         editions.percentages[i] /
-                        100}
-                      %
+                        100} */}
+                      {parseInt(editions.supply[i]) / 100}%
                     </p>
                     <p className={styles.ownership}>OWNERSHIP PER TOKEN</p>
                     <hr />
