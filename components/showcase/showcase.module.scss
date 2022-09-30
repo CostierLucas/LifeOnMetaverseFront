@@ -31,6 +31,10 @@
     justify-content: center;
     height: 100%;
 
+    &Recap {
+      font-size: 14px;
+    }
+
     p {
       margin-bottom: 0px;
       font-weight: bold;
@@ -45,29 +49,6 @@
 
     h2 {
       font-size: 50px;
-    }
-
-    button {
-      margin-top: 15px;
-      width: 35%;
-      background-color: rgb(255, 255, 255, 0.5);
-      border: none;
-      color: #fff;
-      text-transform: uppercase;
-      border-radius: 5px;
-      padding-top: 5px;
-      padding-bottom: 5px;
-    }
-
-    .learnMore {
-      background-color: rgba(255, 255, 255, 0.5);
-      border: none;
-      border-radius: 5px;
-      padding: 5px 20px;
-      width: 150px;
-      text-decoration: none;
-      color: #fff;
-      text-align: center;
-    }
+    } 
   }
 }
