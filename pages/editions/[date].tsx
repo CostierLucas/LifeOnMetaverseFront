@@ -192,13 +192,13 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
               <Col md={4} key={i}>
                 <div className={styles.editionItem}>
                   <div className={styles.editionItemImg}>
-                    <Image
-                      src={
-                        'https://spaceseed.mypinata.cloud/ipfs/QmaF47C9UobRQ3LdbafGkgUbHAUfhTpW7Lyd8oTC3przym'
-                      }
-                      layout="fill"
-                      objectFit="cover"
-                    />
+                    {/* <Image src={logo} layout="fill" objectFit="cover" /> */}
+                    <img
+                      width="100%"
+                      height="100%"
+                      src="https://spaceseed.mypinata.cloud/ipfs/QmaF47C9UobRQ3LdbafGkgUbHAUfhTpW7Lyd8oTC3przym"
+                      alt="image animate"
+                    ></img>
                   </div>
                   <div className={styles.editionItemCategories}>
                     <div>
