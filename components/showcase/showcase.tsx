@@ -1,8 +1,8 @@
-import styles from "./showcase.module.scss";
-import Image from "next/image";
-import { Container } from "react-bootstrap";
-import { IEdition } from "../../interfaces/interfaces";
-import Link from "next/link";
+import styles from './showcase.module.scss'
+import Image from 'next/image'
+import { Container } from 'react-bootstrap'
+import { IEdition } from '../../interfaces/interfaces'
+import Link from 'next/link'
 
 const Showcase: React.FC<{ edition: IEdition }> = ({ edition }) => {
   return (
@@ -13,26 +13,25 @@ const Showcase: React.FC<{ edition: IEdition }> = ({ edition }) => {
       <div className={styles.showcaseFilter}></div>
       <Container>
         <div className={styles.showcaseText}>
-          <p>
+          <p className={styles.showcaseTextRecap}>
             {edition[0].supply.reduce(
-              (a: any, b: any) => parseInt(a) + parseInt(b)
-            )}{" "}
+              (a: any, b: any) => parseInt(a) + parseInt(b),
+            )}{' '}
             TOKENS / 35% ALBUM OWNERSHIP
           </p>
           <hr />
           <h2>
             {edition[0].artist} <br />"{edition[0].title}"
           </h2>
-          <Link
-            className={styles.learnMore}
-            href={`/editions/${edition[0].date}`}
-          >
-            <a className={styles.learnMore}>Learn more</a>
-          </Link>
+          <div>
+            <Link href={`/editions/${edition[0].date}`}>
+              <a className="btnLearnMore">LEARN MORE</a>
+            </Link>
+          </div>
         </div>
       </Container>
     </section>
-  );
-};
+  )
+}
 
-export default Showcase;
+export default Showcase

@@ -1,18 +1,78 @@
+.cardEntire{
+  cursor: pointer;
+}
+
+.cardImg{
+  border-radius: 10px 10px 0px 0px;
+  overflow: hidden;
+  letter-spacing: 0;
+  word-spacing: 0;
+  font-size: 0;
+}
+.cardBody{
+  background-color: #000;
+  border-radius: 0px 0px 10px 10px;
+  
+  &Description{
+    padding: 10px;
+  }
+
+  p{
+    color: white;
+    margin: 0;
+    line-height: 20px
+  }
+  
+
+  &Tokens{
+    background: -webkit-linear-gradient(
+          180deg,
+          var(--secondary) -10%,
+          var(--tertiary) 130%
+        );
+
+    p{
+      font-size: 15px;
+      font-weight: 700;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      padding-left: 9px;
+      padding-right: 9px;
+    }
+  }
+
+  &Title{
+    font-family: var(--font-gotham-bold);
+    font-size: 20px;
+  }
+
+  &Artist{
+    font-family: var(--font-avenir); 
+    font-size: 20px;
+  }
+
+  &Categorie{
+    font-family: var(--font-avenir);
+    font-size: 15px; 
+  } 
+}
+
 .musicdrops {
   position: relative;
   margin-top: 40px;
   margin-bottom: 40px;
 
   h2 {
+    font-size: 40px;
+    font-weight: 800;
     background: -webkit-linear-gradient(
       45deg,
       var(--secondary) 5%,
-      var(--tertiary) 20%
+      var(--tertiary) 28%
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-family: var(--font-avenir);
-    margin-bottom: 30px;
   }
 
   &Item {
@@ -47,9 +107,9 @@
 
       &Token {
         background: -webkit-linear-gradient(
-          45deg,
-          var(--secondary),
-          var(--tertiary)
+          180deg,
+          var(--secondary) -10%,
+          var(--tertiary) 130%
         );
         padding-left: 10px;
 
