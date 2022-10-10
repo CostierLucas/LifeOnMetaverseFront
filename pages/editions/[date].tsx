@@ -4,7 +4,7 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Header from "../../components/header/header";
 import db from "../../config/db";
 import { IEditionProps } from "../../interfaces/interfaces";
-import { Col, Container, Row, Modal, Button } from "react-bootstrap";
+import { Col, Container, Row, Modal, Button, Spinner } from "react-bootstrap";
 import logo from "../../assets/gifs/test.gif";
 import Image from "next/image";
 import { useWeb3React } from "@web3-react/core";
@@ -61,6 +61,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 const Editions: NextPage<IEditionProps> = ({ editions }) => {
   const [componentLoaded, setComponentLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isApproving, setIsApproving] = useState<number>(0);
   const [modalShow, setModalShow] = useState<boolean>(false);
   const [allowanceNumber, setAllowanceNumber] = useState<string>("");
   const context = useWeb3React<any>();
@@ -95,6 +96,8 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
       ContractFactoryAbi.abi,
       getSigner
     );
+    setIsLoading(true);
+    setIsApproving(categoriesId);
     try {
       const tx = await contract.mintUSDCFactory(
         editions.address,
@@ -106,6 +109,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
     } catch (e) {
       console.log(e);
     }
+    setIsLoading(false);
   };
 
   const approve = async () => {
@@ -123,6 +127,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
     );
 
     setIsLoading(false);
+    getDatas();
   };
 
   const getAllowance = async () => {
@@ -210,26 +215,21 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                   </div>
                   <div className={styles.editionItemBloc}>
                     <p className={styles.percentages}>
-                      {/* {parseInt(editions.supply[i]) /
-                        editions.percentages[i] /
-                        100} */}
                       {parseInt(editions.supply[i]) / 100}%
                     </p>
                     <p className={styles.ownership}>OWNERSHIP PER TOKEN</p>
                     <hr />
                     <p className={styles.price}>${editions.price[i]} </p>
-                    {/* <div className={styles.details}>
+                    <div className={styles.details}>
                       <div>
                         <ul>
                           {editions.titleList &&
-                            editions.titleList[
-                              i
-                            ].map((item: string, j: any) => (
-                              <li key={i}>{item}</li>
-                            ))}
+                            editions.titleList[i].map(
+                              (item: string, j: any) => <li key={i}>{item}</li>
+                            )}
                         </ul>
                       </div>
-                    </div> */}
+                    </div>
                     <div className={styles.spaceDetails}></div>
                     <div>
                       <a
@@ -270,7 +270,11 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                             className={styles.mint}
                             onClick={() => handleMint(i)}
                           >
-                            Mint
+                            {isLoading && isApproving == i ? (
+                              <Spinner animation="border" variant="light" />
+                            ) : (
+                              "Mint"
+                            )}
                           </button>
                         )
                       ) : (

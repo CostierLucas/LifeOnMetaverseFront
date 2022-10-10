@@ -33,6 +33,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingTransfer, setIsLoadingTransfer] = useState<boolean>(false);
   const [isConfirmed, setIsConfirmed] = useState<boolean>(false);
   const [amount, setAmount] = useState<number>(0);
   const context = useWeb3React<any>();
@@ -111,19 +112,27 @@ const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
       getSigner
     );
 
-    try {
-      const allowance = await checkAllowance(address);
+    setIsLoadingTransfer(true);
 
-      if (allowance < amount) {
-        const approveToken = await approve(address);
+    if (amount !== 0) {
+      try {
+        const allowance = await checkAllowance(address);
+
+        if (allowance < amount) {
+          const approveToken = await approve(address);
+        }
+
+        const ethersToWei = ethers.utils.parseEther(amount.toString());
+        const transfer = await contract.FundRoyalties(ethersToWei);
+        await transfer.wait();
+      } catch (error) {
+        console.log(error);
       }
-      const ethersToWei = ethers.utils.parseEther(amount.toString());
-      console.log(ethersToWei);
-      const transfer = await contract.FundRoyalties("1000000000000000000");
-      await transfer.wait();
-    } catch (error) {
-      console.log(error);
+    } else {
+      alert("amount is 0");
     }
+
+    setIsLoadingTransfer(false);
   };
 
   return (
@@ -232,7 +241,11 @@ const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
                       className={styles.btnTransfer}
                       onClick={() => handleTransfer(edition.address)}
                     >
-                      Transfer USDC
+                      {isLoadingTransfer ? (
+                        <Spinner animation="border" className="#fff" />
+                      ) : (
+                        "Transfer USDC"
+                      )}
                     </Button>
                   </div>
                   <div className={styles.confirmed}>

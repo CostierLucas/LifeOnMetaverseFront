@@ -10,12 +10,14 @@ import { IEdition } from "../../interfaces/interfaces";
 import ContractAbi from "../../WalletHelpers/contractTokenAbi.json";
 import { ethers } from "ethers";
 import contractUsdcAbi from "../../WalletHelpers/contractUsdcAbi.json";
+import Spinner from "react-bootstrap/Spinner";
 
 const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
   const context = useWeb3React<any>();
   const { account, provider, chainId } = context;
   const [arrayNfts, setArrayNfts] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isApproving, setIsApproving] = useState<number>(0);
   const [error, setError] = useState<string | undefined>("");
   const Web3Api = useMoralisWeb3Api();
 
@@ -26,6 +28,7 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
   }, [chainId, provider]);
 
   const getDatas = async (address: String) => {
+    setArrayNfts([]);
     Object.values(edition).map(async (key) => {
       const options = {
         chain: "mumbai",
@@ -43,7 +46,9 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
               key.address,
               nfts.result![i].token_id
             );
-            const nftWithRewards = { ...nft, rewards };
+            const rewardsToEthers = ethers.utils.formatEther(rewards);
+            const nftWithRewards = { ...nft, rewardsToEthers };
+            console.log(parseInt(rewards));
             setArrayNfts((arrayNfts) => [...arrayNfts, nftWithRewards]);
           }
         }
@@ -83,7 +88,9 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
     setIsLoading(false);
   };
 
-  const claim = async (address: string, tokenId: String) => {
+  const claim = async (address: string, tokenId: string, index: number) => {
+    setIsLoading(true);
+    setIsApproving(index);
     const getSigner = provider.getSigner();
     const contract = new ethers.Contract(address, ContractAbi.abi, getSigner);
     try {
@@ -96,6 +103,8 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
     } catch (e) {
       console.log(e);
     }
+    getDatas(account!);
+    setIsLoading(false);
   };
 
   const getRewardsByTokenId = async (address: string, tokenId: String) => {
@@ -129,13 +138,19 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
                 return (
                   <tr key={index}>
                     <td scope="row">#{nft.token_id}</td>
-                    <td>{nft.token_address}</td>
-                    <td>{parseInt(nft.rewards)} $</td>
+                    <td></td>
+                    <td>{nft.rewardsToEthers} $</td>
                     <td>
                       <button
-                        onClick={() => claim(nft.token_address, nft.token_id)}
+                        onClick={() =>
+                          claim(nft.token_address, nft.token_id, index)
+                        }
                       >
-                        Claim
+                        {isLoading && isApproving == index ? (
+                          <Spinner animation="border" role="status" />
+                        ) : (
+                          "Claim"
+                        )}
                       </button>
                     </td>
                   </tr>
