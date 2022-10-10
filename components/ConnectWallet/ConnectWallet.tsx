@@ -81,8 +81,7 @@ const ConnectWallet = () => {
           </>
         ) : (
           <Button
-            className="btn-wallet"
-            style={{ border: "2px solid black" }}
+            className={styles.connectButton}
             onClick={() => handleConnection()}
           >
             Connect Wallet

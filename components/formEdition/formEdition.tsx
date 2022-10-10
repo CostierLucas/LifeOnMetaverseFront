@@ -136,6 +136,7 @@ const FormEdition: React.FC = () => {
       Contract.abi,
       getSigner
     );
+
     try {
       let transaction = await contractt.getBytecode(
         edition.categories,
@@ -144,8 +145,8 @@ const FormEdition: React.FC = () => {
         edition.supply,
         edition.percentages,
         contractUsdc,
-        contractUsdc,
-        contractUsdc
+        account,
+        account
       );
       let deploy = await contractt.deploy(transaction, 11);
       await deploy.wait();

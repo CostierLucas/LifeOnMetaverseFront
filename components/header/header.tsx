@@ -45,6 +45,7 @@ const Header: React.FC = () => {
                   <Link href="/dashboard">
                     <a className={styles.link}> DASHBOARD </a>
                   </Link>
+                  <ConnectWallet />
                   <Dropdown align="end">
                     <Dropdown.Toggle variant="none">
                       <Image
@@ -66,9 +67,6 @@ const Header: React.FC = () => {
                           <Dropdown.Divider />
                         </>
                       )}
-                      <Dropdown.Item>
-                        <ConnectWallet />
-                      </Dropdown.Item>
                       <Dropdown.Item onClick={handleSignOut} href="#">
                         Logout
                       </Dropdown.Item>

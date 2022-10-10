@@ -2,10 +2,14 @@ import styles from "./claimCarousel.module.scss";
 import { useState, useEffect } from "react";
 import { useMoralisWeb3Api } from "react-moralis";
 import { useWeb3React } from "@web3-react/core";
-import { targetChainId } from "../../WalletHelpers/contractVariables";
+import {
+  contractUsdc,
+  targetChainId,
+} from "../../WalletHelpers/contractVariables";
 import { IEdition } from "../../interfaces/interfaces";
 import ContractAbi from "../../WalletHelpers/contractTokenAbi.json";
 import { ethers } from "ethers";
+import contractUsdcAbi from "../../WalletHelpers/contractUsdcAbi.json";
 
 const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
   const context = useWeb3React<any>();
@@ -49,10 +53,44 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
     });
   };
 
+  const checkAllowance = async (address: string) => {
+    const getSigner = provider.getSigner();
+    const contractUsdcInstance = new ethers.Contract(
+      contractUsdc,
+      contractUsdcAbi,
+      getSigner
+    );
+
+    try {
+      const allowance = await contractUsdcInstance.allowance(address, account);
+      console.log(allowance);
+      return allowance;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const approve = async (address: string) => {
+    setIsLoading(true);
+    const getSigner = provider.getSigner();
+    const contract = new ethers.Contract(contractUsdc, contractUsdc, getSigner);
+
+    let approve = await contract.approve(
+      address,
+      "2000000000000000000000000000000000"
+    );
+
+    setIsLoading(false);
+  };
+
   const claim = async (address: string, tokenId: String) => {
     const getSigner = provider.getSigner();
     const contract = new ethers.Contract(address, ContractAbi.abi, getSigner);
     try {
+      const allowance = await checkAllowance(address);
+      // if (allowance < 1000000000000000000) {
+      //   const approveToken = await approve(address);
+      // }
       const tx = await contract.claimRoyalties(tokenId);
       await tx.wait();
     } catch (e) {

@@ -6,6 +6,15 @@ import Accordion from "react-bootstrap/Accordion";
 import styles from "./updateEdition.module.scss";
 import { Form, Button } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
+import ContractAbi from "../../WalletHelpers/contractTokenAbi.json";
+import {
+  contractAddress,
+  contractUsdc,
+} from "../../WalletHelpers/contractVariables";
+import { useWeb3React } from "@web3-react/core";
+import { ethers } from "ethers";
+import contractUsdcAbi from "../../WalletHelpers/contractUsdcAbi.json";
+import contractTokenAbi from "../../WalletHelpers/contractTokenAbi.json";
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const params = {
@@ -25,6 +34,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isConfirmed, setIsConfirmed] = useState<boolean>(false);
+  const [amount, setAmount] = useState<number>(0);
+  const context = useWeb3React<any>();
+  const { account, provider, chainId } = context;
 
   const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -55,6 +67,62 @@ const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
     } catch (error) {
       console.log(error);
       setIsLoading(false);
+    }
+  };
+
+  const checkAllowance = async (address: string) => {
+    const getSigner = provider.getSigner();
+    const contractUsdcInstance = new ethers.Contract(
+      contractUsdc,
+      contractUsdcAbi,
+      getSigner
+    );
+
+    try {
+      const allowance = await contractUsdcInstance.allowance(account, address);
+      return allowance;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const approve = async (address: string) => {
+    setIsLoading(true);
+    const getSigner = provider.getSigner();
+    const contract = new ethers.Contract(
+      contractUsdc,
+      contractUsdcAbi,
+      getSigner
+    );
+
+    let approve = await contract.approve(
+      address,
+      "2000000000000000000000000000000000"
+    );
+
+    setIsLoading(false);
+  };
+
+  const handleTransfer = async (address: string) => {
+    const getSigner = provider.getSigner();
+    const contract = new ethers.Contract(
+      address,
+      contractTokenAbi.abi,
+      getSigner
+    );
+
+    try {
+      const allowance = await checkAllowance(address);
+
+      if (allowance < amount) {
+        const approveToken = await approve(address);
+      }
+      const ethersToWei = ethers.utils.parseEther(amount.toString());
+      console.log(ethersToWei);
+      const transfer = await contract.FundRoyalties("1000000000000000000");
+      await transfer.wait();
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -150,6 +218,21 @@ const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
                       ) : (
                         "Modify collection"
                       )}
+                    </Button>
+                  </div>
+                  <div className={styles.btnTransfer}>
+                    <input
+                      type="number"
+                      name="amount"
+                      placeholder="Amount"
+                      onChange={(e) => setAmount(Number(e.target.value))}
+                    />
+                    <br />
+                    <Button
+                      className={styles.btnTransfer}
+                      onClick={() => handleTransfer(edition.address)}
+                    >
+                      Transfer USDC
                     </Button>
                   </div>
                   <div className={styles.confirmed}>
