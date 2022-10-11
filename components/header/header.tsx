@@ -61,7 +61,13 @@ const Header: React.FC = () => {
                         <>
                           {/* <Dropdown.Item className={styles.link}> */}
                           <Link href="/admin">
-                            <a className={styles.link}> Admin</a>
+                            <a
+                              className={styles.link}
+                              style={{ marginLeft: "15px" }}
+                            >
+                              {" "}
+                              Admin
+                            </a>
                           </Link>
                           {/* </Dropdown.Item> */}
                           <Dropdown.Divider />

@@ -1,11 +1,11 @@
-import styles from './howitworks.module.scss'
-import img from '../../assets/images/banniere.jpeg'
-import platine from '../../assets/images/platine.jpg'
-import casque from '../../assets/images/casque.jpg'
-import pionner from '../../assets/images/pioneer.jpg'
-import Image from 'next/image'
-import { Col, Container, Row } from 'react-bootstrap'
-import rect from '../../assets/images/rectangle_gradiant.png'
+import styles from "./howitworks.module.scss";
+import img from "../../assets/images/banniere.jpeg";
+import platine from "../../assets/images/platine.jpg";
+import casque from "../../assets/images/casque.jpg";
+import pionner from "../../assets/images/pioneer.jpg";
+import Image from "next/image";
+import { Col, Container, Row } from "react-bootstrap";
+import rect from "../../assets/images/rectangle_gradiant.png";
 
 const Howitworks: React.FC = () => {
   return (
@@ -19,11 +19,17 @@ const Howitworks: React.FC = () => {
             <div className={styles.box}>
               <div className={styles.contentBox}>
                 <Image src={platine} layout="fill" objectFit="cover" />
-                <h3 className={styles.contentBoxTextOne}>
-                  Invest
-                  <br />
-                  in Music
-                </h3>
+                <div className={styles.contentBoxTextOne}>
+                  <h3>
+                    Invest
+                    <br />
+                    in Music
+                  </h3>
+                  <p>
+                    When fans listen to your music through the Digital Streaming
+                    Platform, it generates royalties
+                  </p>
+                </div>
               </div>
             </div>
           </Col>
@@ -31,9 +37,15 @@ const Howitworks: React.FC = () => {
             <div className={styles.box}>
               <div className={styles.contentBox}>
                 <Image src={casque} layout="fill" objectFit="cover" />
-                <h3 className={styles.contentBoxTextTwo}>
-                  People <br /> Stream <br /> your Music
-                </h3>
+                <div className={styles.contentBoxTextTwo}>
+                  <h3>
+                    People <br /> Stream <br /> your Music
+                  </h3>
+                  <p>
+                    When fans listen to your music through the Digital Streaming
+                    Platform, it generates royalties
+                  </p>
+                </div>
               </div>
             </div>
           </Col>
@@ -41,13 +53,18 @@ const Howitworks: React.FC = () => {
             <div className={styles.box}>
               <div className={styles.contentBox}>
                 <Image src={pionner} layout="fill" objectFit="cover" />
-                <h3 className={styles.contentBoxTextThree}>
-                  Artist <br />
-                  and Fan
-                  <br />
-                  Share <br />
-                  Royalties
-                </h3>
+                <div className={styles.contentBoxTextThree}>
+                  <h3>
+                    Artist <br />
+                    and Fan
+                    <br />
+                    Share <br />
+                    Royalties
+                  </h3>
+                  <p>
+                    When fans listen to your music through the Digital Streaming
+                  </p>
+                </div>
               </div>
             </div>
           </Col>
@@ -99,7 +116,7 @@ const Howitworks: React.FC = () => {
         </Row> */}
       </Container>
     </section>
-  )
-}
+  );
+};
 
-export default Howitworks
+export default Howitworks;

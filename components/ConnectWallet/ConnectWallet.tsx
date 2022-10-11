@@ -51,7 +51,13 @@ const ConnectWallet = () => {
 
   return (
     <>
-      <Col style={{ display: "flex", justifyContent: "center" }}>
+      <Col
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginRight: "15px",
+        }}
+      >
         {account ? (
           <>
             <Dropdown>

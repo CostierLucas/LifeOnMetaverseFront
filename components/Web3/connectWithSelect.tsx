@@ -39,6 +39,7 @@ export default function ConnectWithSelect({
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
+          height: "100%",
         }}
       >
         <Button
@@ -76,6 +77,7 @@ export default function ConnectWithSelect({
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
+          height: "100%",
         }}
       >
         <Button
@@ -109,7 +111,7 @@ export default function ConnectWithSelect({
             <>
               <span style={{ paddingRight: "5px" }}>WalletLink</span>
               <img
-                src="pictures/walletConnect.svg"
+                src="/pictures/walletConnect.svg"
                 width={30}
                 height={30}
                 alt="logo walletconnect"
@@ -120,7 +122,7 @@ export default function ConnectWithSelect({
             <>
               <span style={{ paddingRight: "5px" }}>Metamask</span>
               <img
-                src="pictures/metamask.svg"
+                src="/pictures/metamask.svg"
                 width={30}
                 height={30}
                 alt="logo metamask"
@@ -131,7 +133,7 @@ export default function ConnectWithSelect({
             <>
               <span style={{ paddingRight: "5px" }}>Coinbase</span>
               <img
-                src="pictures/coinBase.png"
+                src="/pictures/coinBase.png"
                 width={30}
                 height={30}
                 alt="logo coinbase"

@@ -151,7 +151,6 @@ const FormEdition: React.FC = () => {
       let deploy = await contractt.deploy(transaction, 11);
       await deploy.wait();
       const address = await contractt.getAddress(transaction, 11);
-      console.log(address);
       return address;
     } catch (e: any) {
       console.log(e.message);
