@@ -13,8 +13,8 @@ body {
   --font-gotham-book: "GothamBook", sans-serif;
   --font-minion-pro: "MinionPro", sans-serif;
 
-  --grey-dark: #7E7D7F;
-  --grey-light: #ECEAEC;
+  --grey-dark: #7e7d7f;
+  --grey-light: #eceaec;
 }
 
 /*
@@ -41,17 +41,16 @@ body {
   src: url("/fonts/MinionPro.otf");
 }
 
-.btnLearnMore{
+.btnLearnMore {
   font-family: var((--font-minion-pro));
   background-color: rgb(255, 255, 255, 0.5);
   border: none;
   border-radius: 5px;
-  padding: 7px 20px; 
+  padding: 7px 20px;
   color: white;
   text-decoration: none;
-  cursor: pointer; 
-  &:hover{
+  cursor: pointer;
+  &:hover {
     color: white;
   }
-  
 }

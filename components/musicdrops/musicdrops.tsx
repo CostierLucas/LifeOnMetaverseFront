@@ -1,9 +1,9 @@
-import styles from './musicdrops.module.scss'
-import img from '../../assets/images/banniere.jpeg'
-import Image from 'next/image'
-import { Col, Container, Row } from 'react-bootstrap'
-import { IEdition } from '../../interfaces/interfaces'
-import Link from 'next/link'
+import styles from "./musicdrops.module.scss";
+import img from "../../assets/images/banniere.jpeg";
+import Image from "next/image";
+import { Col, Container, Row } from "react-bootstrap";
+import { IEdition } from "../../interfaces/interfaces";
+import Link from "next/link";
 
 const MusicDrops: React.FC<{ edition: IEdition }> = ({ edition }) => {
   return (
@@ -13,33 +13,25 @@ const MusicDrops: React.FC<{ edition: IEdition }> = ({ edition }) => {
         <Row>
           {edition.map((item: IEdition, i: number) => {
             if (i == 0) {
-              return <div key={i}></div>
+              return <div key={i}></div>;
             }
             return (
-              <Col md={4} key={i} className="pt-4 ">
+              <Col md={4} key={i} className="pt-4">
                 <Link href={`/editions/${item.date}`} passHref>
-                  <div style={{ width: '18rem' }}>
+                  <div>
                     <div className={styles.cardEntire}>
                       <div className={styles.cardImg}>
                         <Image
+                          layout="fill"
                           objectFit="cover"
-                          width={300}
-                          height={310}
                           src={edition[i].image as string}
                           className="card-img-top"
+                          style={{ width: "100%" }}
                         />
                       </div>
 
                       <div className={styles.cardBody}>
                         <div className="card-body p-0">
-                          <div className={styles.cardBodyTokens}>
-                            <p>
-                              {edition[i].supply.reduce(
-                                (a: any, b: any) => parseInt(a) + parseInt(b),
-                              )}{' '}
-                              TOKENS
-                            </p>
-                          </div>
                           <div className={styles.cardBodyDescription}>
                             <p className={styles.cardBodyTitle}>
                               {edition[i].title}
@@ -47,9 +39,22 @@ const MusicDrops: React.FC<{ edition: IEdition }> = ({ edition }) => {
                             <p className={styles.cardBodyArtist}>
                               {edition[i].artist}
                             </p>
-                            <p className={styles.cardBodyCategorie}>
-                              - {edition[i].categorie_selected} -
-                            </p>
+                            <div className={styles.cardBodyTokens}>
+                              <div>
+                                <p>
+                                  {edition[i].supply.reduce(
+                                    (a: any, b: any) =>
+                                      parseInt(a) + parseInt(b)
+                                  )}{" "}
+                                  TOKENS
+                                </p>
+                              </div>
+                              <div>
+                                <p className={styles.cardBodyCategorie}>
+                                  &bull; {edition[i].categorie_selected}
+                                </p>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -85,12 +90,12 @@ const MusicDrops: React.FC<{ edition: IEdition }> = ({ edition }) => {
               //     </div>
               //   </Link>
               // </Col>
-            )
+            );
           })}
         </Row>
       </Container>
     </section>
-  )
-}
+  );
+};
 
-export default MusicDrops
+export default MusicDrops;

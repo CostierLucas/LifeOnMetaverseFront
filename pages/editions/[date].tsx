@@ -12,7 +12,6 @@ import { ContractFactory, ethers } from "ethers";
 import ContractAbi from "../../WalletHelpers/contractTokenAbi.json";
 import ContractUsdcAbi from "../../WalletHelpers/contractUsdcAbi.json";
 import ContractFactoryAbi from "../../WalletHelpers/contractFactoryAbi.json";
-import ModalEdition from "../../components/modalEdition/modalEdition";
 import {
   contractUsdc,
   contractAddress,
@@ -231,20 +230,6 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                       </div>
                     </div>
                     <div className={styles.spaceDetails}></div>
-                    <div>
-                      <a
-                        onClick={() => setModalShow(true)}
-                        className={styles.readmore}
-                        href="#"
-                      >
-                        READ MORE
-                      </a>
-                      <ModalEdition
-                        show={modalShow}
-                        onHide={() => setModalShow(false)}
-                        title={`${editions.categories[i]} ${editions.type}`}
-                      />
-                    </div>
                     <div>
                       <CrossmintPayButton
                         clientId="1516fbcf-1363-4a34-bfa0-ac78c2ae4e8a"

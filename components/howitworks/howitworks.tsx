@@ -17,103 +17,44 @@ const Howitworks: React.FC = () => {
         <Row>
           <Col md={4} className="mb-5">
             <div className={styles.box}>
-              <div className={styles.contentBox}>
+              <div className={styles.boxImage}>
                 <Image src={platine} layout="fill" objectFit="cover" />
-                <div className={styles.contentBoxTextOne}>
-                  <h3>
-                    Invest
-                    <br />
-                    in Music
-                  </h3>
-                  <p>
-                    When fans listen to your music through the Digital Streaming
-                    Platform, it generates royalties
-                  </p>
-                </div>
+              </div>
+              <div className={styles.boxContent}>
+                <h3>Invest in Music</h3>
+                <p>
+                  You buy NFTs with music ownership and additional Artist
+                  benefits.
+                </p>
               </div>
             </div>
           </Col>
           <Col md={4} className="mb-5">
             <div className={styles.box}>
-              <div className={styles.contentBox}>
+              <div className={styles.boxImage}>
                 <Image src={casque} layout="fill" objectFit="cover" />
-                <div className={styles.contentBoxTextTwo}>
-                  <h3>
-                    People <br /> Stream <br /> your Music
-                  </h3>
-                  <p>
-                    When fans listen to your music through the Digital Streaming
-                    Platform, it generates royalties
-                  </p>
-                </div>
+              </div>
+              <div className={styles.boxContent}>
+                <h3>People Stream your Music</h3>
+                <p>
+                  When fans listen to your music through the Digital Streaming
+                  Platform, it generates royalties
+                </p>
               </div>
             </div>
           </Col>
-          <Col md={4} className="mb-3">
+          <Col md={4} className="mb-5">
             <div className={styles.box}>
-              <div className={styles.contentBox}>
+              <div className={styles.boxImage}>
                 <Image src={pionner} layout="fill" objectFit="cover" />
-                <div className={styles.contentBoxTextThree}>
-                  <h3>
-                    Artist <br />
-                    and Fan
-                    <br />
-                    Share <br />
-                    Royalties
-                  </h3>
-                  <p>
-                    When fans listen to your music through the Digital Streaming
-                  </p>
-                </div>
+              </div>
+              <div className={styles.boxContent}>
+                <h3>Artist and Fan Share Royalties</h3>
+                <p>As co-owner with the artist, you earn royalties</p>
               </div>
             </div>
           </Col>
         </Row>
-
-        {/* <Row>
-          <Col md={4}>
-            <div className={styles.howitworksItem}>
-              <div className={styles.howitworksItemImg}>
-                <Image src={platine} layout="fill" objectFit="cover" />
-              </div>
-              <div className={styles.howitworksItemText}>
-                <h3 className={styles.howitworksItemTextOne}>
-                  Invest
-                  <br />
-                  in Music
-                </h3>
-              </div>
-            </div>
-          </Col>
-          <Col md={4}>
-            <div className={styles.howitworksItem}>
-              <div className={styles.howitworksItemImg}>
-                <Image src={casque} layout="fill" objectFit="cover" />
-              </div>
-              <div className={styles.howitworksItemText}>
-                <h3 className={styles.howitworksItemTextTwo}>
-                  People <br /> Stream <br /> your Music
-                </h3>
-              </div>
-            </div>
-          </Col>
-          <Col md={4}>
-            <div className={styles.howitworksItem}>
-              <div className={styles.howitworksItemImg}>
-                <Image src={pionner} layout="fill" objectFit="cover" />
-              </div>
-              <div className={styles.howitworksItemText}>
-                <h3 className={styles.howitworksItemTextThree}>
-                  Artist <br />
-                  and Fan
-                  <br />
-                  Share <br />
-                  Royalties
-                </h3>
-              </div>
-            </div>
-          </Col>
-        </Row> */}
       </Container>
     </section>
   );

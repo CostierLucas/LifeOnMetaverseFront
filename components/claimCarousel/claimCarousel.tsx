@@ -11,6 +11,7 @@ import ContractAbi from "../../WalletHelpers/contractTokenAbi.json";
 import { ethers } from "ethers";
 import contractUsdcAbi from "../../WalletHelpers/contractUsdcAbi.json";
 import Spinner from "react-bootstrap/Spinner";
+import { Button } from "react-bootstrap";
 
 const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
   const context = useWeb3React<any>();
@@ -39,6 +40,7 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
 
       try {
         const nfts = await Web3Api.account.getNFTsForContract(options as any);
+        console.log(nfts);
         if (nfts.result!.length > 0) {
           for (let i = 0; i < nfts.result!.length; i++) {
             const nft = nfts.result![i];
@@ -122,7 +124,6 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
   return (
     <div>
       <div className={styles.formLogin}>
-        <h3>NFTs</h3>
         <div className={styles.tableNft}>
           <table className={styles.table}>
             <thead>
@@ -141,7 +142,7 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
                     <td></td>
                     <td>{nft.rewardsToEthers} $</td>
                     <td>
-                      <button
+                      <Button
                         onClick={() =>
                           claim(nft.token_address, nft.token_id, index)
                         }
@@ -151,7 +152,7 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
                         ) : (
                           "Claim"
                         )}
-                      </button>
+                      </Button>
                     </td>
                   </tr>
                 );

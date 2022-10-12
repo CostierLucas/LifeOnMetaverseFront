@@ -4,12 +4,13 @@
 }
 
 .header {
-  nav{
+  nav {
     padding: 0;
   }
   a {
     color: var(--grey-dark);
     text-decoration: none;
+    font-family: var(--font-gotham-book);
   }
 
   .link {
