@@ -1,15 +1,19 @@
-import styles from './helpcenter.module.scss'
-import Link from 'next/link'
+import styles from "./helpcenter.module.scss";
+import Link from "next/link";
 
 const HelpCenter: React.FC = () => {
   return (
     <section className={styles.helpcenter}>
       <h3> Help Center</h3>
-      <Link href="/helpcenter">
-        <a className="btnLearnMore">Learn More</a>
-      </Link>
-    </section>
-  )
-}
 
-export default HelpCenter
+      <a
+        className="btnLearnMore"
+        href="https://lifeonmetaverse.gitbook.io/faq-life-on-metaverse/"
+      >
+        Learn More
+      </a>
+    </section>
+  );
+};
+
+export default HelpCenter;
