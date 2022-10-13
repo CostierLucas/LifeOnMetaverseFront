@@ -1,36 +1,38 @@
-import '../styles/globals.scss'
-import type { AppProps } from 'next/app'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import { SessionProvider } from 'next-auth/react'
-import Head from 'next/head'
-import { SSRProvider } from 'react-bootstrap'
-import { CoinbaseWallet } from '@web3-react/coinbase-wallet'
-import { Web3ReactHooks, Web3ReactProvider } from '@web3-react/core'
-import { MetaMask } from '@web3-react/metamask'
-import { WalletConnect } from '@web3-react/walletconnect'
-import { MoralisProvider } from 'react-moralis'
+import "../styles/globals.scss";
+import type { AppProps } from "next/app";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { SessionProvider } from "next-auth/react";
+import Head from "next/head";
+import { SSRProvider } from "react-bootstrap";
+import { CoinbaseWallet } from "@web3-react/coinbase-wallet";
+import { Web3ReactHooks, Web3ReactProvider } from "@web3-react/core";
+import { MetaMask } from "@web3-react/metamask";
+import { WalletConnect } from "@web3-react/walletconnect";
+import { MoralisProvider } from "react-moralis";
 import {
   coinbaseWallet,
   hooks as coinbaseWalletHooks,
-} from '../WalletHelpers/connectors/coinbaseWallet'
+} from "../WalletHelpers/connectors/coinbaseWallet";
 import {
   hooks as metaMaskHooks,
   metaMask,
-} from '../WalletHelpers/connectors/metaMask'
+} from "../WalletHelpers/connectors/metaMask";
 import {
   hooks as walletConnectHooks,
   walletConnect,
-} from '../WalletHelpers/connectors/walletConnect'
+} from "../WalletHelpers/connectors/walletConnect";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const connectors: [
   MetaMask | WalletConnect | CoinbaseWallet,
-  Web3ReactHooks,
+  Web3ReactHooks
 ][] = [
   [metaMask, metaMaskHooks],
   [walletConnect, walletConnectHooks],
   [coinbaseWallet, coinbaseWalletHooks],
-]
-import NextNProgress from 'nextjs-progressbar'
+];
+import NextNProgress from "nextjs-progressbar";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
@@ -47,13 +49,14 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           >
             <SessionProvider session={session}>
               <NextNProgress />
+              <ToastContainer />
               <Component {...pageProps} />
             </SessionProvider>
           </MoralisProvider>
         </Web3ReactProvider>
       </SSRProvider>
     </>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

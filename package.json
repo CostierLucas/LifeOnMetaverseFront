@@ -43,6 +43,7 @@
     "react-hook-form": "^7.35.0",
     "react-moralis": "^1.4.2",
     "react-spotify-web-playback": "^0.10.0",
+    "react-toastify": "^9.0.8",
     "sass": "^1.54.3",
     "yup": "^0.32.11",
     "yup-password": "^0.2.2"
