@@ -15,6 +15,7 @@ import { useWeb3React } from "@web3-react/core";
 import { ethers } from "ethers";
 import contractUsdcAbi from "../../WalletHelpers/contractUsdcAbi.json";
 import contractTokenAbi from "../../WalletHelpers/contractTokenAbi.json";
+import { toast } from "react-toastify";
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const params = {
@@ -65,8 +66,9 @@ const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
       });
       setIsLoading(false);
       setIsConfirmed(true);
+      toast.success("Your edition was updated successfully!");
     } catch (error) {
-      console.log(error);
+      toast.error("Something went wrong. Please try again.");
       setIsLoading(false);
     }
   };
@@ -125,11 +127,12 @@ const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
         const ethersToWei = ethers.utils.parseEther(amount.toString());
         const transfer = await contract.FundRoyalties(ethersToWei);
         await transfer.wait();
+        toast.success("Your royalties were successfully transferred!");
       } catch (error) {
-        console.log(error);
+        toast.error("Something went wrong. Please try again.");
       }
     } else {
-      alert("amount is 0");
+      toast.error("Please enter a valid amount.");
     }
 
     setIsLoadingTransfer(false);

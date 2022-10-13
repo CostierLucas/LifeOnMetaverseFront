@@ -1,9 +1,6 @@
 import { Button, Form } from "react-bootstrap";
 import styles from "./formEdition.module.scss";
-import {
-  contractAddress,
-  targetChainId,
-} from "../../WalletHelpers/contractVariables";
+import { contractAddress } from "../../WalletHelpers/contractVariables";
 import Contract from "../../WalletHelpers/contractFactoryAbi.json";
 import { FormEvent, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -13,6 +10,7 @@ import { contractUsdc } from "../../WalletHelpers/contractVariables";
 import ReactS3Client from "react-aws-s3-typescript";
 import { s3Config } from "../../config/s3";
 import Accordion from "react-bootstrap/Accordion";
+import { toast } from "react-toastify";
 
 interface IEdition {
   artist: string;
@@ -376,13 +374,17 @@ const FormEdition: React.FC = () => {
                       required
                       type="text"
                       placeholder="100, 100, etc..."
-                      onChange={({ target }: { target: any }) =>
+                      onChange={({ target }: { target: any }) => {
+                        let parsePrice = ethers.utils
+                          .parseEther(target.value)
+                          .toString();
+
                         setEdition((prevState) => {
                           const newPrice = { ...prevState };
-                          newPrice.price[index] = target.value;
+                          newPrice.price[index] = parseInt(parsePrice);
                           return newPrice;
-                        })
-                      }
+                        });
+                      }}
                     />
                     <Form.Control.Feedback type="invalid">
                       Please enter price

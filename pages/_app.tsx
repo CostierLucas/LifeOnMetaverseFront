@@ -44,8 +44,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       <SSRProvider>
         <Web3ReactProvider connectors={connectors}>
           <MoralisProvider
-            appId="VSx6XsCTcW2GSZj8UjWcziZPAHRbPDjS5nKVkJWn"
-            serverUrl="https://fdo643g2zf9v.usemoralis.com:2053/server"
+            appId="zztPSvu8cLS2rw6gYW2YaKOS87xC0HVkrWOBlaFU"
+            serverUrl="https://9prtchulqxuu.grandmoralis.com:2053/server"
           >
             <SessionProvider session={session}>
               <NextNProgress />

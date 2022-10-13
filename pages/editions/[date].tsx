@@ -4,8 +4,7 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Header from "../../components/header/header";
 import db from "../../config/db";
 import { IEditionProps } from "../../interfaces/interfaces";
-import { Col, Container, Row, Modal, Button, Spinner } from "react-bootstrap";
-import logo from "../../assets/gifs/test.gif";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 import Image from "next/image";
 import { useWeb3React } from "@web3-react/core";
 import { ContractFactory, ethers } from "ethers";
@@ -18,6 +17,7 @@ import {
   targetChainId,
 } from "../../WalletHelpers/contractVariables";
 import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
+import { toast } from "react-toastify";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const params = {
@@ -63,6 +63,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
   const [isApproving, setIsApproving] = useState<number>(0);
   const [modalShow, setModalShow] = useState<boolean>(false);
   const [allowanceNumber, setAllowanceNumber] = useState<string>("");
+  const [totalTokens, setTotalTokens] = useState<string>("");
   const context = useWeb3React<any>();
   const { account, provider, chainId } = context;
 
@@ -83,9 +84,13 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
       ContractAbi.abi,
       getSigner
     );
+    let total = 0;
+    editions?.supply.forEach((supply) => {
+      total += parseInt(supply);
+    });
+    setTotalTokens(total.toString());
 
     const all = await getAllowance();
-    console.log("all  ", all);
   };
 
   const handleMint = async (categoriesId: number) => {
@@ -105,8 +110,10 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
         categoriesId
       );
       await tx.wait();
+      toast.success("Minted successfully");
     } catch (e) {
       console.log(e);
+      toast.error("Minting failed");
     }
     setIsLoading(false);
   };
@@ -218,7 +225,12 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                     </p>
                     <p className={styles.ownership}>OWNERSHIP PER TOKEN</p>
                     <hr />
-                    <p className={styles.price}>${editions.price[i]} </p>
+                    <p className={styles.price}>
+                      {ethers.utils
+                        .formatEther(editions.price[i].toString())
+                        .toString()}{" "}
+                      $
+                    </p>
                     <div className={styles.details}>
                       <div>
                         <ul>
@@ -280,6 +292,23 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                 </div>
               </Col>
             ))}
+          </Row>
+        </Container>
+        <Container className={styles.breakdown}>
+          <hr className={styles.hr} />
+          <Row>
+            <Col md={4}>
+              <h3>TOTAL TOKENS</h3>
+              <p>{totalTokens}</p>
+            </Col>
+            <Col md={4}>
+              <h3>TOTAL OWNERSHIP OFFERED</h3>
+              <p>{editions.royalty}%</p>
+            </Col>
+            <Col md={4}>
+              <h3>TOTAL OWNERSHIP OFFERED</h3>
+              <p></p>
+            </Col>
           </Row>
         </Container>
         <Container className={styles.about}>
