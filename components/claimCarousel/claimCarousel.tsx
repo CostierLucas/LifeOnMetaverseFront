@@ -12,6 +12,7 @@ import { ethers } from "ethers";
 import contractUsdcAbi from "../../WalletHelpers/contractUsdcAbi.json";
 import Spinner from "react-bootstrap/Spinner";
 import { Button } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
   const context = useWeb3React<any>();
@@ -102,8 +103,9 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
       // }
       const tx = await contract.claimRoyalties(tokenId);
       await tx.wait();
+      toast.success("Claimed successfully");
     } catch (e) {
-      console.log(e);
+      toast.error("Error");
     }
     getDatas(account!);
     setIsLoading(false);
@@ -117,7 +119,7 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
       const tx = await contract.getRewardsByTokenId(tokenId);
       return tx;
     } catch (e) {
-      console.log(e);
+      return;
     }
   };
 

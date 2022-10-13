@@ -7,7 +7,7 @@ import { IEditionProps } from "../../interfaces/interfaces";
 import { Col, Container, Row, Spinner } from "react-bootstrap";
 import Image from "next/image";
 import { useWeb3React } from "@web3-react/core";
-import { ContractFactory, ethers } from "ethers";
+import { ethers } from "ethers";
 import ContractAbi from "../../WalletHelpers/contractTokenAbi.json";
 import ContractUsdcAbi from "../../WalletHelpers/contractUsdcAbi.json";
 import ContractFactoryAbi from "../../WalletHelpers/contractFactoryAbi.json";
@@ -58,23 +58,22 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 const Editions: NextPage<IEditionProps> = ({ editions }) => {
-  const [componentLoaded, setComponentLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isApproving, setIsApproving] = useState<number>(0);
-  const [modalShow, setModalShow] = useState<boolean>(false);
   const [allowanceNumber, setAllowanceNumber] = useState<string>("");
   const [totalTokens, setTotalTokens] = useState<string>("");
   const context = useWeb3React<any>();
   const { account, provider, chainId } = context;
 
   useEffect(() => {
-    setComponentLoaded(true);
-  }, []);
-
-  useEffect(() => {
     if (!!provider && chainId == targetChainId && !!account) {
       getDatas();
     }
+    let total = 0;
+    editions?.supply.forEach((supply) => {
+      total += parseInt(supply);
+    });
+    setTotalTokens(total.toString());
   }, [chainId, provider]);
 
   const getDatas = async () => {
@@ -84,11 +83,6 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
       ContractAbi.abi,
       getSigner
     );
-    let total = 0;
-    editions?.supply.forEach((supply) => {
-      total += parseInt(supply);
-    });
-    setTotalTokens(total.toString());
 
     const all = await getAllowance();
   };
@@ -275,16 +269,13 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                           </button>
                         )
                       ) : (
-                        <button
-                          // onClick={() => handleMint(i)}
-                          className={styles.mint}
-                        >
+                        <button className={styles.mint}>
                           Connect Wallet First
                         </button>
                       )}
                     </div>
                     <div>
-                      <a className={styles.opensea} href="https://google.com">
+                      <a className={styles.opensea} href={editions.opensea}>
                         BUY ON OPENSEA
                       </a>
                     </div>
@@ -304,10 +295,6 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
             <Col md={4}>
               <h3>TOTAL OWNERSHIP OFFERED</h3>
               <p>{editions.royalty}%</p>
-            </Col>
-            <Col md={4}>
-              <h3>TOTAL OWNERSHIP OFFERED</h3>
-              <p></p>
             </Col>
           </Row>
         </Container>

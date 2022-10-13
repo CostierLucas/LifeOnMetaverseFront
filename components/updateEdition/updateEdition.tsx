@@ -62,15 +62,21 @@ const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
           title,
           description,
           categorie,
+          opensea,
         }),
+      }).then((res) => {
+        if (res.status === 200) {
+          toast.success("Your edition was updated successfully!");
+          setIsConfirmed(true);
+        } else {
+          toast.error("Something went wrong. Please try again.");
+        }
       });
-      setIsLoading(false);
-      setIsConfirmed(true);
-      toast.success("Your edition was updated successfully!");
     } catch (error) {
-      toast.error("Something went wrong. Please try again.");
-      setIsLoading(false);
+      console.log(error);
     }
+
+    setIsLoading(false);
   };
 
   const checkAllowance = async (address: string) => {

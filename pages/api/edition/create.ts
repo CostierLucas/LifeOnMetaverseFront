@@ -43,6 +43,7 @@ export default async function handler(
       created_at: Date.now(),
       royalty,
       spotify,
+      opensea: "",
     },
   };
 
