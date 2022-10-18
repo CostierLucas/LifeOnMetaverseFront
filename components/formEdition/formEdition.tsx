@@ -10,7 +10,6 @@ import { contractUsdc } from "../../WalletHelpers/contractVariables";
 import ReactS3Client from "react-aws-s3-typescript";
 import { s3Config } from "../../config/s3";
 import Accordion from "react-bootstrap/Accordion";
-import { toast } from "react-toastify";
 
 interface IEdition {
   artist: string;
@@ -20,13 +19,15 @@ interface IEdition {
   supply: Array<number>;
   categories: Array<string>;
   baseUri: Array<string>;
-  price: Array<number>;
+  price: Array<string>;
   percentages: Array<number>;
   image: File | null;
   banner: File | null;
   prevState: null;
   titleList: Array<Array<string>>;
   royalty: number;
+  percentagesInvestor: number;
+  percentagesArtist: number;
   spotify: string;
 }
 
@@ -52,6 +53,8 @@ const FormEdition: React.FC = () => {
     prevState: null,
     titleList: [],
     royalty: 0,
+    percentagesInvestor: 0,
+    percentagesArtist: 0,
     spotify: "",
   });
   const [validated, setValidated] = useState(false);
@@ -73,8 +76,12 @@ const FormEdition: React.FC = () => {
       banner,
       titleList,
       royalty,
+      percentagesInvestor,
+      percentagesArtist,
       spotify,
     } = edition;
+
+    console.log("edition", edition);
 
     const form = e.currentTarget;
     e.preventDefault();
@@ -117,6 +124,8 @@ const FormEdition: React.FC = () => {
             banner: urlImage.banner,
             titleList,
             royalty,
+            percentagesInvestor,
+            percentagesArtist,
             spotify,
           }),
         });
@@ -144,7 +153,9 @@ const FormEdition: React.FC = () => {
         edition.percentages,
         contractUsdc,
         account,
-        account
+        account,
+        edition.percentagesInvestor,
+        edition.percentagesArtist
       );
       let deploy = await contractt.deploy(transaction, 11);
       await deploy.wait();
@@ -288,6 +299,36 @@ const FormEdition: React.FC = () => {
           </Form.Control.Feedback>
         </div>
         <div className={styles.formGroup}>
+          <label>Percentages investor %</label>
+          <Form.Control
+            required
+            type="number"
+            placeholder="0"
+            name="percentages"
+            onChange={({ target }: { target: any }) =>
+              setEdition({ ...edition, percentagesInvestor: target.value })
+            }
+          />
+          <Form.Control.Feedback type="invalid">
+            Please enter percentages
+          </Form.Control.Feedback>
+        </div>
+        <div className={styles.formGroup}>
+          <label>Percentages artist %</label>
+          <Form.Control
+            required
+            type="number"
+            placeholder="0"
+            name="percentages"
+            onChange={({ target }: { target: any }) =>
+              setEdition({ ...edition, percentagesArtist: target.value })
+            }
+          />
+          <Form.Control.Feedback type="invalid">
+            Please enter percentages
+          </Form.Control.Feedback>
+        </div>
+        <div className={styles.formGroup}>
           <label>Spotify</label>
           <Form.Control
             required
@@ -378,12 +419,13 @@ const FormEdition: React.FC = () => {
                         let parsePrice = ethers.utils
                           .parseEther(target.value)
                           .toString();
-
-                        setEdition((prevState) => {
-                          const newPrice = { ...prevState };
-                          newPrice.price[index] = parseInt(parsePrice);
-                          return newPrice;
-                        });
+                        if (target.value !== "") {
+                          setEdition((prevState) => {
+                            const newPrice = { ...prevState };
+                            newPrice.price[index] = parsePrice;
+                            return newPrice;
+                          });
+                        }
                       }}
                     />
                     <Form.Control.Feedback type="invalid">

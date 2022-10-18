@@ -43,3 +43,16 @@
     }
   }
 }
+
+@media screen and (max-width: 740px) {
+  .formArtist {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+
+    form {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

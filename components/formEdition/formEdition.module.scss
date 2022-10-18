@@ -60,3 +60,16 @@
     margin-top: 30px;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .formEdition {
+    padding: 20px;
+    .accordion {
+      width: 100%;
+    }
+
+    form {
+      width: 100%;
+    }
+  }
+}

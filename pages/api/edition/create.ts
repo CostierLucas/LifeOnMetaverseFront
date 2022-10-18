@@ -20,6 +20,8 @@ export default async function handler(
     banner,
     titleList,
     royalty,
+    percentagesInvestor,
+    percentagesArtist,
     spotify,
   } = req.body;
 
@@ -42,6 +44,8 @@ export default async function handler(
       titleList,
       created_at: Date.now(),
       royalty,
+      percentagesInvestor,
+      percentagesArtist,
       spotify,
       opensea: "",
     },

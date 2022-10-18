@@ -10,7 +10,9 @@ const footer: React.FC = () => {
       <Container fluid>
         <Row>
           <Col md={3}>
-            <Image src="/logo.jpg" alt="logo" width={200} height={70} />
+            <div className={styles.footerImg}>
+              <Image src="/logo.jpg" alt="logo" width={200} height={70} />
+            </div>
           </Col>
           <Col md={3}>
             <ul>

@@ -62,6 +62,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
   const [isApproving, setIsApproving] = useState<number>(0);
   const [allowanceNumber, setAllowanceNumber] = useState<string>("");
   const [totalTokens, setTotalTokens] = useState<string>("");
+  const [ipfs, setIpfs] = useState<string[]>([]);
   const context = useWeb3React<any>();
   const { account, provider, chainId } = context;
 
@@ -74,6 +75,14 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
       total += parseInt(supply);
     });
     setTotalTokens(total.toString());
+
+    let ipfsArray: any[] = [];
+
+    editions?.baseUri.forEach((baseUri) => {
+      ipfsArray.push(baseUri.slice(7));
+    });
+
+    setIpfs(ipfsArray);
   }, [chainId, provider]);
 
   const getDatas = async () => {
@@ -201,7 +210,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                     <img
                       width="100%"
                       height="100%"
-                      src="https://spaceseed.mypinata.cloud/ipfs/QmaF47C9UobRQ3LdbafGkgUbHAUfhTpW7Lyd8oTC3przym"
+                      src={"https://ipfs.io/ipfs/" + ipfs[i] + "1.png"}
                       alt="image animate"
                     ></img>
                   </div>
@@ -288,17 +297,17 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
         <Container className={styles.breakdown}>
           <hr className={styles.hr} />
           <Row>
-            <Col md={4}>
+            <Col md={6}>
               <h3>TOTAL TOKENS</h3>
               <p>{totalTokens}</p>
             </Col>
-            <Col md={4}>
+            <Col md={6}>
               <h3>TOTAL OWNERSHIP OFFERED</h3>
               <p>{editions.royalty}%</p>
             </Col>
           </Row>
         </Container>
-        <Container className={styles.about}>
+        {/* <Container className={styles.about}>
           <hr className={styles.hr} />
           <h2>ABOUT</h2>
           <Row className="mb-4 mt-4">
@@ -320,7 +329,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
             ad minim veniam,
           </p>
-        </Container>
+        </Container> */}
       </section>
     </>
   );

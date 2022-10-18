@@ -21,3 +21,11 @@
     font-family: var(--font-avenir);
   }
 }
+
+@media screen and (max-width: 768px) {
+  .banner {
+    h1 {
+      font-size: 30px;
+    }
+  }
+}

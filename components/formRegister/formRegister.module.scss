@@ -41,3 +41,16 @@
     }
   }
 }
+
+@media screen and (max-width: 740px) {
+  .formRegister {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+
+    form {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

@@ -41,7 +41,6 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
 
       try {
         const nfts = await Web3Api.account.getNFTsForContract(options as any);
-        console.log(nfts);
         if (nfts.result!.length > 0) {
           for (let i = 0; i < nfts.result!.length; i++) {
             const nft = nfts.result![i];
@@ -51,7 +50,6 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
             );
             const rewardsToEthers = ethers.utils.formatEther(rewards);
             const nftWithRewards = { ...nft, rewardsToEthers };
-            console.log(parseInt(rewards));
             setArrayNfts((arrayNfts) => [...arrayNfts, nftWithRewards]);
           }
         }
@@ -141,7 +139,13 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
                 return (
                   <tr key={index}>
                     <td scope="row">#{nft.token_id}</td>
-                    <td></td>
+                    <td>
+                      <img
+                        src={nft.token_uri.replace(".json", ".png")}
+                        alt="nft"
+                        className={styles.imageNft}
+                      />
+                    </td>
                     <td>{nft.rewardsToEthers} $</td>
                     <td>
                       <Button

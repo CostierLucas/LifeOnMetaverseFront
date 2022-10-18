@@ -18,3 +18,13 @@
     margin-top: 20px;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .update {
+    width: 100%;
+    padding: 20px;
+    .accordion {
+      width: 100%;
+    }
+  }
+}

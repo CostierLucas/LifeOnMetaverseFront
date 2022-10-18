@@ -13,3 +13,16 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .footer {
+    &Img {
+      text-align: center;
+    }
+
+    ul {
+      text-align: center;
+      padding-left: 0px;
+    }
+  }
+}
