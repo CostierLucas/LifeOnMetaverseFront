@@ -1,5 +1,5 @@
 const resetPassword: React.FC = () => {
-  return <div></div>;
+  return <div>tt</div>;
 };
 
 export default resetPassword;
