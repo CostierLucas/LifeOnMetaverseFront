@@ -19,6 +19,7 @@ const footer: React.FC = () => {
                 <a
                   href="https://lifeonmetaverse.gitbook.io/faq-life-on-metaverse/"
                   target="_blank"
+                  rel="noreferrer"
                 >
                   Help Center
                 </a>

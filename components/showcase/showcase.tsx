@@ -1,8 +1,8 @@
-import styles from './showcase.module.scss'
-import Image from 'next/image'
-import { Container } from 'react-bootstrap'
-import { IEdition } from '../../interfaces/interfaces'
-import Link from 'next/link'
+import styles from "./showcase.module.scss";
+import Image from "next/image";
+import { Container } from "react-bootstrap";
+import { IEdition } from "../../interfaces/interfaces";
+import Link from "next/link";
 
 const Showcase: React.FC<{ edition: IEdition }> = ({ edition }) => {
   return (
@@ -14,9 +14,10 @@ const Showcase: React.FC<{ edition: IEdition }> = ({ edition }) => {
       <Container>
         <div className={styles.showcaseText}>
           <p className={styles.showcaseTextRecap}>
-            {edition[0].supply.reduce(
-              (a: any, b: any) => parseInt(a) + parseInt(b),
-            )}{' '}
+            {edition[0].supply.length !== 0 &&
+              edition[0].supply.reduce(
+                (a: any, b: any) => parseInt(a) + parseInt(b)
+              )}{" "}
             TOKENS / 35% ALBUM OWNERSHIP
           </p>
           <hr />
@@ -31,7 +32,7 @@ const Showcase: React.FC<{ edition: IEdition }> = ({ edition }) => {
         </div>
       </Container>
     </section>
-  )
-}
+  );
+};
 
-export default Showcase
+export default Showcase;

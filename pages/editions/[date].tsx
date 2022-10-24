@@ -1,5 +1,5 @@
 import styles from "./editions.module.scss";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Header from "../../components/header/header";
 import db from "../../config/db";
@@ -151,7 +151,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
     return parseAllowance;
   };
 
-  const fetchImageUrl = async (categoriesId: number) => {
+  const fetchImageUrl = async () => {
     let url = [];
     for (let i = 0; i < editions?.baseUri.length; i++) {
       const imageNft = await fetch(editions?.baseUri[i]);
