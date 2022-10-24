@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import type { GetServerSideProps } from "next";
 import db from "../../config/db";
 import { IEditionProps } from "../../interfaces/interfaces";
 import Accordion from "react-bootstrap/Accordion";
@@ -17,7 +17,7 @@ import contractUsdcAbi from "../../WalletHelpers/contractUsdcAbi.json";
 import contractTokenAbi from "../../WalletHelpers/contractTokenAbi.json";
 import { toast } from "react-toastify";
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const params = {
     TableName: "life-edition",
   };

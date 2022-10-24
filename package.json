@@ -27,6 +27,7 @@
     "@web3-react/url": "^8.0.18-beta.0",
     "@web3-react/walletconnect": "8.0.27-beta.0",
     "@web3auth/web3auth": "^2.0.2",
+    "aws-amplify": "^4.3.39",
     "aws-sdk": "^2.1190.0",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.2.0",

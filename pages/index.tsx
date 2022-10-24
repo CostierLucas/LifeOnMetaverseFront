@@ -1,4 +1,4 @@
-import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import type { NextPage, GetServerSideProps } from "next";
 import Artist from "../components/artist/artist";
 import Banner from "../components/banner/banner";
 import Footer from "../components/footer/footer";
@@ -10,7 +10,7 @@ import Showcase from "../components/showcase/showcase";
 import db from "../config/db";
 import { IEditionProps } from "../interfaces/interfaces";
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const params = {
     TableName: "life-edition",
   };

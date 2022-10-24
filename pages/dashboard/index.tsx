@@ -1,11 +1,11 @@
-import { GetStaticProps, NextPage } from "next";
+import { NextPage, GetServerSideProps } from "next";
 import Header from "../../components/header/header";
 import ClaimCarousel from "../../components/claimCarousel/claimCarousel";
 import UserSecurity from "../../components/protect/protect";
 import db from "../../config/db";
 import { IEditionProps } from "../../interfaces/interfaces";
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const params = {
     TableName: "life-edition",
     ProjectionExpression: "address",

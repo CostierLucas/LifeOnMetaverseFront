@@ -1,6 +1,6 @@
 import styles from "./editions.module.scss";
-import { useState, useEffect } from "react";
-import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import React, { useState, useEffect } from "react";
+import type { GetServerSideProps, NextPage } from "next";
 import Header from "../../components/header/header";
 import db from "../../config/db";
 import { IEditionProps } from "../../interfaces/interfaces";
@@ -19,24 +19,7 @@ import {
 import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 import { toast } from "react-toastify";
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const params = {
-    TableName: "life-edition",
-  };
-
-  const data = await db.scan(params).promise();
-  const editions = data.Items;
-  const paths = editions!.map((edition) => ({
-    params: { date: edition.date.toString() },
-  }));
-
-  return {
-    paths,
-    fallback: false,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const date = context.params?.date as string;
 
   const params = {

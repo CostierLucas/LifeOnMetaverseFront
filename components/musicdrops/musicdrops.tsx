@@ -45,7 +45,7 @@ const MusicDrops: React.FC<{ edition: IEdition }> = ({ edition }) => {
                                   {edition[i].supply.reduce(
                                     (a: any, b: any) =>
                                       parseInt(a) + parseInt(b)
-                                  )}{" "}
+                                  )}
                                   TOKENS
                                 </p>
                               </div>
