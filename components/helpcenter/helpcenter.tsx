@@ -9,6 +9,7 @@ const HelpCenter: React.FC = () => {
       <a
         className="btnLearnMore"
         href="https://lifeonmetaverse.gitbook.io/faq-life-on-metaverse/"
+        target="_blank"
       >
         Learn More
       </a>

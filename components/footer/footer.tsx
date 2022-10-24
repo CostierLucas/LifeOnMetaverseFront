@@ -1,4 +1,3 @@
-import logo from "../../assets/images/logo.jpg";
 import Image from "next/image";
 import { Container, Row, Col } from "react-bootstrap";
 import styles from "./footer.module.scss";
@@ -17,7 +16,12 @@ const footer: React.FC = () => {
           <Col md={3}>
             <ul>
               <li>
-                <Link href="/helpcenter">Help Center</Link>
+                <a
+                  href="https://lifeonmetaverse.gitbook.io/faq-life-on-metaverse/"
+                  target="_blank"
+                >
+                  Help Center
+                </a>
               </li>
               <li>
                 <Link href="/support">Support</Link>
@@ -43,7 +47,7 @@ const footer: React.FC = () => {
                 <a href="https://www.tiktok.com/@lifeonmetaverse">TikTok</a>
               </li>
               <li>
-                <a href="https://discord.com/invite/mASJakvuzh">Discord</a>
+                <a href="https://discord.gg/UA9GNqWy">Discord</a>
               </li>
             </ul>
           </Col>

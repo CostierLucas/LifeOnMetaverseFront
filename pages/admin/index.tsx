@@ -1,6 +1,4 @@
-import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import type { GetStaticProps, NextPage } from "next";
 import FormEdition from "../../components/formEdition/formEdition";
 import Header from "../../components/header/header";
 import UpdateEdition from "../../components/updateEdition/updateEdition";

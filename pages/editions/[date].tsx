@@ -62,7 +62,8 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
   const [isApproving, setIsApproving] = useState<number>(0);
   const [allowanceNumber, setAllowanceNumber] = useState<string>("");
   const [totalTokens, setTotalTokens] = useState<string>("");
-  const [ipfs, setIpfs] = useState<string[]>([]);
+  const [isApproveLoading, setIsApproveLoading] = useState<boolean>(false);
+  const [imageUrl, setImageUrl] = useState<string[]>([]);
   const context = useWeb3React<any>();
   const { account, provider, chainId } = context;
 
@@ -70,19 +71,12 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
     if (!!provider && chainId == targetChainId && !!account) {
       getDatas();
     }
+    fetchImageUrl();
     let total = 0;
     editions?.supply.forEach((supply) => {
       total += parseInt(supply);
     });
     setTotalTokens(total.toString());
-
-    let ipfsArray: any[] = [];
-
-    editions?.baseUri.forEach((baseUri) => {
-      ipfsArray.push(baseUri.slice(7));
-    });
-
-    setIpfs(ipfsArray);
   }, [chainId, provider]);
 
   const getDatas = async () => {
@@ -115,14 +109,13 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
       await tx.wait();
       toast.success("Minted successfully");
     } catch (e) {
-      console.log(e);
       toast.error("Minting failed");
     }
     setIsLoading(false);
   };
 
   const approve = async () => {
-    setIsLoading(true);
+    setIsApproveLoading(true);
     const getSigner = provider.getSigner();
     const contract = new ethers.Contract(
       contractUsdc,
@@ -130,13 +123,18 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
       getSigner
     );
 
-    let approve = await contract.approve(
-      contractAddress,
-      "2000000000000000000000000000000000"
-    );
-
-    setIsLoading(false);
+    try {
+      const tx = await contract.approve(
+        contractAddress,
+        ethers.constants.MaxUint256
+      );
+      await tx.wait();
+      toast.success("Approved successfully");
+    } catch (e) {
+      toast.error("Approving failed");
+    }
     getDatas();
+    setIsApproveLoading(false);
   };
 
   const getAllowance = async () => {
@@ -151,6 +149,17 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
     let parseAllowance = ethers.utils.formatUnits(allowance, "wei");
     setAllowanceNumber(parseAllowance);
     return parseAllowance;
+  };
+
+  const fetchImageUrl = async (categoriesId: number) => {
+    let url = [];
+    for (let i = 0; i < editions?.baseUri.length; i++) {
+      const imageNft = await fetch(editions?.baseUri[i]);
+      const imageNftJson = await imageNft.json();
+      const finalImage = imageNftJson.image;
+      url.push(finalImage);
+    }
+    setImageUrl(url);
   };
 
   return (
@@ -210,7 +219,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                     <img
                       width="100%"
                       height="100%"
-                      src={"https://ipfs.io/ipfs/" + ipfs[i] + "1.png"}
+                      src={imageUrl[i]}
                       alt="image animate"
                     ></img>
                   </div>
@@ -224,7 +233,10 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                   </div>
                   <div className={styles.editionItemBloc}>
                     <p className={styles.percentages}>
-                      {parseInt(editions.supply[i]) / 100}%
+                      {(editions.royalty * editions.percentages[i]) /
+                        100 /
+                        parseInt(editions.supply[i])}
+                      %
                     </p>
                     <p className={styles.ownership}>OWNERSHIP PER TOKEN</p>
                     <hr />
@@ -263,7 +275,11 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                       {account ? (
                         allowanceNumber == "0" ? (
                           <button className={styles.mint} onClick={approve}>
-                            Approve first
+                            {isApproveLoading ? (
+                              <Spinner animation="border" variant="light" />
+                            ) : (
+                              "Pay with USDC"
+                            )}
                           </button>
                         ) : (
                           <button
@@ -278,13 +294,25 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                           </button>
                         )
                       ) : (
-                        <button className={styles.mint}>
+                        <button
+                          className={styles.mint}
+                          onClick={() =>
+                            (document.documentElement.scrollTop = 0)
+                          }
+                        >
                           Connect Wallet First
                         </button>
                       )}
                     </div>
                     <div>
-                      <a className={styles.opensea} href={editions.opensea}>
+                      <a
+                        className={
+                          editions.opensea == ""
+                            ? styles.openseaLock
+                            : styles.opensea
+                        }
+                        href={editions.opensea ? editions.opensea : "#"}
+                      >
                         BUY ON OPENSEA
                       </a>
                     </div>
@@ -307,29 +335,6 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
             </Col>
           </Row>
         </Container>
-        {/* <Container className={styles.about}>
-          <hr className={styles.hr} />
-          <h2>ABOUT</h2>
-          <Row className="mb-4 mt-4">
-            <Col md={4}>
-              <p>Edition</p>
-            </Col>
-            <Col md={{ span: 4, offset: 4 }}>
-              <p className={styles.endText}>Rare</p>
-            </Col>
-            <Col md={4}>
-              <p>Blockchain</p>
-            </Col>
-            <Col md={{ span: 4, offset: 4 }}>
-              <p className={styles.endText}>Matic(Polygon) Mainnet</p>
-            </Col>
-          </Row>
-          <p className={styles.description}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam,
-          </p>
-        </Container> */}
       </section>
     </>
   );

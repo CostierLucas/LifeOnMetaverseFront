@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { Col, Button, Dropdown, Spinner, Modal } from "react-bootstrap";
 import styles from "./ConnectWallet.module.scss";
 import { useWeb3React } from "@web3-react/core";
+import { metaMask } from "../../WalletHelpers/connectors/metaMask";
+import { coinbaseWallet } from "../../WalletHelpers/connectors/coinbaseWallet";
+import { walletConnect } from "../../WalletHelpers/connectors/walletConnect";
 
 import MetaMaskCard from "../Web3/connectors/MetamaskCard";
 import CoinbaseWalletCard from "../Web3/connectors/CoinbaseWalletCard";
@@ -25,6 +28,12 @@ const ConnectWallet = () => {
   const handleConnection = () => {
     if (!!!account) toggle();
   };
+
+  useEffect(() => {
+    void metaMask.connectEagerly();
+    void coinbaseWallet.connectEagerly();
+    void walletConnect.connectEagerly();
+  }, []);
 
   const modalContent = () => {
     return (

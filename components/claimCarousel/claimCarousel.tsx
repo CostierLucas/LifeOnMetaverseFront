@@ -21,6 +21,7 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isApproving, setIsApproving] = useState<number>(0);
   const [error, setError] = useState<string | undefined>("");
+  const [imageUrl, setImageUrl] = useState<string[]>([]);
   const Web3Api = useMoralisWeb3Api();
 
   useEffect(() => {
@@ -57,6 +58,18 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
         console.log(e);
       }
     });
+    let imageUrl = await fetchImageUrl();
+  };
+
+  const fetchImageUrl = async () => {
+    let url = [];
+    for (let i = 0; i < arrayNfts.length; i++) {
+      const imageNft = await fetch(arrayNfts[i].token_uri);
+      const imageNftJson = await imageNft.json();
+      const finalImage = imageNftJson.image;
+      url.push(finalImage);
+    }
+    setImageUrl(url);
   };
 
   const checkAllowance = async (address: string) => {
@@ -141,7 +154,7 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
                     <td scope="row">#{nft.token_id}</td>
                     <td>
                       <img
-                        src={nft.token_uri.replace(".json", ".png")}
+                        src={imageUrl[index]}
                         alt="nft"
                         className={styles.imageNft}
                       />

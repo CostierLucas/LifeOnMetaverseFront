@@ -21,6 +21,7 @@ interface IEdition {
   baseUri: Array<string>;
   price: Array<string>;
   percentages: Array<number>;
+  imagesNft: Array<File>;
   image: File | null;
   banner: File | null;
   prevState: null;
@@ -28,7 +29,9 @@ interface IEdition {
   royalty: number;
   percentagesInvestor: number;
   percentagesArtist: number;
+  artistWallet: string;
   spotify: string;
+  startDate: number | null;
 }
 
 const FormEdition: React.FC = () => {
@@ -48,6 +51,7 @@ const FormEdition: React.FC = () => {
     baseUri: [],
     price: [],
     percentages: [],
+    imagesNft: [],
     image: null,
     banner: null,
     prevState: null,
@@ -55,8 +59,11 @@ const FormEdition: React.FC = () => {
     royalty: 0,
     percentagesInvestor: 0,
     percentagesArtist: 0,
+    artistWallet: "",
     spotify: "",
+    startDate: null,
   });
+  const [imageUrl, setImageUrl] = useState<string[]>([]);
   const [validated, setValidated] = useState(false);
   const [subTitle, setSubTitle] = useState<string>("");
 
@@ -78,10 +85,10 @@ const FormEdition: React.FC = () => {
       royalty,
       percentagesInvestor,
       percentagesArtist,
+      artistWallet,
       spotify,
+      startDate,
     } = edition;
-
-    console.log("edition", edition);
 
     const form = e.currentTarget;
     e.preventDefault();
@@ -94,16 +101,16 @@ const FormEdition: React.FC = () => {
     } else if (
       supply.length !== price.length ||
       supply.length !== percentages.length ||
-      supply.length !== baseUri.length ||
       supply.length !== categories.length
     ) {
       e.stopPropagation();
       setIsLoading(false);
       return;
     } else {
-      let addressDeployed = await deployContract();
+      let baseUri = await generateMetadata();
+      let addressDeployed = await deployContract(baseUri as any[]);
       let urlImage = await uploadFile();
-      if (addressDeployed && urlImage) {
+      if (baseUri && addressDeployed && urlImage) {
         fetch("/api/edition/create", {
           method: "POST",
           headers: {
@@ -126,7 +133,9 @@ const FormEdition: React.FC = () => {
             royalty,
             percentagesInvestor,
             percentagesArtist,
+            artistWallet,
             spotify,
+            startDate,
           }),
         });
         setAddress(addressDeployed);
@@ -136,34 +145,35 @@ const FormEdition: React.FC = () => {
     setIsLoading(false);
   };
 
-  const deployContract = async () => {
+  const deployContract = async (baseUri: any[]) => {
     const getSigner = provider.getSigner();
     const contractt = new ethers.Contract(
       contractAddress,
       Contract.abi,
       getSigner
     );
-
+    console.log(edition);
     try {
       let transaction = await contractt.getBytecode(
         edition.categories,
-        edition.baseUri,
+        baseUri,
         edition.price,
         edition.supply,
         edition.percentages,
         contractUsdc,
-        account,
+        edition.artistWallet,
         account,
         edition.percentagesInvestor,
-        edition.percentagesArtist
+        edition.percentagesArtist,
+        edition.startDate
       );
+
       let deploy = await contractt.deploy(transaction, 11);
       await deploy.wait();
       const address = await contractt.getAddress(transaction, 11);
       return address;
     } catch (e: any) {
-      console.log(e.message);
-      return;
+      console.log(e);
     }
   };
 
@@ -184,17 +194,71 @@ const FormEdition: React.FC = () => {
         banner: banner.location,
       };
     } catch (e) {
+      console.log(e);
+      return false;
+    }
+  };
+
+  const uploadImageNft = async () => {
+    const s3 = new ReactS3Client(s3Config);
+    let imageUrl = [];
+
+    try {
+      for (let i = 0; i < edition.imagesNft.length; i++) {
+        const filename = edition.title + "_" + edition.imagesNft[i].name;
+        const image = await s3.uploadFile(edition.imagesNft[i], filename);
+        imageUrl.push(image.location);
+      }
+
+      return imageUrl;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const generateMetadata = async () => {
+    const s3 = new ReactS3Client(s3Config);
+    const { title, description } = edition;
+    let finalBaseUri = [];
+
+    try {
+      const imageUrl = await uploadImageNft();
+
+      for (let i = 0; i < edition.categories.length; i++) {
+        let object = {
+          description: description,
+          external_url: "https://google.com",
+          name: title,
+          image: imageUrl![i],
+        };
+
+        let metadata = JSON.stringify(object);
+        const filename =
+          edition.title + "_" + edition.categories[i] + "-" + Date.now();
+        const file = new File([metadata], filename, {
+          type: "application/json",
+        });
+
+        const upload = await s3.uploadFile(file, filename);
+        finalBaseUri.push(upload.location);
+      }
+
+      return finalBaseUri;
+    } catch (e) {
+      console.log(e);
       return false;
     }
   };
 
   const addTitle = (index: number) => {
     const newTitle = [...edition.titleList];
+    if (subTitle === "") return;
     if (newTitle[index] === undefined) {
       newTitle.push([subTitle]);
     } else {
       newTitle[index].push(subTitle);
     }
+
     setEdition({ ...edition, titleList: newTitle });
     setSubTitle("");
   };
@@ -299,6 +363,22 @@ const FormEdition: React.FC = () => {
           </Form.Control.Feedback>
         </div>
         <div className={styles.formGroup}>
+          <label>Start date</label>
+          <Form.Control
+            required
+            type="datetime-local"
+            placeholder="start date"
+            name="startDate"
+            onChange={({ target }: { target: any }) => {
+              const timestamp = new Date(target.value).getTime() / 1000;
+              setEdition({ ...edition, startDate: timestamp });
+            }}
+          />
+          <Form.Control.Feedback type="invalid">
+            Please enter spotify link
+          </Form.Control.Feedback>
+        </div>
+        <div className={styles.formGroup}>
           <label>Percentages investor %</label>
           <Form.Control
             required
@@ -329,6 +409,21 @@ const FormEdition: React.FC = () => {
           </Form.Control.Feedback>
         </div>
         <div className={styles.formGroup}>
+          <label>Wallet artist</label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="0x..."
+            name="artistWallet"
+            onChange={({ target }: { target: any }) =>
+              setEdition({ ...edition, artistWallet: target.value })
+            }
+          />
+          <Form.Control.Feedback type="invalid">
+            Please enter title
+          </Form.Control.Feedback>
+        </div>
+        <div className={styles.formGroup}>
           <label>Spotify</label>
           <Form.Control
             required
@@ -353,7 +448,7 @@ const FormEdition: React.FC = () => {
           {isIndex.map((item, index) => (
             <Accordion defaultActiveKey="0" key={index}>
               <Accordion.Item eventKey="0">
-                <Accordion.Header>Categorie #{index}</Accordion.Header>
+                <Accordion.Header>Categorie #{index + 1}</Accordion.Header>
                 <Accordion.Body>
                   <div className={styles.formGroup}>
                     <label>Supply</label>
@@ -392,16 +487,15 @@ const FormEdition: React.FC = () => {
                     </Form.Control.Feedback>
                   </div>
                   <div className={styles.formGroup}>
-                    <label>Base uri</label>
+                    <label>Image nft</label>
                     <Form.Control
                       required
-                      type="text"
-                      placeholder="ipfs://cid, etc..."
+                      type="file"
                       onChange={({ target }: { target: any }) =>
                         setEdition((prevState) => {
-                          const newBaseUri = { ...prevState };
-                          newBaseUri.baseUri[index] = target.value;
-                          return newBaseUri;
+                          const newImage = { ...prevState };
+                          newImage.imagesNft[index] = target.files[0];
+                          return newImage;
                         })
                       }
                     />
@@ -413,13 +507,13 @@ const FormEdition: React.FC = () => {
                     <label>Price</label>
                     <Form.Control
                       required
-                      type="text"
+                      type="number"
                       placeholder="100, 100, etc..."
                       onChange={({ target }: { target: any }) => {
-                        let parsePrice = ethers.utils
-                          .parseEther(target.value)
-                          .toString();
                         if (target.value !== "") {
+                          let parsePrice = ethers.utils
+                            .parseEther(target.value)
+                            .toString();
                           setEdition((prevState) => {
                             const newPrice = { ...prevState };
                             newPrice.price[index] = parsePrice;
@@ -451,23 +545,23 @@ const FormEdition: React.FC = () => {
                     </Form.Control.Feedback>
                   </div>
                   <div className={styles.formGroup}>
-                    <label>List title</label>
+                    <label>List extra</label>
                     <Form.Control
                       value={subTitle}
                       type="text"
                       placeholder="Exclusive access to an unreleased mix of the song..."
-                      onChange={({ target }: { target: any }) =>
-                        setSubTitle(target.value)
-                      }
+                      onChange={({ target }: { target: any }) => {
+                        setSubTitle(target.value);
+                      }}
                     />
                     <Form.Control.Feedback type="invalid">
-                      Please enter list
+                      Please enter extra
                     </Form.Control.Feedback>
                     <Button
                       className={styles.btnAddTitle}
                       onClick={() => addTitle(index)}
                     >
-                      Add title
+                      Add Extra
                     </Button>
                     <ul className={styles.listTitle}>
                       {edition.titleList[index] !== undefined &&

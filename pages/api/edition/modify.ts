@@ -7,8 +7,6 @@ export default async function handler(
 ) {
   const { date, artist, title, description, categorie, opensea } = req.body;
 
-  console.log(opensea);
-
   const params = {
     TableName: "life-edition",
     Key: {

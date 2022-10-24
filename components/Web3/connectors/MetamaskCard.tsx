@@ -1,8 +1,9 @@
 import { useEffect } from "react";
-import { hooks, metaMask } from "../../../WalletHelpers/connectors/metaMask";
+
 import { Accounts } from "../accounts";
 import { Status } from "../status";
 import ConnectWithSelect from "../connectWithSelect";
+import { hooks, metaMask } from "../../../WalletHelpers/connectors/metaMask";
 
 const {
   useChainId,
@@ -24,10 +25,6 @@ export default function MetaMaskCard() {
 
   const provider = useProvider();
   const ENSNames = useENSNames(provider);
-
-  /*  useEffect(() => {
-    void metaMask.connectEagerly();
-  }, []); */
 
   return (
     <ConnectWithSelect
