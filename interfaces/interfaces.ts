@@ -1,5 +1,6 @@
 // Edition
 export type IEdition = {
+  categorie_selected: string;
   map(
     arg0: (item: IEdition, i: number) => JSX.Element
   ): import("react").ReactNode;

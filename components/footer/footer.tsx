@@ -10,7 +10,7 @@ const footer: React.FC = () => {
         <Row>
           <Col md={3}>
             <div className={styles.footerImg}>
-              <Image src="/logo.jpg" alt="logo" width={200} height={70} />
+              <Image src="/lom.png" alt="logo" width={200} height={70} />
             </div>
           </Col>
           <Col md={3}>

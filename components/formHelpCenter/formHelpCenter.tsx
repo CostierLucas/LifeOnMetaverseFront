@@ -79,7 +79,9 @@ const FormHelpCenter: React.FC = () => {
   return (
     <div className={styles.formHelpCenter}>
       <Form noValidate onSubmit={handleSubmit(sendEmail)}>
-        <h3>Submit a request</h3>
+        <div className={styles.title}>
+          <h3>Submit a request</h3>
+        </div>
         <div className={styles.formGroup}>
           <label>Your email address</label>
           <Form.Control
@@ -146,7 +148,9 @@ const FormHelpCenter: React.FC = () => {
             {errors.description?.message as string}
           </div>
         </div>
-        <Button type="submit">SUBMIT</Button>
+        <div className={styles.btnSubmit}>
+          <Button type="submit">SUBMIT</Button>
+        </div>
       </Form>
     </div>
   );

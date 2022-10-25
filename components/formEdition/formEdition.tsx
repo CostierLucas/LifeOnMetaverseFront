@@ -345,8 +345,8 @@ const FormEdition: React.FC = () => {
               setEdition({ ...edition, type: target.value })
             }
           >
-            <option value="single">Single</option>
-            <option value="album">Album</option>
+            <option value="Single">Single</option>
+            <option value="Album">Album</option>
           </Form.Select>
           <Form.Control.Feedback type="invalid">
             Please choose categories

@@ -20,6 +20,7 @@ import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 import { toast } from "react-toastify";
 import Countdown from "react-countdown";
 import Renderer from "../../components/countdown/countdown";
+import rect from "../../assets/images/rectangle_gradiant.png";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const date = context.params?.date as string;
@@ -179,7 +180,14 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
             <Col md={6}>
               <div className={styles.content}>
                 <div className={styles.contentDirect}>
-                  <h2>{editions.title}</h2>
+                  <div>
+                    <p>{editions.categorie_selected.toUpperCase()}</p>
+                    <hr className={styles.hrCategorie} />
+                  </div>
+                  <h2>
+                    {editions.title}
+                    <Image src={rect} width={60} height={12} />
+                  </h2>
                   <p>{editions.description}</p>
                   <div className={styles.spotifyPlayer}>
                     <iframe

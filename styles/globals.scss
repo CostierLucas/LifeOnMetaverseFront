@@ -37,7 +37,8 @@ body {
 
 @font-face {
   font-family: "MinionPro";
-  src: url("/fonts/MinionPro.otf");
+  src: url("/fonts/minionpro.woff");
+  padding: 0px !important;
 }
 
 .btnLearnMore {

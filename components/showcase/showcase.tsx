@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Container } from "react-bootstrap";
 import { IEdition } from "../../interfaces/interfaces";
 import Link from "next/link";
+import rectW from "../../assets/images/rectangle_white.png";
 
 const Showcase: React.FC<{ edition: IEdition }> = ({ edition }) => {
   return (
@@ -22,7 +23,8 @@ const Showcase: React.FC<{ edition: IEdition }> = ({ edition }) => {
           </p>
           <hr />
           <h2>
-            {edition[0].artist} <br />"{edition[0].title}"
+            {edition[0].artist} <Image src={rectW} width={60} height={12} />
+            <br />"{edition[0].title}"
           </h2>
           <div style={{ marginTop: "20px" }}>
             <Link href={`/editions/${edition[0].date}`}>
