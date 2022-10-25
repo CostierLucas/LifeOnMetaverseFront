@@ -2,13 +2,15 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import db from "../../../config/db";
 import crypto from "crypto";
 import sendgrid from "@sendgrid/mail";
+import { hashPassword } from "../../../config/password";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const { email } = req.body;
-  const randomCode = crypto.randomInt(1000, 9999);
+  const newPassword = crypto.randomBytes(20).toString("hex");
+  const hashedPassword = await hashPassword(newPassword);
   sendgrid.setApiKey(process.env.SENDGRID_API as string);
 
   const params = {
@@ -16,9 +18,9 @@ export default async function handler(
     Key: {
       email: email,
     },
-    UpdateExpression: "set resetCode = :r",
+    UpdateExpression: "set password = :p",
     ExpressionAttributeValues: {
-      ":r": randomCode,
+      ":p": hashedPassword,
     },
     ReturnValues: "UPDATED_NEW",
   };
@@ -35,12 +37,12 @@ export default async function handler(
         sendgrid.send({
           to: email,
           from: process.env.SENDGRID_MAIL as string,
-          subject: `Your code to reset your password`,
+          subject: `New password for ${email}`,
           html: `
-            <p>Your code is ${randomCode}</p>
+            <p>Your new password is ${newPassword}</p>
           `,
         });
-        res.status(200).json({ resp: "Code generated and mail sent" });
+        res.status(200).json({ resp: "Password generated and mail sent" });
       } catch (e) {
         res.status(422).json({ resp: "Something went wrong" });
       }

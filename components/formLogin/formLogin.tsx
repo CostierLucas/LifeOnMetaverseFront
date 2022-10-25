@@ -17,15 +17,9 @@ const FormLogin: React.FC = () => {
   });
   const [resetEmail, setResetEmail] = useState<string>("");
   const [error, setError] = useState<string | undefined>("");
-  const [show, setShow] = useState(false);
   const [isPasswordForgotten, setIsPasswordForgotten] =
     useState<boolean>(false);
   const [validated, setValidated] = useState<boolean>(false);
-  const [passwordResetInfo, setPasswordResetInfo] = useState({
-    password: "",
-    confirmation: "",
-    resetCode: "",
-  });
 
   const formSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
@@ -39,9 +33,6 @@ const FormLogin: React.FC = () => {
   const formOptions = { resolver: yupResolver(formSchema) };
   const { register, handleSubmit, reset, formState } = useForm(formOptions);
   const { errors } = formState;
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const handleSubmitLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -61,31 +52,6 @@ const FormLogin: React.FC = () => {
     }
   };
 
-  const resetPassword = () => {
-    fetch("/api/auth/password", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        password: passwordResetInfo.password,
-        resetCode: passwordResetInfo.resetCode,
-      }),
-    }).then((res) => {
-      if (res.status === 200) {
-        toast.success("Password reset successful");
-        setPasswordResetInfo({
-          password: "",
-          confirmation: "",
-          resetCode: "",
-        });
-        handleShow();
-      } else {
-        toast.error("Password reset failed");
-      }
-    });
-  };
-
   const handleResetPassword = () => {
     fetch("/api/auth/reset", {
       method: "POST",
@@ -99,7 +65,6 @@ const FormLogin: React.FC = () => {
       if (res.status === 200) {
         toast.success("Email with reset code sent");
         setResetEmail("");
-        handleShow();
       } else {
         toast.error("Email not found");
       }
@@ -144,7 +109,7 @@ const FormLogin: React.FC = () => {
         </a>
         {isPasswordForgotten && (
           <>
-            <form onSubmit={resetPassword}>
+            <form>
               <div className={styles.formGroup}>
                 <label htmlFor="exampleInputEmail1">Email address</label>
                 <input
@@ -161,85 +126,6 @@ const FormLogin: React.FC = () => {
                 Send reset email
               </Button>
             </form>
-            <Modal
-              show={show}
-              onHide={handleClose}
-              backdrop="static"
-              keyboard={false}
-            >
-              <Form noValidate validated={validated} onSubmit={resetPassword}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Reset password</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="exampleInputEmail1">Password</label>
-                    <Form.Control
-                      required
-                      type="password"
-                      placeholder="Enter password"
-                      {...register("password")}
-                      onChange={({ target }: { target: any }) => {
-                        setPasswordResetInfo({
-                          ...passwordResetInfo,
-                          password: target.value,
-                        });
-                      }}
-                      value={passwordResetInfo.password}
-                      className={`form-control ${
-                        errors.password ? "is-invalid" : ""
-                      }`}
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label>Confirmation password</label>
-                    <Form.Control
-                      required
-                      type="password"
-                      placeholder="Enter password again"
-                      {...register("confirmPwd")}
-                      onChange={({ target }: { target: any }) =>
-                        setPasswordResetInfo({
-                          ...passwordResetInfo,
-                          confirmation: target.value,
-                        })
-                      }
-                      value={passwordResetInfo.confirmation}
-                      className={`form-control ${
-                        errors.confirmPwd ? "is-invalid" : ""
-                      }`}
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label>Reset Code</label>
-                    <Form.Control
-                      required
-                      type="text"
-                      placeholder="Enter code"
-                      {...register("resetCode")}
-                      onChange={({ target }: { target: any }) =>
-                        setPasswordResetInfo({
-                          ...passwordResetInfo,
-                          resetCode: target.value,
-                        })
-                      }
-                      value={passwordResetInfo.resetCode}
-                      className={`form-control ${
-                        errors.confirmPwd ? "is-invalid" : ""
-                      }`}
-                    />
-                  </div>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={handleClose}>
-                    Close
-                  </Button>
-                  <Button variant="primary" type="submit">
-                    Reset password
-                  </Button>
-                </Modal.Footer>
-              </Form>
-            </Modal>
           </>
         )}
         {error && <p className="text-danger">{error}</p>}

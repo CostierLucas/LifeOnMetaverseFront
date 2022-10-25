@@ -6,11 +6,7 @@ import Accordion from "react-bootstrap/Accordion";
 import styles from "./updateEdition.module.scss";
 import { Form, Button } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-import ContractAbi from "../../WalletHelpers/contractTokenAbi.json";
-import {
-  contractAddress,
-  contractUsdc,
-} from "../../WalletHelpers/contractVariables";
+import { contractUsdc } from "../../WalletHelpers/contractVariables";
 import { useWeb3React } from "@web3-react/core";
 import { ethers } from "ethers";
 import contractUsdcAbi from "../../WalletHelpers/contractUsdcAbi.json";
@@ -35,6 +31,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingTransfer, setIsLoadingTransfer] = useState<boolean>(false);
+  const [isWithdrawLoading, setIsWithdrawLoading] = useState<boolean>(false);
   const [isConfirmed, setIsConfirmed] = useState<boolean>(false);
   const [amount, setAmount] = useState<number>(0);
   const context = useWeb3React<any>();
@@ -144,6 +141,26 @@ const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
     setIsLoadingTransfer(false);
   };
 
+  const withdraw = async (address: string) => {
+    setIsWithdrawLoading(true);
+    const getSigner = provider.getSigner();
+    const contract = new ethers.Contract(
+      address,
+      contractTokenAbi.abi,
+      getSigner
+    );
+
+    try {
+      const withdraw = await contract.withdraw();
+      await withdraw.wait();
+      toast.success("Your royalties were successfully withdrawn!");
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.");
+      console.log(error);
+    }
+
+    setIsWithdrawLoading(false);
+  };
   return (
     <div className={styles.update}>
       <h3>Modify edition</h3>
@@ -254,6 +271,18 @@ const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
                         <Spinner animation="border" className="#fff" />
                       ) : (
                         "Transfer USDC"
+                      )}
+                    </Button>
+                  </div>
+                  <div className={styles.btnWithdraw}>
+                    <Button
+                      className={styles.btnTransfer}
+                      onClick={() => withdraw(edition.address)}
+                    >
+                      {isLoadingTransfer ? (
+                        <Spinner animation="border" className="#fff" />
+                      ) : (
+                        "Withdraw"
                       )}
                     </Button>
                   </div>

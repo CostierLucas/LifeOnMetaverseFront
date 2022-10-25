@@ -1,5 +1,4 @@
 import styles from "./musicdrops.module.scss";
-import img from "../../assets/images/banniere.jpeg";
 import Image from "next/image";
 import { Col, Container, Row } from "react-bootstrap";
 import { IEdition } from "../../interfaces/interfaces";

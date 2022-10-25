@@ -18,6 +18,8 @@ import {
 } from "../../WalletHelpers/contractVariables";
 import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 import { toast } from "react-toastify";
+import Countdown from "react-countdown";
+import Renderer from "../../components/countdown/countdown";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const date = context.params?.date as string;
@@ -48,6 +50,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
   const [isApproveLoading, setIsApproveLoading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string[]>([]);
   const context = useWeb3React<any>();
+  const [timestamp, setTimestamp] = useState<number>(0);
   const { account, provider, chainId } = context;
 
   useEffect(() => {
@@ -71,6 +74,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
     );
 
     const all = await getAllowance();
+    setTimestamp(editions.startDate * 1000);
   };
 
   const handleMint = async (categoriesId: number) => {
@@ -186,6 +190,11 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                       loading="lazy"
                     ></iframe>
                   </div>
+                  <div>
+                    {timestamp && (
+                      <Countdown renderer={Renderer} date={timestamp} />
+                    )}
+                  </div>
                 </div>
               </div>
             </Col>
@@ -208,7 +217,9 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                   </div>
                   <div className={styles.editionItemCategories}>
                     <div>
-                      <p>{editions.categories[i]}</p>
+                      <p>
+                        {editions.categories[i]} - {editions.supply[i]} tokens
+                      </p>
                     </div>
                     <div>
                       <p>{editions.type}</p>

@@ -353,7 +353,9 @@ const FormEdition: React.FC = () => {
             required
             type="number"
             placeholder="0"
+            min="0"
             name="royalties"
+            onWheel={(event) => event.currentTarget.blur()}
             onChange={({ target }: { target: any }) =>
               setEdition({ ...edition, royalty: target.value })
             }
@@ -384,7 +386,9 @@ const FormEdition: React.FC = () => {
             required
             type="number"
             placeholder="0"
+            min="0"
             name="percentages"
+            onWheel={(event) => event.currentTarget.blur()}
             onChange={({ target }: { target: any }) =>
               setEdition({ ...edition, percentagesInvestor: target.value })
             }
@@ -399,7 +403,9 @@ const FormEdition: React.FC = () => {
             required
             type="number"
             placeholder="0"
+            min="0"
             name="percentages"
+            onWheel={(event) => event.currentTarget.blur()}
             onChange={({ target }: { target: any }) =>
               setEdition({ ...edition, percentagesArtist: target.value })
             }
@@ -455,7 +461,9 @@ const FormEdition: React.FC = () => {
                     <Form.Control
                       required
                       type="number"
+                      min="0"
                       placeholder="Enter supply"
+                      onWheel={(event) => event.currentTarget.blur()}
                       onChange={({ target }: { target: any }) =>
                         setEdition((prevState) => {
                           const newSupply = { ...prevState };
@@ -508,7 +516,9 @@ const FormEdition: React.FC = () => {
                     <Form.Control
                       required
                       type="number"
-                      placeholder="100, 100, etc..."
+                      min="0"
+                      placeholder="100"
+                      onWheel={(event) => event.currentTarget.blur()}
                       onChange={({ target }: { target: any }) => {
                         if (target.value !== "") {
                           let parsePrice = ethers.utils
@@ -531,7 +541,9 @@ const FormEdition: React.FC = () => {
                     <Form.Control
                       required
                       type="number"
-                      placeholder="50,50, etc..."
+                      placeholder="50"
+                      min="0"
+                      onWheel={(event) => event.currentTarget.blur()}
                       onChange={({ target }: { target: any }) =>
                         setEdition((prevState) => {
                           const newPercentage = { ...prevState };

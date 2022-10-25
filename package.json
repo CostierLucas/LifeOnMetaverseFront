@@ -40,6 +40,7 @@
     "react": "18.2.0",
     "react-aws-s3-typescript": "^1.1.4",
     "react-bootstrap": "^2.5.0",
+    "react-countdown": "^2.3.3",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.35.0",
     "react-moralis": "^1.4.2",

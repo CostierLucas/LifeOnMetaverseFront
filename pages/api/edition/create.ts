@@ -23,6 +23,7 @@ export default async function handler(
     percentagesInvestor,
     percentagesArtist,
     spotify,
+    startDate,
   } = req.body;
 
   const params = {
@@ -48,6 +49,7 @@ export default async function handler(
       percentagesArtist,
       spotify,
       opensea: "",
+      startDate,
     },
   };
 

@@ -20,6 +20,7 @@ export type IEdition = {
   royalty: number;
   opensea: string;
   spotify: string;
+  startDate: number;
 };
 
 export interface IEditionProps {
