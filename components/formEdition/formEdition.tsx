@@ -234,7 +234,12 @@ const FormEdition: React.FC = () => {
 
         let metadata = JSON.stringify(object);
         const filename =
-          edition.title + "_" + edition.categories[i] + "-" + Date.now();
+          "Drops/" +
+          edition.title +
+          "_" +
+          edition.categories[i] +
+          "-" +
+          Date.now();
         const file = new File([metadata], filename, {
           type: "application/json",
         });
