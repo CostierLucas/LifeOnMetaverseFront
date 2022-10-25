@@ -17,40 +17,34 @@ const Howitworks: React.FC = () => {
         <Row>
           <Col md={4} className="mb-5">
             <div className={styles.box}>
-              <div className={styles.boxImage}>
-                <Image src={platine} layout="fill" objectFit="cover" />
-              </div>
-              <div className={styles.boxContent}>
-                <h3>Invest in Music</h3>
-                <p>
-                  You buy NFTs with music ownership and additional Artist
-                  benefits.
-                </p>
+              <div className={styles.contentBox}>
+                <h3 className={styles.contentBoxTextOne}>
+                  Invest
+                  <br />
+                  in Music
+                </h3>
               </div>
             </div>
           </Col>
           <Col md={4} className="mb-5">
             <div className={styles.box}>
-              <div className={styles.boxImage}>
-                <Image src={casque} layout="fill" objectFit="cover" />
-              </div>
-              <div className={styles.boxContent}>
-                <h3>People Stream your Music</h3>
-                <p>
-                  When fans listen to your music through the Digital Streaming
-                  Platform, it generates royalties
-                </p>
+              <div className={styles.contentBox}>
+                <h3 className={styles.contentBoxTextTwo}>
+                  People <br /> Stream <br /> your Music
+                </h3>
               </div>
             </div>
           </Col>
-          <Col md={4} className="mb-5">
+          <Col md={4} className="mb-3">
             <div className={styles.box}>
-              <div className={styles.boxImage}>
-                <Image src={pionner} layout="fill" objectFit="cover" />
-              </div>
-              <div className={styles.boxContent}>
-                <h3>Artist and Fan Share Royalties</h3>
-                <p>As co-owner with the artist, you earn royalties</p>
+              <div className={styles.contentBox}>
+                <h3 className={styles.contentBoxTextThree}>
+                  Artists <br />
+                  and Fan
+                  <br />
+                  Share <br />
+                  Royalties
+                </h3>
               </div>
             </div>
           </Col>

@@ -52,7 +52,9 @@ const FormArtist = () => {
   return (
     <div className={styles.formArtist}>
       <Form onSubmit={sendEmail}>
-        <h3>Artist submission form</h3>
+        <div className={styles.title}>
+          <h3>Artist submission form</h3>
+        </div>
         <div className={styles.formGroup}>
           <label>Artist Name</label>
           <Form.Control
@@ -140,13 +142,15 @@ const FormArtist = () => {
             }
           />
         </div>
-        <Button type="submit">
-          {isLoading ? (
-            <Spinner animation="border" variant="light" />
-          ) : (
-            "Submit"
-          )}
-        </Button>
+        <div className={styles.btnSubmit}>
+          <Button type="submit">
+            {isLoading ? (
+              <Spinner animation="border" variant="light" />
+            ) : (
+              "Submit"
+            )}
+          </Button>
+        </div>
       </Form>
     </div>
   );

@@ -10,7 +10,7 @@ const Artist: React.FC = () => {
         Are you an <Image src={rectW} width={60} height={12} /> Artist ?{" "}
       </h3>
       <Link href="request-artist">
-        <a className="btnLearnMore">Learn More</a>
+        <a className="btnLearnMore">LEARN MORE</a>
       </Link>
     </section>
   );

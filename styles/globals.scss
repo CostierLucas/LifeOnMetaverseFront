@@ -6,7 +6,7 @@ body {
 
 :root {
   --primary: #fff;
-  --secondary: #dd26ff;
+  --secondary: #ff00b1;
   --tertiary: #00bdcc;
   --font-avenir: "Avenir", sans-serif;
   --font-gotham-bold: "GothamBold", sans-serif;
@@ -45,7 +45,8 @@ body {
   background-color: rgb(255, 255, 255, 0.5);
   border: none;
   border-radius: 5px;
-  padding: 7px 20px;
+  padding: 7px 10px;
+  margin-top: 40px !important;
   color: white;
   text-decoration: none;
   cursor: pointer;

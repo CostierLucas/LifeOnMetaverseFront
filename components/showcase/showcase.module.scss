@@ -46,11 +46,31 @@
       border: 1px solid #fff;
       opacity: 1;
       width: 40%;
+      margin-bottom: 25px;
+    }
+
+    .btnLearnMore {
+      margin-top: 30px !important;
+      font-family: var(--font-minion-pro);
+      background-color: rgb(255, 255, 255, 0.5);
+      border: none;
+      border-radius: 5px;
+      padding: 7px 10px;
+      margin-top: 40px !important;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      line-height: 0px;
+      &:hover {
+        color: white;
+      }
     }
 
     h2 {
       font-size: 50px;
       font-family: var(--font-avenir);
+      font-weight: 900;
+      line-height: 50px;
     }
   }
 }

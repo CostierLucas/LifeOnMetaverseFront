@@ -162,6 +162,7 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
                     <td>{nft.rewardsToEthers} $</td>
                     <td>
                       <Button
+                        className={styles.btnClaim}
                         onClick={() =>
                           claim(nft.token_address, nft.token_id, index)
                         }

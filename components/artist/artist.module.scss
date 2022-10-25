@@ -1,11 +1,13 @@
 .artist {
   background-image: url(../../assets/images/bg_artist.jpg);
   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
   height: 300px;
   padding-top: 40px;
-  background-position: bottom 14%;
   color: #fff;
-  text-align: center;
+  text-align: left;
+  padding-left: 120px;
 
   h3 {
     font-size: 50px;

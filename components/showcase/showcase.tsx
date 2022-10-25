@@ -24,9 +24,9 @@ const Showcase: React.FC<{ edition: IEdition }> = ({ edition }) => {
           <h2>
             {edition[0].artist} <br />"{edition[0].title}"
           </h2>
-          <div>
+          <div style={{ marginTop: "20px" }}>
             <Link href={`/editions/${edition[0].date}`}>
-              <a className="btnLearnMore">LEARN MORE</a>
+              <a className={styles.btnLearnMore}>LEARN MORE</a>
             </Link>
           </div>
         </div>

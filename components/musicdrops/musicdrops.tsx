@@ -33,7 +33,7 @@ const MusicDrops: React.FC<{ edition: IEdition }> = ({ edition }) => {
                         <div className="card-body p-0">
                           <div className={styles.cardBodyDescription}>
                             <p className={styles.cardBodyTitle}>
-                              {edition[i].title}
+                              {edition[i].title.toUpperCase()}
                             </p>
                             <p className={styles.cardBodyArtist}>
                               {edition[i].artist}

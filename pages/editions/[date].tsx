@@ -208,6 +208,18 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                 <div className={styles.editionItem}>
                   <div className={styles.editionItemImg}>
                     {/* <Image src={logo} layout="fill" objectFit="cover" /> */}
+                    {/* {imageUrl[i].includes(".mov") && (
+                      <video
+                        width="100%"
+                        height="100%"
+                        controls
+                        autoPlay
+                        loop
+                        muted
+                      >
+                        <source src={imageUrl[i]} type="video/mp4" />
+                      </video>
+                    )} */}
                     <img
                       width="100%"
                       height="100%"

@@ -21,7 +21,7 @@ const Header: React.FC = () => {
         <Container fluid>
           <Link href="/">
             <Navbar.Brand className={styles.headerLogo}>
-              <Image src="/logo.jpg" alt="logo" width={200} height={70} />
+              <Image src="/lom.png" alt="logo" width={200} height={70} />
             </Navbar.Brand>
           </Link>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
