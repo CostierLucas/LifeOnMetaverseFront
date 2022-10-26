@@ -153,11 +153,25 @@ const ClaimCarousel: React.FC<{ edition: IEdition }> = ({ edition }) => {
                   <tr key={index}>
                     <td scope="row">#{nft.token_id}</td>
                     <td>
-                      <img
-                        src={imageUrl[index]}
-                        alt="nft"
-                        className={styles.imageNft}
-                      />
+                      {imageUrl.length > 0 &&
+                      imageUrl[index].includes(".mp4") ? (
+                        <video
+                          width="100%"
+                          height="100%"
+                          controls
+                          autoPlay
+                          loop
+                          muted
+                        >
+                          <source src={imageUrl[index]} type="video/mp4" />
+                        </video>
+                      ) : (
+                        <img
+                          src={imageUrl[index]}
+                          alt="nft"
+                          className={styles.imageNft}
+                        />
+                      )}
                     </td>
                     <td>{nft.rewardsToEthers} $</td>
                     <td>
