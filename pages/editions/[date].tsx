@@ -185,8 +185,10 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                     <hr className={styles.hrCategorie} />
                   </div>
                   <h2>
-                    {editions.title}
-                    <Image src={rect} width={60} height={12} />
+                    {editions.title}{" "}
+                    <span>
+                      <Image src={rect} width={60} height={12} />
+                    </span>
                   </h2>
                   <p>{editions.description}</p>
                   <div className={styles.spotifyPlayer}>
@@ -337,15 +339,14 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
           </Row>
         </Container>
         <Container className={styles.breakdown}>
-          <hr className={styles.hr} />
           <Row>
             <Col md={6}>
-              <h3>TOTAL TOKENS</h3>
-              <p>{totalTokens}</p>
+              <p>TOTAL TOKENS</p>
+              <h3>{totalTokens}</h3>
             </Col>
             <Col md={6}>
-              <h3>TOTAL OWNERSHIP OFFERED</h3>
-              <p>{editions.royalty}%</p>
+              <p>TOTAL OWNERSHIP OFFERED</p>
+              <h3>{editions.royalty}%</h3>
             </Col>
           </Row>
         </Container>

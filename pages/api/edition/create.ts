@@ -22,6 +22,8 @@ export default async function handler(
     royalty,
     percentagesInvestor,
     percentagesArtist,
+    percentagesArtistOpensea,
+    percentagesInvestorOpensea,
     spotify,
     startDate,
   } = req.body;
@@ -47,6 +49,8 @@ export default async function handler(
       royalty,
       percentagesInvestor,
       percentagesArtist,
+      percentagesArtistOpensea,
+      percentagesInvestorOpensea,
       spotify,
       opensea: "",
       startDate,

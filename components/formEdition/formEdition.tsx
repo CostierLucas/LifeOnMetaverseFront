@@ -29,6 +29,8 @@ interface IEdition {
   royalty: number;
   percentagesInvestor: number;
   percentagesArtist: number;
+  percentagesInvestorOpensea: number;
+  percentagesArtistOpensea: number;
   artistWallet: string;
   spotify: string;
   startDate: number | null;
@@ -59,6 +61,8 @@ const FormEdition: React.FC = () => {
     royalty: 0,
     percentagesInvestor: 0,
     percentagesArtist: 0,
+    percentagesInvestorOpensea: 0,
+    percentagesArtistOpensea: 0,
     artistWallet: "",
     spotify: "",
     startDate: null,
@@ -85,6 +89,8 @@ const FormEdition: React.FC = () => {
       royalty,
       percentagesInvestor,
       percentagesArtist,
+      percentagesArtistOpensea,
+      percentagesInvestorOpensea,
       artistWallet,
       spotify,
       startDate,
@@ -133,6 +139,8 @@ const FormEdition: React.FC = () => {
             royalty,
             percentagesInvestor,
             percentagesArtist,
+            percentagesArtistOpensea,
+            percentagesInvestorOpensea,
             artistWallet,
             spotify,
             startDate,
@@ -165,6 +173,8 @@ const FormEdition: React.FC = () => {
         account,
         edition.percentagesInvestor,
         edition.percentagesArtist,
+        edition.percentagesArtistOpensea,
+        edition.percentagesInvestorOpensea,
         edition.startDate
       );
 
@@ -277,6 +287,7 @@ const FormEdition: React.FC = () => {
           <Form.Control
             required
             type="file"
+            accept="image/png, image/jpeg"
             onChange={({ target }: { target: any }) =>
               setEdition({ ...edition, banner: target.files[0] })
             }
@@ -287,6 +298,7 @@ const FormEdition: React.FC = () => {
           <Form.Control
             required
             type="file"
+            accept="image/png, image/jpeg"
             onChange={({ target }: { target: any }) => {
               setEdition({ ...edition, image: target.files[0] });
             }}
@@ -420,6 +432,43 @@ const FormEdition: React.FC = () => {
           </Form.Control.Feedback>
         </div>
         <div className={styles.formGroup}>
+          <label>Percentages artist Opensea %</label>
+          <Form.Control
+            required
+            type="number"
+            placeholder="0"
+            min="0"
+            name="percentages"
+            onWheel={(event) => event.currentTarget.blur()}
+            onChange={({ target }: { target: any }) =>
+              setEdition({ ...edition, percentagesArtistOpensea: target.value })
+            }
+          />
+          <Form.Control.Feedback type="invalid">
+            Please enter percentages
+          </Form.Control.Feedback>
+        </div>
+        <div className={styles.formGroup}>
+          <label>Percentages investor Opensea %</label>
+          <Form.Control
+            required
+            type="number"
+            placeholder="0"
+            min="0"
+            name="percentages"
+            onWheel={(event) => event.currentTarget.blur()}
+            onChange={({ target }: { target: any }) =>
+              setEdition({
+                ...edition,
+                percentagesInvestorOpensea: target.value,
+              })
+            }
+          />
+          <Form.Control.Feedback type="invalid">
+            Please enter percentages
+          </Form.Control.Feedback>
+        </div>
+        <div className={styles.formGroup}>
           <label>Wallet artist</label>
           <Form.Control
             required
@@ -504,6 +553,7 @@ const FormEdition: React.FC = () => {
                     <Form.Control
                       required
                       type="file"
+                      accept="image/png, image/jpeg, video/mp4"
                       onChange={({ target }: { target: any }) =>
                         setEdition((prevState) => {
                           const newImage = { ...prevState };
