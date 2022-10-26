@@ -218,7 +218,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                 <div className={styles.editionItem}>
                   <div className={styles.editionItemImg}>
                     {/* <Image src={logo} layout="fill" objectFit="cover" /> */}
-                    {/* {imageUrl[i].includes(".mov") && (
+                    {imageUrl[i].includes(".mp4") ? (
                       <video
                         width="100%"
                         height="100%"
@@ -229,13 +229,14 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                       >
                         <source src={imageUrl[i]} type="video/mp4" />
                       </video>
-                    )} */}
-                    <img
-                      width="100%"
-                      height="100%"
-                      src={imageUrl[i]}
-                      alt="image animate"
-                    ></img>
+                    ) : (
+                      <img
+                        width="100%"
+                        height="100%"
+                        src={imageUrl[i]}
+                        alt="image animate"
+                      ></img>
+                    )}
                   </div>
                   <div className={styles.editionItemCategories}>
                     <div>

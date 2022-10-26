@@ -171,10 +171,8 @@ const FormEdition: React.FC = () => {
         contractUsdc,
         edition.artistWallet,
         account,
-        edition.percentagesInvestor,
-        edition.percentagesArtist,
-        edition.percentagesArtistOpensea,
-        edition.percentagesInvestorOpensea,
+        [edition.percentagesInvestor, edition.percentagesArtist],
+        [edition.percentagesInvestorOpensea, edition.percentagesArtistOpensea],
         edition.startDate
       );
 

@@ -1,5 +1,5 @@
 // Mainnet
-export const contractAddress = "0xfc1a743fd0B949E6f19D499A69232fE10Acc588c";
+export const contractAddress = "0xA5E99030eE3e2903C82165C322765Cbd4EDd0e65";
 export const contractUsdc = "0xe11A86849d99F524cAC3E7A0Ec1241828e332C62";
 export const etherscanURL = "https://etherscan.io/tx/";
 export const openseaURL = "https://opensea.io/assets/";
