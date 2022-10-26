@@ -217,7 +217,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
               <Col md={4} key={i}>
                 <div className={styles.editionItem}>
                   <div className={styles.editionItemImg}>
-                    {imageUrl && imageUrl[i].includes(".mp4") ? (
+                    {imageUrl.length != 0 && imageUrl[i].includes(".mp4") ? (
                       <video
                         width="100%"
                         height="100%"
