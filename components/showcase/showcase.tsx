@@ -9,7 +9,12 @@ const Showcase: React.FC<{ edition: IEdition }> = ({ edition }) => {
   return (
     <section className={styles.showcase}>
       <div className={styles.showcaseImg}>
-        <Image src={edition[0].banner} layout="fill" objectFit="cover" />
+        <Image
+          src={edition[0].banner}
+          alt="banner"
+          layout="fill"
+          objectFit="cover"
+        />
       </div>
       <div className={styles.showcaseFilter}></div>
       <Container>
@@ -23,7 +28,8 @@ const Showcase: React.FC<{ edition: IEdition }> = ({ edition }) => {
           </p>
           <hr />
           <h2>
-            {edition[0].artist} <Image src={rectW} width={60} height={12} />
+            {edition[0].artist}{" "}
+            <Image src={rectW} alt="rectangle" width={60} height={12} />
             <br />"{edition[0].title}"
           </h2>
           <div style={{ marginTop: "20px" }}>

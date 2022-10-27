@@ -7,7 +7,8 @@ const Banner: React.FC = () => {
     <section className={styles.banner}>
       <div>
         <h1>
-          Invest <Image src={rect} width={60} height={12} /> Music Royalties
+          Invest <Image src={rect} alt="rectangle" width={60} height={12} />{" "}
+          Music Royalties
         </h1>
       </div>
     </section>

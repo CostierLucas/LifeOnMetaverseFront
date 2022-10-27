@@ -48,6 +48,7 @@
     label {
       margin-bottom: 5px;
       color: rgba(0, 0, 0, 0.6);
+      font-weight: 600;
     }
   }
 }
@@ -62,6 +63,8 @@
       var(--secondary) 90%
     );
     border: 0px;
+    font-family: var(--font-minion-pro);
+    text-transform: uppercase;
   }
 }
 

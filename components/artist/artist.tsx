@@ -7,7 +7,8 @@ const Artist: React.FC = () => {
   return (
     <section className={styles.artist}>
       <h3>
-        Are you an <Image src={rectW} width={60} height={12} /> Artist ?{" "}
+        Are you an <Image src={rectW} alt="rectangle" width={60} height={12} />{" "}
+        Artist ?{" "}
       </h3>
       <Link href="request-artist">
         <a className="btnLearnMore">LEARN MORE</a>

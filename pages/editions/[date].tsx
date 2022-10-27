@@ -23,6 +23,7 @@ import Renderer from "../../components/countdown/countdown";
 import rect from "../../assets/images/rectangle_gradiant.png";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { date } from "yup";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const date = context.params?.date as string;
@@ -54,6 +55,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
   const [imageUrl, setImageUrl] = useState<string[]>([]);
   const context = useWeb3React<any>();
   const [timestamp, setTimestamp] = useState<number>(0);
+  const [mintOpen, setMintOpen] = useState<boolean>(false);
   const { account, provider, chainId } = context;
   const { data: session, status } = useSession();
 
@@ -78,6 +80,11 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
     );
 
     const all = await getAllowance();
+    if (editions.startDate * 1000 > Date.now()) {
+      setMintOpen(false);
+    } else {
+      setMintOpen(true);
+    }
     setTimestamp(editions.startDate * 1000);
   };
 
@@ -206,7 +213,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
             <Col md={6}>
               <div className={styles.content}>
                 <div className={styles.contentDirect}>
-                  <div>
+                  <div className={styles.category}>
                     <p>{editions.categorie_selected.toUpperCase()}</p>
                     <hr className={styles.hrCategorie} />
                   </div>
@@ -231,8 +238,12 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                     <hr className={styles.hrBuy} />
                   </div>
                   <div>
-                    {timestamp && (
+                    {timestamp && mintOpen ? (
                       <Countdown renderer={Renderer} date={timestamp} />
+                    ) : (
+                      <div className={styles.mintOpen}>
+                        <p>Mint Open</p>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -379,16 +390,16 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
           </Row>
         </Container>
         <Container className={styles.breakdown}>
-          <Row>
-            <Col md={6}>
-              <p>TOTAL TOKENS</p>
-              <h3>{totalTokens}</h3>
-            </Col>
-            <Col md={6}>
-              <p>TOTAL OWNERSHIP OFFERED</p>
-              <h3>{editions.royalty}%</h3>
-            </Col>
-          </Row>
+          <div>
+            <p>TOTAL TOKENS</p>
+            <hr />
+            <h3>{totalTokens}</h3>
+          </div>
+          <div>
+            <p>TOTAL OWNERSHIP OFFERED</p>
+            <hr />
+            <h3>{editions.royalty}%</h3>
+          </div>
         </Container>
       </section>
     </>

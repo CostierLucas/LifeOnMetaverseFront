@@ -28,7 +28,7 @@
   form {
     background-color: #fff;
     border-radius: 10px;
-    height: 600px;
+    height: 400px;
     width: 600px;
     padding: 20px;
     text-align: center;
@@ -46,8 +46,15 @@
     label {
       margin-bottom: 5px;
       color: rgba(0, 0, 0, 0.6);
+      font-weight: 600;
     }
   }
+}
+
+.reset {
+  text-align: right;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .btnReset {
@@ -63,7 +70,7 @@
 
 .btnSubmit {
   width: 100%;
-  text-align: center;
+  text-align: right;
   button {
     font-family: var(--font-minion-pro);
     background: -webkit-linear-gradient(

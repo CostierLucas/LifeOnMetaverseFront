@@ -12,7 +12,8 @@ const Howitworks: React.FC = () => {
     <section className={styles.howitworks}>
       <Container>
         <h2>
-          How <Image src={rect} width={60} height={12} /> it works ?
+          How <Image src={rect} alt="rectangle" width={60} height={12} /> it
+          works ?
         </h2>
         <Row>
           <Col md={4} className="mb-5">

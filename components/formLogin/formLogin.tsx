@@ -103,12 +103,14 @@ const FormLogin: React.FC = () => {
             }
           />
         </div>
-        <a
-          onClick={() => setIsPasswordForgotten(true)}
-          className={styles.btnReset}
-        >
-          Reset password
-        </a>
+        <div className={styles.reset}>
+          <a
+            onClick={() => setIsPasswordForgotten(true)}
+            className={styles.btnReset}
+          >
+            Reset password
+          </a>
+        </div>
         {isPasswordForgotten && (
           <>
             <form>

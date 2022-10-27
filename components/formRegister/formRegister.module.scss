@@ -28,7 +28,7 @@
   form {
     background-color: #fff;
     border-radius: 10px;
-    height: 600px;
+    height: 500px;
     width: 600px;
     padding: 20px;
     text-align: center;
@@ -46,13 +46,14 @@
     label {
       margin-bottom: 5px;
       color: rgba(0, 0, 0, 0.6);
+      font-weight: 600;
     }
   }
 }
 
 .btnSubmit {
   width: 100%;
-  text-align: center;
+  text-align: right;
   button {
     background: -webkit-linear-gradient(
       90deg,

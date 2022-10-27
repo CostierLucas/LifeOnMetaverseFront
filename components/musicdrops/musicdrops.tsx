@@ -27,6 +27,7 @@ const MusicDrops: React.FC<{ edition: IEdition }> = ({ edition }) => {
                           src={edition[i].image as string}
                           className="card-img-top"
                           style={{ width: "100%" }}
+                          alt="cover"
                         />
                       </div>
 
