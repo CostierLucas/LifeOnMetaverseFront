@@ -238,7 +238,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                     <hr className={styles.hrBuy} />
                   </div>
                   <div>
-                    {timestamp && mintOpen ? (
+                    {timestamp && !mintOpen ? (
                       <Countdown renderer={Renderer} date={timestamp} />
                     ) : (
                       <div className={styles.mintOpen}>
