@@ -20,9 +20,8 @@ const Renderer = ({
   } else {
     return (
       <div className={styles.countdown}>
-        <span>
-          {zeroPad(days)}:{zeroPad(hours)}:{zeroPad(minutes)}:{zeroPad(seconds)}
-        </span>
+        <span>{zeroPad(days)}</span> DAYS, <span>{zeroPad(hours)}</span> HOURS,{" "}
+        <span>{zeroPad(minutes)}</span> MIN, <span>{zeroPad(seconds)} </span>SEC
       </div>
     );
   }

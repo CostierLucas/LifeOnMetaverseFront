@@ -5,17 +5,26 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { email, subject, description, imageURL } = req.body;
+  const { email, category, tx, price } = req.body;
   sendgrid.setApiKey(process.env.SENDGRID_API as string);
 
   try {
     sendgrid.send({
       to: email, // Your email where you'll receive emails
       from: process.env.SENDGRID_MAIL as string, // your website email address here
-      subject: `New message from ${email} - ${subject}`,
+      subject: `Thank you for your purchase!`,
       html: `
-      <p>${description}</p>
-      <img src=${imageURL.image} alt="Screenshot" width="400px"/>
+        <p>
+        Tx ID: ${tx}
+        </p>
+        <br/>
+        <p>
+          Categorie : ${category}
+        </p>
+        <br/>
+        <p>
+          Price : ${price} $
+        </p>
       `,
     });
     res.status(200).json({ message: "Email sent" });

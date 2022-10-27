@@ -74,7 +74,9 @@ const FormLogin: React.FC = () => {
   return (
     <div className={styles.formLogin}>
       <form onSubmit={handleSubmitLogin}>
-        <h3>Login</h3>
+        <div className={styles.title}>
+          <h3>Login</h3>
+        </div>
         <div className={styles.formGroup}>
           <label htmlFor="exampleInputEmail1">Email address</label>
           <input
@@ -129,7 +131,9 @@ const FormLogin: React.FC = () => {
           </>
         )}
         {error && <p className="text-danger">{error}</p>}
-        <Button type="submit">SUBMIT</Button>
+        <div className={styles.btnSubmit}>
+          <Button type="submit">SUBMIT</Button>
+        </div>
       </form>
     </div>
   );

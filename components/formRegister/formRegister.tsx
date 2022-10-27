@@ -66,7 +66,9 @@ const FormRegister: React.FC = () => {
         validated={validated}
         onSubmit={handleSubmit(registerUser)}
       >
-        <h3>Register</h3>
+        <div className={styles.title}>
+          <h3>Register</h3>
+        </div>
         <div className={styles.formGroup}>
           <label>Username</label>
           <Form.Control
@@ -132,7 +134,9 @@ const FormRegister: React.FC = () => {
         <div className="invalid-feedback">
           {errors.confirmPwd?.message as string}
         </div>
-        <Button type="submit">SUBMIT</Button>
+        <div className={styles.btnSubmit}>
+          <Button type="submit">SUBMIT</Button>
+        </div>
       </Form>
     </div>
   );

@@ -236,7 +236,7 @@ const FormEdition: React.FC = () => {
         let object = {
           description: description,
           external_url: "https://google.com",
-          name: title,
+          name: `${title} #${i + 1}`,
           image: imageUrl![i],
         };
 

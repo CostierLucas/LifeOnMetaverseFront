@@ -45,7 +45,7 @@ export default NextAuth({
         }
 
         // Return null if user data could not be retrieved
-        let user = res.Items?.[0].role;
+        let user: any = [res.Items?.[0].role, res.Items?.[0].email];
 
         return user;
       },
@@ -61,8 +61,17 @@ export default NextAuth({
       user && (token.user = user);
       return token;
     },
-    session: async ({ session, token, user }) => {
-      session.role = token.user;
+    session: async ({
+      session,
+      token,
+      user,
+    }: {
+      session: any;
+      token: any;
+      user: any;
+    }) => {
+      session.role = token.user[0];
+      session.user!.email = token.user[1];
       return session;
     },
   },

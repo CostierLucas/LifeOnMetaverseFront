@@ -158,9 +158,9 @@ const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
       toast.error("Something went wrong. Please try again.");
       console.log(error);
     }
-
     setIsWithdrawLoading(false);
   };
+
   return (
     <div className={styles.update}>
       <h3>Modify edition</h3>

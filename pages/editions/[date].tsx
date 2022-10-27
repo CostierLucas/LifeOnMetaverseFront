@@ -4,7 +4,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import Header from "../../components/header/header";
 import db from "../../config/db";
 import { IEditionProps } from "../../interfaces/interfaces";
-import { Col, Container, Row, Spinner } from "react-bootstrap";
+import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import Image from "next/image";
 import { useWeb3React } from "@web3-react/core";
 import { ethers } from "ethers";
@@ -21,6 +21,8 @@ import { toast } from "react-toastify";
 import Countdown from "react-countdown";
 import Renderer from "../../components/countdown/countdown";
 import rect from "../../assets/images/rectangle_gradiant.png";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const date = context.params?.date as string;
@@ -53,6 +55,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
   const context = useWeb3React<any>();
   const [timestamp, setTimestamp] = useState<number>(0);
   const { account, provider, chainId } = context;
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     if (!!provider && chainId == targetChainId && !!account) {
@@ -96,10 +99,33 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
       );
       await tx.wait();
       toast.success("Minted successfully");
+      console.log(tx);
+      let mail = await sendEmailConfirmation(categoriesId, tx);
     } catch (e) {
       toast.error("Minting failed");
     }
     setIsLoading(false);
+  };
+
+  const sendEmailConfirmation = async (categoriesId: number, tx: any) => {
+    try {
+      fetch("/api/contact/confirmation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: session?.user?.email,
+          tx: tx.hash,
+          category: editions?.categories[categoriesId],
+          price: ethers.utils
+            .formatEther(editions?.price[categoriesId])
+            .toString(),
+        }),
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const approve = async () => {
@@ -200,6 +226,10 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                       loading="lazy"
                     ></iframe>
                   </div>
+                  <div className={styles.buyIn}>
+                    <a className={styles.buttonBuyIn}> BUY IT IN : </a>
+                    <hr className={styles.hrBuy} />
+                  </div>
                   <div>
                     {timestamp && (
                       <Countdown renderer={Renderer} date={timestamp} />
@@ -273,53 +303,63 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                       </div>
                     </div>
                     <div className={styles.spaceDetails}></div>
-                    <div>
-                      <CrossmintPayButton
-                        clientId="1516fbcf-1363-4a34-bfa0-ac78c2ae4e8a"
-                        mintConfig={{
-                          type: "erc-721",
-                          totalPrice: "0.001",
-                          _contract: editions.address,
-                          _category: i,
-                          _amount: 1,
-                        }}
-                        environment="staging"
-                        className={styles.crossmintButton}
-                      />
-                    </div>
-                    <div>
-                      {account ? (
-                        allowanceNumber == "0" ? (
-                          <button className={styles.mint} onClick={approve}>
-                            {isApproveLoading ? (
-                              <Spinner animation="border" variant="light" />
+                    {status !== "unauthenticated" ? (
+                      <>
+                        <div>
+                          <CrossmintPayButton
+                            clientId="1516fbcf-1363-4a34-bfa0-ac78c2ae4e8a"
+                            mintConfig={{
+                              type: "erc-721",
+                              totalPrice: "0.001",
+                              _contract: editions.address,
+                              _category: i,
+                              _amount: 1,
+                            }}
+                            environment="staging"
+                            className={styles.crossmintButton}
+                          />
+                        </div>
+                        <div>
+                          {account ? (
+                            allowanceNumber == "0" ? (
+                              <button className={styles.mint} onClick={approve}>
+                                {isApproveLoading ? (
+                                  <Spinner animation="border" variant="dark" />
+                                ) : (
+                                  "Pay with USDC"
+                                )}
+                              </button>
                             ) : (
-                              "Pay with USDC"
-                            )}
-                          </button>
-                        ) : (
-                          <button
-                            className={styles.mint}
-                            onClick={() => handleMint(i)}
-                          >
-                            {isLoading && isApproving == i ? (
-                              <Spinner animation="border" variant="light" />
-                            ) : (
-                              "Mint"
-                            )}
-                          </button>
-                        )
-                      ) : (
-                        <button
-                          className={styles.mint}
-                          onClick={() =>
-                            (document.documentElement.scrollTop = 0)
-                          }
-                        >
-                          Connect Wallet First
-                        </button>
-                      )}
-                    </div>
+                              <button
+                                className={styles.mint}
+                                onClick={() => handleMint(i)}
+                              >
+                                {isLoading && isApproving == i ? (
+                                  <Spinner animation="border" variant="dark" />
+                                ) : (
+                                  "Mint"
+                                )}
+                              </button>
+                            )
+                          ) : (
+                            <button
+                              className={styles.mint}
+                              onClick={() =>
+                                (document.documentElement.scrollTop = 0)
+                              }
+                            >
+                              Connect Wallet First
+                            </button>
+                          )}
+                        </div>
+                      </>
+                    ) : (
+                      <div className={styles.redirect}>
+                        <Link href="/auth">
+                          <a>Login first</a>
+                        </Link>
+                      </div>
+                    )}
                     <div>
                       <a
                         className={
