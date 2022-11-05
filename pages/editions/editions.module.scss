@@ -179,6 +179,10 @@
         margin-bottom: 0;
       }
 
+      .details {
+        height: 150px;
+      }
+
       .ownership {
         font-family: var(--font-avenir);
         font-weight: 700;
@@ -199,6 +203,7 @@
 
       .spaceDetails {
         height: 150px;
+        overflow: scroll;
       }
 
       .mint {
@@ -238,6 +243,28 @@
 
       .redirect {
         text-align: center;
+        width: 100%;
+        border: 1px solid rgb(191, 191, 191);
+        background-color: #fff;
+        text-transform: uppercase;
+        padding: 14px;
+        font-family: var(--font-gotham-bold);
+        color: #000;
+        font-size: 14px;
+        &:hover {
+          background: linear-gradient(var(--secondary), var(--tertiary));
+          color: #fff;
+          transition: 0.2s;
+
+          a {
+            color: #fff;
+          }
+        }
+
+        a {
+          text-decoration: none;
+          color: #000;
+        }
       }
 
       .openseaLock {

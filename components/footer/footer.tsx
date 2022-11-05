@@ -32,20 +32,40 @@ const footer: React.FC = () => {
           <Col md={3}>
             <ul>
               <li>
-                <a href="https://twitter.com/LifeOnMetavers">Twitter</a>
+                <a
+                  href="https://twitter.com/LifeOnMetavers"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Twitter
+                </a>
               </li>
               <li>
-                <a href="https://www.youtube.com/channel/UCbOJT4XKq7-SOGoSwyUe4Rg">
+                <a
+                  href="https://www.youtube.com/channel/UCbOJT4XKq7-SOGoSwyUe4Rg"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   Youtube
                 </a>
               </li>
               <li>
-                <a href="https://www.instagram.com/lifeonmetaverse/">
+                <a
+                  href="https://www.instagram.com/lifeonmetaverse/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   Instagram
                 </a>
               </li>
               <li>
-                <a href="https://www.tiktok.com/@lifeonmetaverse">TikTok</a>
+                <a
+                  href="https://www.tiktok.com/@lifeonmetaverse"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  TikTok
+                </a>
               </li>
               <li>
                 <a href="https://discord.gg/UA9GNqWy">Discord</a>

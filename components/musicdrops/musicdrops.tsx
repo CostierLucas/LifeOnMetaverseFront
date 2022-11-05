@@ -1,5 +1,4 @@
 import styles from "./musicdrops.module.scss";
-import img from "../../assets/images/banniere.jpeg";
 import Image from "next/image";
 import { Col, Container, Row } from "react-bootstrap";
 import { IEdition } from "../../interfaces/interfaces";
@@ -9,7 +8,7 @@ const MusicDrops: React.FC<{ edition: IEdition }> = ({ edition }) => {
   return (
     <section className={styles.musicdrops}>
       <Container>
-        <h2>Music Drops</h2>
+        <h2>Previews Drops</h2>
         <Row>
           {edition.map((item: IEdition, i: number) => {
             if (i == 0) {

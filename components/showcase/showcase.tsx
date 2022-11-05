@@ -24,7 +24,8 @@ const Showcase: React.FC<{ edition: IEdition }> = ({ edition }) => {
               edition[0].supply.reduce(
                 (a: any, b: any) => parseInt(a) + parseInt(b)
               )}{" "}
-            TOKENS / 35% ALBUM OWNERSHIP
+            TOKENS / {edition[0].royalty} %{" "}
+            {edition[0].categorie_selected.toUpperCase()} OWNERSHIP
           </p>
           <hr />
           <h2>

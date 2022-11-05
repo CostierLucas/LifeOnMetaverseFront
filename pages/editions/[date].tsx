@@ -4,7 +4,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import Header from "../../components/header/header";
 import db from "../../config/db";
 import { IEditionProps } from "../../interfaces/interfaces";
-import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 import Image from "next/image";
 import { useWeb3React } from "@web3-react/core";
 import { ethers } from "ethers";
@@ -23,7 +23,6 @@ import Renderer from "../../components/countdown/countdown";
 import rect from "../../assets/images/rectangle_gradiant.png";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { date } from "yup";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const date = context.params?.date as string;
@@ -79,7 +78,24 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
       getSigner
     );
 
-    const all = await getAllowance();
+    const contractNft = new ethers.Contract(
+      editions.address,
+      ContractAbi.abi,
+      provider
+    );
+
+    // const price = await contractNft.getPrice();
+    // let preMarginMaticInUSDC =
+    //   (Math.pow(parseInt(price), 2) / Math.pow(2, 192)) *
+    //   (Math.pow(10, 18) / Math.pow(10, 6));
+
+    // console.log("preMarginMaticInUSDC", preMarginMaticInUSDC);
+
+    // const priceInMatic =
+    //   preMarginMaticInUSDC *
+    //   parseInt(ethers.utils.formatEther(editions.price[0]));
+
+    // const all = await getAllowance();
     if (editions.startDate * 1000 > Date.now()) {
       setMintOpen(false);
     } else {
@@ -109,6 +125,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
       console.log(tx);
       let mail = await sendEmailConfirmation(categoriesId, tx);
     } catch (e) {
+      console.log(e);
       toast.error("Minting failed");
     }
     setIsLoading(false);
@@ -290,9 +307,11 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                   </div>
                   <div className={styles.editionItemBloc}>
                     <p className={styles.percentages}>
-                      {(editions.royalty * editions.percentages[i]) /
+                      {(
+                        (editions.royalty * editions.percentages[i]) /
                         100 /
-                        parseInt(editions.supply[i])}
+                        parseInt(editions.supply[i])
+                      ).toFixed(3)}
                       %
                     </p>
                     <p className={styles.ownership}>OWNERSHIP PER TOKEN</p>
@@ -367,7 +386,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                     ) : (
                       <div className={styles.redirect}>
                         <Link href="/auth">
-                          <a>Login first</a>
+                          <a>BUY</a>
                         </Link>
                       </div>
                     )}
@@ -379,6 +398,8 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                             : styles.opensea
                         }
                         href={editions.opensea ? editions.opensea : "#"}
+                        target="_blank"
+                        rel="noreferrer"
                       >
                         BUY ON OPENSEA
                       </a>
