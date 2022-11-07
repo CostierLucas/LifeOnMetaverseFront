@@ -160,7 +160,6 @@ const FormEdition: React.FC = () => {
       Contract.abi,
       getSigner
     );
-    console.log(edition);
     try {
       let transaction = await contractt.getBytecode(
         edition.categories,
