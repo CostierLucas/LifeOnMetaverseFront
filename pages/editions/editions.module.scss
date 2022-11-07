@@ -186,6 +186,10 @@
 
       .details {
         height: 150px;
+
+        ul {
+          list-style: none;
+        }
       }
 
       .ownership {

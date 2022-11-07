@@ -327,7 +327,13 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                         <ul>
                           {editions.titleList.length > 0 &&
                             editions.titleList[i].map(
-                              (item: string, j: any) => <li key={i}>{item}</li>
+                              (item: string, j: any) => (
+                                <li key={i}>
+                                  {j == 0 && "💎 "}
+                                  {j == 1 && "💬 "}
+                                  {item}
+                                </li>
+                              )
                             )}
                         </ul>
                       </div>

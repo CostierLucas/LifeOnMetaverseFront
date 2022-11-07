@@ -8,7 +8,7 @@ const MusicDrops: React.FC<{ edition: IEdition }> = ({ edition }) => {
   return (
     <section className={styles.musicdrops}>
       <Container>
-        <h2>Previews Drops</h2>
+        <h2>Previous Drops</h2>
         <Row>
           {edition.map((item: IEdition, i: number) => {
             if (i == 0) {
