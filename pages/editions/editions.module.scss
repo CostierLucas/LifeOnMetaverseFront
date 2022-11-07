@@ -148,7 +148,8 @@
       position: relative;
 
       video {
-        object-fit: fill;
+        width: 100% !important;
+        height: auto !important;
       }
     }
 

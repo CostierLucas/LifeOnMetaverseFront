@@ -289,11 +289,6 @@ const UpdateEdition: React.FC<IEditionProps> = ({ editions }) => {
                   <div className={styles.confirmed}>
                     {isConfirmed && <p> ✅ Collection modified </p>}
                   </div>
-                  {/* <div className={styles.btnSubmitModify}>
-                    <Button type="submit" variant="danger">
-                      Delete collection
-                    </Button>
-                  </div> */}
                 </Form>
               </Accordion.Body>
             </Accordion.Item>
