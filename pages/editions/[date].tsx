@@ -64,6 +64,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
       getDatas();
     }
     fetchImageUrl();
+    timestampToTime();
     let total = 0;
     editions?.supply.forEach((supply) => {
       total += parseInt(supply);
@@ -97,7 +98,11 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
     //   parseInt(ethers.utils.formatEther(editions.price[0]));
 
     // const all = await getAllowance();
+  };
+
+  const timestampToTime = () => {
     if (editions.startDate * 1000 > Date.now()) {
+      console.log(editions.startDate * 1000 > Date.now());
       setMintOpen(false);
     } else {
       setMintOpen(true);
