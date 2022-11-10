@@ -7,12 +7,15 @@ import { useSession, getSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import React from "react";
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
+import { useRouter } from "next/router";
 
 const Header: React.FC = () => {
   const { data: session, status } = useSession();
+  const router = useRouter();
 
   const handleSignOut = async () => {
-    await signOut();
+    const data = await signOut({ redirect: false, callbackUrl: "/" });
+    router.push("/");
   };
 
   return (
