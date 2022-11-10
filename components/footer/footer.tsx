@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import styles from "./footer.module.scss";
 import Link from "next/link";
 
-const footer: React.FC = () => {
+const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
       <Container fluid>
@@ -85,4 +85,4 @@ const footer: React.FC = () => {
   );
 };
 
-export default footer;
+export default Footer;

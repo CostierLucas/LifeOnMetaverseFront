@@ -23,6 +23,7 @@ import Renderer from "../../components/countdown/countdown";
 import rect from "../../assets/images/rectangle_gradiant.png";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import Footer from "../../components/footer/footer";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const date = context.params?.date as string;
@@ -317,9 +318,9 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                     <p className={styles.ownership}>OWNERSHIP PER TOKEN</p>
                     <hr />
                     <p className={styles.price}>
-                      {ethers.utils
-                        .formatEther(editions.price[i].toString())
-                        .toString()}{" "}
+                      {parseInt(
+                        ethers.utils.formatEther(editions.price[i].toString())
+                      ).toString()}{" "}
                       $
                     </p>
                     <div className={styles.details}>
@@ -407,6 +408,11 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
                         target="_blank"
                         rel="noreferrer"
                       >
+                        <img
+                          src="/pictures/opensea.svg"
+                          width={20}
+                          style={{ marginRight: "5px" }}
+                        />{" "}
                         BUY ON OPENSEA
                       </a>
                     </div>
@@ -429,6 +435,7 @@ const Editions: NextPage<IEditionProps> = ({ editions }) => {
           </div>
         </Container>
       </section>
+      <Footer />
     </>
   );
 };
