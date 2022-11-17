@@ -213,7 +213,7 @@
 
       .spaceDetails {
         height: 150px;
-        overflow: scroll;
+        overflow: hidden;
       }
 
       .mint {
@@ -364,6 +364,11 @@
 
     .spotifyPlayer {
       width: 100%;
+    }
+
+    .breakdown {
+      display: block;
+      gap: 0;
     }
   }
 }

@@ -3,7 +3,7 @@ import styles from "./header.module.scss";
 import Image from "next/image";
 import logoo from "../../assets/images/logo.jpg";
 import Link from "next/link";
-import { useSession, getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import React from "react";
 import ConnectWallet from "../ConnectWallet/ConnectWallet";
