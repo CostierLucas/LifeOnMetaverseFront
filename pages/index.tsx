@@ -37,7 +37,7 @@ const Home: NextPage<IEditionProps> = ({ editions }) => {
       <MusicDrops edition={editions} />
       <Artist />
       <HelpCenter />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
